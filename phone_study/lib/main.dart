@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:phone_study/blocPage/bloc_page.dart';
+import 'basic_use_of_flutter/route/ownRouteGenerator.dart';
 
 void main() => runApp(new Phone_study());
 
 class Phone_study extends StatelessWidget {
 
+
+  final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
   @override
   Widget build(BuildContext context) {
@@ -14,17 +16,8 @@ class Phone_study extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-
-      ///bloc学习页
-      home: BlocPage(),
-//      home: new Sample(),
-//      home: new Sample(),
-//      home: new Sample(),
-//      home: new Sample(),
-
-      routes: <String, WidgetBuilder>{
-        '/blocPage':(BuildContext context) => BlocPage(),
-      },
+      initialRoute: '/',
+      onGenerateRoute: OwnRouteGenerator.generateRoute,
     );
 
   }
@@ -35,7 +28,8 @@ class Phone_study extends StatelessWidget {
 
 
 
-
+//import 'package:flutter/material.dart';
+//import 'dart:ui';
 //@override
 //Widget build(BuildContext context) {
 //  // TODO: implement build
