@@ -1,10 +1,9 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:equatable/equatable.dart';
 
 part 'colb_page_event.dart';
-
 part 'colb_page_state.dart';
 
 class ColbPageBloc extends Bloc<ColbPageEvent, ColbPageState> {

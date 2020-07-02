@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:phone_study/basic_use_of_flutter/basic_use_of_flutter_page_2.dart';
-import 'package:phone_study/basic_use_of_flutter/route/page_route_builder.dart';
 import 'package:phone_study/own_popup/own_popup.dart';
 
 class BasicUseOfFlutterPage1 extends StatefulWidget {
@@ -9,21 +7,24 @@ class BasicUseOfFlutterPage1 extends StatefulWidget {
   _BasicUseOfFlutterPage1State createState() => _BasicUseOfFlutterPage1State();
 }
 
-class _BasicUseOfFlutterPage1State extends State<BasicUseOfFlutterPage1> {
+class _BasicUseOfFlutterPage1State extends State<BasicUseOfFlutterPage1>  with WidgetsBindingObserver  {
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  final List<String> ppp = ['hello'];
 
   @override
   Widget build(BuildContext context) {
+    print("ppppp");
+    print(ppp);
+//    Future.delayed(Duration(seconds: 10)).then((value) => OwnPopUp.showOwnPopup(context, Offset(30, 200)));
+
+    Future.delayed(Duration(seconds: 5)).then((value) => print(ppp));
 
     return Scaffold(
       body: Center(
         child: GestureDetector(
           onTapUp: (de){
-            Navigator.of(context).pushNamed("/basic_use_of_flutter_page_2",arguments: 'hello');
+            //这个 ppp 可以接收进来此页面的参数 也能接收回到此页面的参数
+            Navigator.of(context).pushNamed("/basic_use_of_flutter_page_2",arguments: ppp);
           },
           child: Container(
             width: 500,
@@ -70,8 +71,24 @@ class _BasicUseOfFlutterPage1State extends State<BasicUseOfFlutterPage1> {
   }
 
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
 
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
+  ///WidgetsBindingObserver  正常情况添加给home页 做app整个生命周期的监听 比如 app进入后台回到前台。。。
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+    print('==========');
+  }
 
 
 
