@@ -1,7 +1,6 @@
 import 'dart:collection';
 import 'dart:developer';
 
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -23,58 +22,62 @@ class PrePage extends StatefulWidget {
 
 class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
-  AnimationController _animationController;
-
   @override
   void initState() {
     super.initState();
-
-    _animationController = AnimationController(vsync: this,lowerBound: 0,upperBound: 10,duration: Duration(seconds: 1))
-    ..addListener(() {
-      setState(() {
-
-      });
-    })..repeat();
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
     super.dispose();
   }
 
   var _phoneWidth;
+  var _phoneHeight;
+
+
+
   @override
   Widget build(BuildContext context) {
     _phoneWidth ??= MediaQuery.of(context).size.width;
+    _phoneHeight ??= MediaQuery.of(context).size.height;
+
+    log("");
+
+//    NavigatorObserver
+
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("收付款"),
-            leading:Icon(Icons.arrow_back_ios)
-        ),
-        body:Center(
-          child: CustomPaint(
-            painter: MyPainer(_animationController.value),
-            child: GestureDetector(
-              onTap: (){
-                if(_animationController.isAnimating){
-                  _animationController.stop();
-                }else{
-                  _animationController.repeat();
-                }
-              },
-              child: Container(
-                width: 300,
-                height: 200,
-                decoration: BoxDecoration(
-                  color: Colors.orange,
-                  borderRadius: BorderRadius.all(Radius.circular(6))
+        appBar: AppBar(title: Text("asdf"), leading: Icon(Icons.arrow_back_ios)),
+        body: Center(
+          child: Container(
+
+            child: Stack(
+              children: <Widget>[
+                      GestureDetector(
+
+                        onTap: (){
+                          print("lightBlueAccent");
+                        },
+                        child: Container(
+                          width: 300,
+                          height: 300,
+                          color: Colors.lightBlueAccent,
+                        ),
+                      ),
+                GestureDetector(
+
+                  onTap: (){
+                    print("deepOrange");
+                  },
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    color: Colors.deepOrange,
+                  ),
                 ),
-                alignment: Alignment.center,
-                child: Text("data"),
-              ),
+              ],
             ),
           ),
         ),
@@ -122,10 +125,9 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Builder
 //    IndexedStack
 //    CheckboxListTile
-///  AnimatedList FractionalOffset ListWheelScrollView 待
+    ///  AnimatedList FractionalOffset ListWheelScrollView HitTestBehavior 待
 //    Placeholder
-
-
+//    Row IntrinsicHeight
 
 //    RefreshIndicator
 //    mainAxisAlignment: MainAxisAlignment.spaceBetween, Row
@@ -138,7 +140,6 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    FittedBox
 //    Scaffold.of(context).showBottomSheet((context) => null)
 //    CustomPaint CustomPainter canvas.drawArc(Rect.fromCircle(center: center,radius: 100), 0, 3.1415926, false, Paint()); path.quadraticBezierTo(
-
 
 //    RotatedBox
 //    Transform Matrix4.skewX
@@ -166,56 +167,4 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Flexible
   }
 }
-
-class MyPainer extends CustomPainter {
-
-  double offset;
-
-  MyPainer(this.offset);
-
-
-  void paint(Canvas canvas, Size size) {
-
-    if(offset > 10){
-      offset = 0.0;
-    }
-
-
-    var limitWidth = size.width;
-    var limitHeight = size.height;
-
-    Paint line = new Paint()
-      ..color = Colors.lightBlueAccent
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 20;
-
-    //上下左右 顺时针画
-    var usedWidthTop = 0.0+offset;
-    while (usedWidthTop < limitWidth){
-      canvas.drawLine(Offset(usedWidthTop, -10),  Offset(usedWidthTop+10, -10), line);
-      usedWidthTop += 40;
-    }
-    var usedHeightRight = 0.0+offset;
-    while (usedHeightRight < limitHeight){
-      canvas.drawLine(Offset(limitWidth+10, usedHeightRight),  Offset(limitWidth+10, usedHeightRight+10), line);
-      usedHeightRight += 40;
-    }
-    var usedWidthBottom = limitWidth-offset;
-    while (usedWidthBottom > 0){
-      canvas.drawLine(Offset(usedWidthBottom, limitHeight+10),  Offset(usedWidthBottom-10, limitHeight+10), line);
-      usedWidthBottom -= 40;
-    }
-    var usedHeightLeft = limitHeight-offset;
-    while (usedHeightLeft > 0){
-      canvas.drawLine(Offset(-10, usedHeightLeft),  Offset(-10, usedHeightLeft-10), line);
-      usedHeightLeft -= 40;
-    }
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
-
-}
-
 

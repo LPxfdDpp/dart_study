@@ -16,7 +16,8 @@ class _BasicUseOfFlutterPage2State extends State<BasicUseOfFlutterPage2> with Ro
     return GestureDetector(
         onTapUp: (d){
           widget.dataNavigatorPushed.add("hahahahah");
-          Navigator.of(context).pop();
+//          Navigator.of(context).pop();
+          Navigator.of(context).pop("kpkp");
 
 //          OwnPopUp.showOwnPopup(context, d.globalPosition);
         },
