@@ -74,7 +74,7 @@ class _Style01State extends State<Style01> with SingleTickerProviderStateMixin {
     _phoneWidth = MediaQuery.of(context).size.width;
     _bookWidth = _phoneWidth*6/10;
 //    _smallPlace = (_phoneWidth - _bookWidth - 12)/_pages;
-    _smallPlace = 2;
+    _smallPlace = 5;
 
     return SafeArea(
       child: Scaffold(

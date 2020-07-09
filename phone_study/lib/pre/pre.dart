@@ -1,16 +1,14 @@
+import 'dart:async';
 import 'dart:collection';
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:math' as math;
-import 'package:flutter/foundation.dart';
-import 'package:provider/provider.dart';
-import 'package:logging/logging.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+
 
 /**
  * 学习用
@@ -23,67 +21,25 @@ class PrePage extends StatefulWidget {
 class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  var _phoneWidth;
-  var _phoneHeight;
-
-
-
-  @override
   Widget build(BuildContext context) {
-    _phoneWidth ??= MediaQuery.of(context).size.width;
-    _phoneHeight ??= MediaQuery.of(context).size.height;
-
-    log("");
-
-//    NavigatorObserver
-
-
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(title: Text("asdf"), leading: Icon(Icons.arrow_back_ios)),
-        body: Center(
-          child: Container(
-
-            child: Stack(
-              children: <Widget>[
-                      GestureDetector(
-
-                        onTap: (){
-                          print("lightBlueAccent");
-                        },
-                        child: Container(
-                          width: 300,
-                          height: 300,
-                          color: Colors.lightBlueAccent,
-                        ),
-                      ),
-                GestureDetector(
-
-                  onTap: (){
-                    print("deepOrange");
-                  },
-                  child: Container(
-                    width: 200,
-                    height: 200,
-                    color: Colors.deepOrange,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+    return Scaffold(
+      body: Container(
       ),
     );
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   ///
   /// Widget 看到第30集
@@ -124,11 +80,17 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    测试相关 Timeline.startSync FlutterDriver chrome://tracing flutter drive --target=test_driver/app.dart --profile
 //    Builder
 //    IndexedStack
-//    CheckboxListTile
-    ///  AnimatedList FractionalOffset ListWheelScrollView HitTestBehavior 待
+//    CheckboxListTile Switch
+    /// Viewport AnimatedList FractionalOffset ListWheelScrollView HitTestBehavior 待
 //    Placeholder
 //    Row IntrinsicHeight
+//    floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked, BottomAppBar( shape:CircularNotchedRectangle()
+//    showSearch(context: null, delegate: null)
+//    PageStorageKey
+//    showModalBottomSheet(context: null, builder: null)
+//    ImplicitlyAnimatedWidget Boring show 27
 
+  
 //    RefreshIndicator
 //    mainAxisAlignment: MainAxisAlignment.spaceBetween, Row
 //    ExpansionTile ListView
@@ -140,6 +102,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    FittedBox
 //    Scaffold.of(context).showBottomSheet((context) => null)
 //    CustomPaint CustomPainter canvas.drawArc(Rect.fromCircle(center: center,radius: 100), 0, 3.1415926, false, Paint()); path.quadraticBezierTo(
+
 
 //    RotatedBox
 //    Transform Matrix4.skewX
@@ -166,5 +129,12 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    AspectRatio Expanded Align
 //    Flexible
   }
+
+
+
+
+
+
 }
+
 

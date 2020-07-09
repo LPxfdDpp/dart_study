@@ -17,7 +17,7 @@ class _BasicUseOfFlutterPage1State extends State<BasicUseOfFlutterPage1>  with W
   Widget build(BuildContext context) {
     print("ppppp");
     print(ppp);
-    Future.delayed(Duration(seconds: 10)).then((value) => OwnPopUp.showOwnPopup(context, Offset(30, 200)));
+//    Future.delayed(Duration(seconds: 10)).then((value) => OwnPopUp.showOwnPopup(context, Offset(30, 200)));
 
 //    Future.delayed(Duration(seconds: 5)).then((value) => print(ppp));
 
@@ -26,11 +26,11 @@ class _BasicUseOfFlutterPage1State extends State<BasicUseOfFlutterPage1>  with W
         child: GestureDetector(
           onTapUp: (de) async {
             //这个 ppp 可以接收进来此页面的参数 也能接收回到此页面的参数
-//            Navigator.of(context).pushNamed("/basic_use_of_flutter_page_2",arguments: ppp);
+            Navigator.of(context).pushNamed("/basic_use_of_flutter_page_2",arguments: ppp);
 
             //这样能接到 Navigator.of(context).pop("kpkp") 的返回值
-            var ddd =  await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => BasicUseOfFlutterPage2(["heep"])));
-            print(ddd);
+//            var ddd =  await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => BasicUseOfFlutterPage2(["heep"])));
+//            print(ddd);
 
 
 

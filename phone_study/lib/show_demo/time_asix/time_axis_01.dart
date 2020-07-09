@@ -5,7 +5,7 @@ class TimeAxis01 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("时间轴"),
+        title: Text("自定义时间轴"),
       ),
       body: ListView(
         children: <Widget>[
