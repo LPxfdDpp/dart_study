@@ -14,6 +14,7 @@ import 'dart:math' as math;
  * 学习用
  */
 class PrePage extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() => PrePageState();
 }
@@ -21,26 +22,20 @@ class PrePage extends StatefulWidget {
 class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      body: Container(
-      ),
+      body: Column(),
     );
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+  /// Element built 继续
   ///
   /// Widget 看到第30集
   /// Boring Flutter 看到第2集
@@ -89,8 +84,9 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    PageStorageKey
 //    showModalBottomSheet(context: null, builder: null)
 //    ImplicitlyAnimatedWidget Boring show 27
+//    Listener
 
-  
+
 //    RefreshIndicator
 //    mainAxisAlignment: MainAxisAlignment.spaceBetween, Row
 //    ExpansionTile ListView
@@ -136,5 +132,3 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
 
 }
-
-

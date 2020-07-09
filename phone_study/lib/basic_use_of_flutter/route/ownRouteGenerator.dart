@@ -10,6 +10,7 @@ import 'package:phone_study/basic_use_of_flutter/own_tween/own_tween_01.dart';
 import 'package:phone_study/basic_use_of_flutter/route/page_route_builder.dart';
 import 'package:phone_study/own_popup/own_popup.dart';
 import 'package:phone_study/pre/pre.dart';
+import 'package:phone_study/seek/context_owner_build_scope_01.dart';
 import 'package:phone_study/show_demo/alphabet_scroll/alphabet_scroll_01.dart';
 import 'package:phone_study/show_demo/book_page_turning/style_01.dart';
 import 'package:phone_study/show_demo/calender/calender_01.dart';
@@ -67,7 +68,9 @@ class OwnRouteGenerator {
         /// 自定义 Tween
 //            show = OwnTween01();
         /// 右侧是浮动的a-z的字母条滑动 内容则是有a-z字母头的listview  (类似联系人列表)
-              show = AlphabetScroll01();
+//              show = AlphabetScroll01();
+        /// 探索
+              show = ContextOwnerBuildScope01();
         break;
       case '/basic_use_of_flutter_page_2':
         if (args is List) {

@@ -7,9 +7,27 @@ class InheritedWidgetCheck01 extends StatefulWidget {
 
 class _InheritedWidgetCheck01State extends State<InheritedWidgetCheck01> {
 
+
+
+  @override
+  void didUpdateWidget(InheritedWidgetCheck01 oldWidget) {
+    print("didUpdateWidget");
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void didChangeDependencies() {
+    print("didChangeDependencies");
+    super.didChangeDependencies();
+  }
+
+
   var color = Colors.brown;
   @override
   Widget build(BuildContext context) {
+    print("build");
+    print("InheritedWidgetCheck01this"+context.hashCode.toString());
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -29,7 +47,7 @@ class _InheritedWidgetCheck01State extends State<InheritedWidgetCheck01> {
           ///点击后 OwnTestThis(which: 1,) 应该会接到 rebuild 的命令  OwnTestThis(which: 2,) 应该不会 rebuild
           onTap: (){
               setState(() {
-//                color =  Colors.brown;
+                color =  Colors.brown;
               });
           },
           child: FrogColor(
@@ -50,9 +68,26 @@ class OwnTestThis extends StatefulWidget {
 }
 
 class _OwnTestThisState extends State<OwnTestThis> {
+
+@override
+  void didUpdateWidget(OwnTestThis oldWidget) {
+  print("_OwnTestThisState didUpdateWidget");
+  print(oldWidget.hashCode);
+  print(this.hashCode);
+  print(this.context.hashCode);
+    super.didUpdateWidget(oldWidget);
+  }
+
+
+  @override
+  void didChangeDependencies() {
+    print("_OwnTestThisState didChangeDependencies");
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
-    print("InheritedWidget 的通知来了 ...");
+    print(" _OwnTestThisState build...");
     return Container(
       width: 50,
       height: 50,
