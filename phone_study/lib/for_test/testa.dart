@@ -1,54 +1,48 @@
-import 'dart:developer';
-import 'dart:math' as math;
-import 'package:logging/logging.dart' as llog;
 
 void main() {
-  hei(){
-    var inFuction = const Mouses("kity");
 
-    print(inFuction.hashCode);
+print(1e-10);
 
+
+
+
+
+
+// var oo =  Offset.zero;
+//
+// var ss = Size(50.0, 60.0);
+//
+// print((oo & ss).toString());
+
+}
+
+class DDEEMMOO with A,B {
+
+
+}
+
+abstract class HHH {
+
+
+  soo(){
+    print("soo");
   }
 
- var one = const Mouses("kity");
- var two = const Mouses("kity");
- var three = Mouses("jemi");
+}
 
- print(one == two);
+mixin A {
 
-print(one.hashCode);
-print(two.hashCode);
-print(three.hashCode);
-
-
-hei();
-
-
-  var ppp = {3,4,5};
-
-
-
+  run (){
+    print("A");
+  }
 
 }
 
-class Mouses {
-  final String name;
-
-  const Mouses(this.name);
+mixin B implements A,HHH {
+//  run (){
+//    print("B");
+//  }
 }
-
-class Animal {
-  void chase(Animal x) {  }
-}
-
-class Mouse extends Animal {
-
-}
-
-class Cat extends Animal {
-  void chase(covariant Mouse x) {  }
-}
-
 
 
 

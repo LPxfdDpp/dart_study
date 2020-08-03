@@ -6,9 +6,6 @@ class InheritedWidgetCheck01 extends StatefulWidget {
 }
 
 class _InheritedWidgetCheck01State extends State<InheritedWidgetCheck01> {
-
-
-
   @override
   void didUpdateWidget(InheritedWidgetCheck01 oldWidget) {
     print("didUpdateWidget");
@@ -21,42 +18,40 @@ class _InheritedWidgetCheck01State extends State<InheritedWidgetCheck01> {
     super.didChangeDependencies();
   }
 
-
   var color = Colors.brown;
+
   @override
   Widget build(BuildContext context) {
     print("build");
-    print("InheritedWidgetCheck01this"+context.hashCode.toString());
+    print("InheritedWidgetCheck01this" + context.hashCode.toString());
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         ///点击后 OwnTestThis(which: 1,) 和 OwnTestThis(which: 2,) 都应该不会 rebuild
         GestureDetector(
-          onTap: (){
-            setState(() {
-            });
+          onTap: () {
+            setState(() {});
           },
           child: Container(
             width: 50,
-              height: 50,
-              color: Colors.blue,
-           ),
+            height: 50,
+            color: Colors.blue,
+          ),
         ),
         GestureDetector(
           ///点击后 OwnTestThis(which: 1,) 应该会接到 rebuild 的命令  OwnTestThis(which: 2,) 应该不会 rebuild
-          onTap: (){
-              setState(() {
-                color =  Colors.brown;
-              });
+          onTap: () {
+            setState(() {
+              color = (color == Colors.brown)?Colors.pink:Colors.brown;
+            });
           },
-          child: FrogColor(
-              color: color,
-              child: OwnTestThis()
-          ),
+          child: FrogColor(color: color, child: OwnTestThis()),
         ),
-        SizedBox(height: 30,),
-        OwnTestThis()
+        SizedBox(
+          height: 30,
+        ),
+//        OwnTestThis()
       ],
     );
   }
@@ -68,20 +63,19 @@ class OwnTestThis extends StatefulWidget {
 }
 
 class _OwnTestThisState extends State<OwnTestThis> {
-
-@override
+  @override
   void didUpdateWidget(OwnTestThis oldWidget) {
-  print("_OwnTestThisState didUpdateWidget");
-  print(oldWidget.hashCode);
-  print(this.hashCode);
-  print(this.context.hashCode);
+    print("_OwnTestThisState didUpdateWidget");
+    print(oldWidget.hashCode);
+    print(this.widget.hashCode);
+    print(this.context.hashCode);
     super.didUpdateWidget(oldWidget);
   }
-
 
   @override
   void didChangeDependencies() {
     print("_OwnTestThisState didChangeDependencies");
+    FrogColor.of(context);
     super.didChangeDependencies();
   }
 
@@ -96,33 +90,28 @@ class _OwnTestThisState extends State<OwnTestThis> {
   }
 }
 
-
-
- class FrogColor extends InheritedWidget {
-   const FrogColor({
-     Key key,
-     @required this.color,
-     @required Widget child,
-   }) : assert(color != null),
+class FrogColor extends InheritedWidget {
+  const FrogColor({
+    Key key,
+    @required this.color,
+    @required Widget child,
+  })  : assert(color != null),
         assert(child != null),
         super(key: key, child: child);
 
-   final Color color;
+  final Color color;
 
-   static FrogColor of(BuildContext context) {
-
+  ///给 child 注册用的简易方法
+  static FrogColor of(BuildContext context) {
 //     To obtain the nearest instance of a particular type of inherited widget from a build context,
-     return context.dependOnInheritedWidgetOfExactType<FrogColor>();
-   }
+    return context.dependOnInheritedWidgetOfExactType<FrogColor>();
+  }
 
-   @override
-   bool updateShouldNotify(FrogColor old) {
+  @override
+  bool updateShouldNotify(FrogColor old) {
+    print(color);
+    print(old.color);
 
-     print(color);
-     print(old.color);
-
-return     color != old.color ;
-
-
-   }
- }
+    return color != old.color;
+  }
+}

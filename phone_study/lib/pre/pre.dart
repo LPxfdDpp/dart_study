@@ -9,33 +9,195 @@ import 'package:rxdart/rxdart.dart';
 import 'dart:math' as math;
 
 
-
 /**
  * 学习用
  */
 class PrePage extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() => PrePageState();
 }
 
 class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
-
   @override
   void initState() {
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-      body: Column(),
-    );
+  void dispose() {
+    super.dispose();
   }
 
 
-  /// Element built 继续
+  ScrollController _scrollController = ScrollController();
+  @override
+  Widget build(BuildContext context) {
+    print(MediaQuery.of(context).size.width);
+    print(MediaQuery.of(context).size.height);
+
+
+//    Expanded
+//    Column
+//    Positioned
+//    SliverList
+//    CustomScrollView
+
+
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 500,
+          child: ListView(
+            controller: PrimaryScrollController.of(context),
+            children: <Widget>[
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  border: Border.all(color:Colors.deepPurple,width: 2)
+                ),
+              ),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    border: Border.all(color:Colors.deepPurple,width: 2)
+                ),
+              ),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    border: Border.all(color:Colors.deepPurple,width: 2)
+                ),
+              ),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    border: Border.all(color:Colors.deepPurple,width: 2)
+                ),
+              ),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    border: Border.all(color:Colors.deepPurple,width: 2)
+                ),
+              ),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    border: Border.all(color:Colors.deepPurple,width: 2)
+                ),
+              ),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    border: Border.all(color:Colors.deepPurple,width: 2)
+                ),
+              ),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    border: Border.all(color:Colors.deepPurple,width: 2)
+                ),
+              ),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    border: Border.all(color:Colors.deepPurple,width: 2)
+                ),
+              ),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    border: Border.all(color:Colors.deepPurple,width: 2)
+                ),
+              ),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    border: Border.all(color:Colors.deepPurple,width: 2)
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 100,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            controller: PrimaryScrollController.of(context),
+            children: <Widget>[
+              Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                    border: Border.all(color:Colors.deepPurple,width: 2)
+                ),
+              ),
+              GestureDetector(
+                onTap: (){
+                  print("ppp");
+                  print(PrimaryScrollController.of(context));
+                  print("ppp");
+                },
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                      border: Border.all(color:Colors.redAccent,width: 2)
+                  ),
+                ),
+              ),
+
+              Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                    border: Border.all(color:Colors.deepPurple,width: 2)
+                ),
+              ),
+              Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                    border: Border.all(color:Colors.deepPurple,width: 2)
+                ),
+              ),
+              Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                    border: Border.all(color:Colors.deepPurple,width: 2)
+                ),
+              ),
+              Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                    border: Border.all(color:Colors.deepPurple,width: 2)
+                ),
+              ),
+              Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                    border: Border.all(color:Colors.deepPurple,width: 2)
+                ),
+              ),
+            ],
+          ),
+        )
+
+
+
+
+      ],
+    );
+
+
+
+  }
+
+  ///RenderObjectElement CustomSingleChildLayout
+  ///BoxScrollView SliverMultiBoxAdaptorWidget RenderSliverMultiBoxAdaptor SliverMultiBoxAdaptorParentData继续
   ///
   /// Widget 看到第30集
   /// Boring Flutter 看到第2集
@@ -76,7 +238,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Builder
 //    IndexedStack
 //    CheckboxListTile Switch
-    /// Viewport AnimatedList FractionalOffset ListWheelScrollView HitTestBehavior 待
+    /// Viewport AnimatedList FractionalOffset ListWheelScrollView HitTestBehavior KeyedSubtree AutomaticKeepAlive待
 //    Placeholder
 //    Row IntrinsicHeight
 //    floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked, BottomAppBar( shape:CircularNotchedRectangle()
@@ -85,6 +247,11 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    showModalBottomSheet(context: null, builder: null)
 //    ImplicitlyAnimatedWidget Boring show 27
 //    Listener
+//    OverflowBox
+//    StatefulBuilder
+//    NotificationListener<ScrollNotification>
+//    TickerMode
+//    PrimaryScrollController
 
 
 //    RefreshIndicator
@@ -99,7 +266,6 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Scaffold.of(context).showBottomSheet((context) => null)
 //    CustomPaint CustomPainter canvas.drawArc(Rect.fromCircle(center: center,radius: 100), 0, 3.1415926, false, Paint()); path.quadraticBezierTo(
 
-
 //    RotatedBox
 //    Transform Matrix4.skewX
 //    AnimatedContainer
@@ -112,7 +278,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    ClipRRect ClipPath
 //    Tooltip
 //    LayoutBuilder
-//    AbsorbPointer
+//    AbsorbPointer IgnorePointer
 //    Transform
 //    BackdropFilter ImageFilter Stack
 //    Dismissible
@@ -124,11 +290,14 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Semantics
 //    AspectRatio Expanded Align
 //    Flexible
+
+    //Schedule a callback for the end of this frame. 可在build之前设置个回调
+//    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+//
+//    });
+//    RenderPointerListener
+//    Layer 现在有几层
+//    Widget BuildOwner PipelineOwner
+//    RepaintBoundary SingleChildScrollView
   }
-
-
-
-
-
-
 }

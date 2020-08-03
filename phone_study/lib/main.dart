@@ -16,7 +16,15 @@ class Phone_study extends StatelessWidget {
 
 
 
-    return new MaterialApp(
+    return
+
+
+
+
+
+
+
+      MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.amber,
@@ -28,6 +36,9 @@ class Phone_study extends StatelessWidget {
         routeObserver
       ],
     );
+
+
+
 
   }
 

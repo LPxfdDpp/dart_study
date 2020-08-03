@@ -11,6 +11,8 @@ class BasicUseOfFlutterPage2 extends StatefulWidget {
 
 class _BasicUseOfFlutterPage2State extends State<BasicUseOfFlutterPage2> with RouteAware  {
 
+
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -40,6 +42,13 @@ class _BasicUseOfFlutterPage2State extends State<BasicUseOfFlutterPage2> with Ro
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
+
+    var preRoutPassInArguments = ModalRoute.of(context).settings.arguments;
+    print("preRoutPassInArguments");
+    print(preRoutPassInArguments);
+
+
     Phone_study.routeObserver.subscribe(this, ModalRoute.of(context));
   }
 

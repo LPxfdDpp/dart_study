@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:phone_study/about_dio/about_dio_page.dart';
 import 'package:phone_study/basic_use_of_flutter/about_inherited_widget/inherited_widget_check_01.dart';
+import 'package:phone_study/basic_use_of_flutter/about_provider/about_provider_01.dart';
+import 'package:phone_study/basic_use_of_flutter/about_provider/provider_logic_01.dart';
 import 'package:phone_study/basic_use_of_flutter/about_theme/theme_01.dart';
 import 'package:phone_study/basic_use_of_flutter/basic_use_of_flutter_page_2.dart';
 import 'package:phone_study/basic_use_of_flutter/basic_use_of_flutter_page_1.dart';
 import 'package:phone_study/basic_use_of_flutter/flutter_hero_widget/hero_play_01.dart';
 import 'package:phone_study/basic_use_of_flutter/own_ImplicitlyAnimatedWidget/Implicitly_ani_style_01.dart';
+import 'package:phone_study/basic_use_of_flutter/own_render_object/own_render_object_01.dart';
 import 'package:phone_study/basic_use_of_flutter/own_tween/own_tween_01.dart';
 import 'package:phone_study/basic_use_of_flutter/route/page_route_builder.dart';
 import 'package:phone_study/own_popup/own_popup.dart';
@@ -20,6 +24,7 @@ import 'package:phone_study/show_demo/popup_menu/popupMenu_01.dart';
 import 'package:phone_study/show_demo/simple_quadratic_bezier/simple_quadratic_bezier_01.dart';
 import 'package:phone_study/show_demo/simple_quadratic_bezier/simple_quadratic_bezier_with_animation_01.dart';
 import 'package:phone_study/show_demo/time_asix/time_axis_01.dart';
+import 'package:provider/provider.dart';
 
 ///全局路由管理
 ///路由方式 ：  Navigator.of(context).popAndPushNamed(routeName,arguments: ) 等等
@@ -40,6 +45,10 @@ class OwnRouteGenerator {
 //         show =  Sample();
         ///测试用
 //          show =   PrePage();
+
+
+
+
         ///customPainer
 //          show = CustomerPainter01();
 //          show = RegularPentagon01();
@@ -50,6 +59,11 @@ class OwnRouteGenerator {
 //          show =   SimpleQuadraticBezierWithAnimation01();
         /// basic_use_of_flutter -》 route
 //        show = BasicUseOfFlutterPage1() ;
+        /// provider
+//           show = AboutProvider01();
+//           show = Provider(
+//               create: (context)=>ProviderLogic01(),
+//               child: AboutProvider01());
         /// hero 控件
 //          show = HeroPlay01();
         /// InheritedWidget
@@ -67,19 +81,26 @@ class OwnRouteGenerator {
 //            show = ImplicitlyAniStyle01();
         /// 自定义 Tween
 //            show = OwnTween01();
+        /// 自定义 RenderObject
+//              show = OwnRenderObject01();
         /// 右侧是浮动的a-z的字母条滑动 内容则是有a-z字母头的listview  (类似联系人列表)
 //              show = AlphabetScroll01();
         /// 探索
-              show = ContextOwnerBuildScope01();
+//              show = ContextOwnerBuildScope01();
+        /// 有关dio
+                show = AboutDioPage();
         break;
       case '/basic_use_of_flutter_page_2':
-        if (args is List) {
-          return ScaleFadeRotateRouter(
-            settings: settings,
-            child: BasicUseOfFlutterPage2(args),
-            durationMs: 500,
-          );
-        }
+
+        return MaterialPageRoute(builder: (_) => BasicUseOfFlutterPage2(null),settings: settings);
+
+//        if (args is List) {
+//          return ScaleFadeRotateRouter(
+//            settings: settings,
+//            child: BasicUseOfFlutterPage2(args),
+//            durationMs: 500,
+//          );
+//        }
     }
    return MaterialPageRoute(builder: (_) => show);
 

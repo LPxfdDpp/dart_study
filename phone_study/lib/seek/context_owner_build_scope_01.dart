@@ -15,6 +15,7 @@ class _ContextOwnerBuildScope01State extends State<ContextOwnerBuildScope01> {
     print("build");
     /// todo 为什么这个hashcode都是相同的?
     print(context.owner.hashCode);
+    print(context.hashCode);
 
     return Scaffold(
       body: SSS(),
@@ -35,6 +36,7 @@ class SSS extends StatelessWidget {
   Widget build(BuildContext context) {
     print("SSS build");
     print(context.owner.hashCode);
+    print(context.hashCode);
 
     return Container(
       child: SSSs(),
@@ -52,6 +54,7 @@ class SSSs extends StatelessWidget {
   Widget build(BuildContext context) {
     print("SSSSSsSSSsSSSsSSSsS build");
     print(context.owner.hashCode);
+    print(context.hashCode);
 
     Future.delayed(Duration(seconds: 5),(){
       print("here");
