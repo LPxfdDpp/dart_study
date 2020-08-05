@@ -37,6 +37,37 @@ import 'package:flutter/material.dart';
 ///        return options; //continue
 ///    }
 ///));
+///
+/// 文件分段下载
+/// var dio = Dio();
+///  dio.download("https://petreasure.oss-cn-hangzhou.aliyuncs.com/certain/T/T_cat/000001.mp4","part01.mp4",
+///    options: Options(
+///      responseType: ResponseType.stream,
+///      followRedirects: false,
+///      //14335123   (0 - 7000000 / 7000001- )
+///      headers: {"range": "bytes=0-7000000"},
+///    ),);
+///
+///dio.download("https://petreasure.oss-cn-hangzhou.aliyuncs.com/certain/T/T_cat/000001.mp4","part02.mp4",
+///  options: Options(
+///    responseType: ResponseType.stream,
+///    followRedirects: false,
+///    //14335123   (0 - 7000000 / 7000001- )
+///    headers: {"range": "bytes=7000001-"},
+///  ),);
+///
+///  文件分段接收
+/// var part01 = File("part01.mp4");
+/// var file = File("helloPart.mp4");
+/// if(! await file.exists()){
+///   file.createSync();
+/// }
+///
+/// file.open(mode: FileMode.writeOnly).then((raf){
+///   raf.writeFromSync(part01.readAsBytesSync().sublist(0,7000000));
+///   return raf;
+/// }).then((value) => value.close());
+///
 class AboutDioPage extends StatefulWidget {
   @override
   _AboutDioPageState createState() => _AboutDioPageState();

@@ -44,7 +44,7 @@ class OwnRouteGenerator {
 //         show =  WhenToUseKeysPage();
 //         show =  Sample();
         ///测试用
-//          show =   PrePage();
+          show =   PrePage();
 
 
 
@@ -88,7 +88,7 @@ class OwnRouteGenerator {
         /// 探索
 //              show = ContextOwnerBuildScope01();
         /// 有关dio
-                show = AboutDioPage();
+//                show = AboutDioPage();
         break;
       case '/basic_use_of_flutter_page_2':
 

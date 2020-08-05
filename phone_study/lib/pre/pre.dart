@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:math' as math;
-
+import 'package:dio/dio.dart';
 
 /**
  * 学习用
@@ -43,153 +44,40 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    CustomScrollView
 
 
-    return Column(
-      children: <Widget>[
-        SizedBox(
-          height: 500,
-          child: ListView(
-            controller: PrimaryScrollController.of(context),
-            children: <Widget>[
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  border: Border.all(color:Colors.deepPurple,width: 2)
-                ),
-              ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    border: Border.all(color:Colors.deepPurple,width: 2)
-                ),
-              ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    border: Border.all(color:Colors.deepPurple,width: 2)
-                ),
-              ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    border: Border.all(color:Colors.deepPurple,width: 2)
-                ),
-              ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    border: Border.all(color:Colors.deepPurple,width: 2)
-                ),
-              ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    border: Border.all(color:Colors.deepPurple,width: 2)
-                ),
-              ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    border: Border.all(color:Colors.deepPurple,width: 2)
-                ),
-              ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    border: Border.all(color:Colors.deepPurple,width: 2)
-                ),
-              ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    border: Border.all(color:Colors.deepPurple,width: 2)
-                ),
-              ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    border: Border.all(color:Colors.deepPurple,width: 2)
-                ),
-              ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    border: Border.all(color:Colors.deepPurple,width: 2)
-                ),
-              ),
-            ],
-          ),
+
+    
+    return Scaffold(
+      resizeToAvoidBottomInset:true,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+            Colors.green,
+            Colors.deepOrange,
+            Colors.amber,
+            Colors.lightBlue,
+          ]),
         ),
-        SizedBox(
-          height: 100,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            controller: PrimaryScrollController.of(context),
+        child: Center(
+          child: Column(
             children: <Widget>[
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                    border: Border.all(color:Colors.deepPurple,width: 2)
-                ),
-              ),
               GestureDetector(
                 onTap: (){
-                  print("ppp");
-                  print(PrimaryScrollController.of(context));
-                  print("ppp");
+                  FocusScope.of(context).requestFocus(FocusNode());
                 },
                 child: Container(
                   width: 100,
                   height: 100,
-                  decoration: BoxDecoration(
-                      border: Border.all(color:Colors.redAccent,width: 2)
-                  ),
+                  color: Colors.blueGrey,
                 ),
               ),
-
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                    border: Border.all(color:Colors.deepPurple,width: 2)
-                ),
-              ),
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                    border: Border.all(color:Colors.deepPurple,width: 2)
-                ),
-              ),
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                    border: Border.all(color:Colors.deepPurple,width: 2)
-                ),
-              ),
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                    border: Border.all(color:Colors.deepPurple,width: 2)
-                ),
-              ),
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                    border: Border.all(color:Colors.deepPurple,width: 2)
-                ),
-              ),
+              TextField(),
             ],
           ),
-        )
-
-
-
-
-      ],
+        ),
+      ),
     );
 
 
@@ -198,6 +86,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
   ///RenderObjectElement CustomSingleChildLayout
   ///BoxScrollView SliverMultiBoxAdaptorWidget RenderSliverMultiBoxAdaptor SliverMultiBoxAdaptorParentData继续
+  ///
   ///
   /// Widget 看到第30集
   /// Boring Flutter 看到第2集
@@ -230,7 +119,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Future<Null>  Future<void>
 //    [].take(count);
 //    Slider
-//    AnimatedContainer DecoratedBoxTransition
+//    AnimatedContainer DecoratedBoxTransition AnimatedPositioned
 //    Flexible 使 Text 换行
 //    provider/provider.dart -> ChangeNotifierProvider MultiProvider
 //    List<int>.generate(6, (index) => index).map((e) => null)
@@ -239,6 +128,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    IndexedStack
 //    CheckboxListTile Switch
     /// Viewport AnimatedList FractionalOffset ListWheelScrollView HitTestBehavior KeyedSubtree AutomaticKeepAlive待
+    /// FocusScope 待 鸡肋
 //    Placeholder
 //    Row IntrinsicHeight
 //    floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked, BottomAppBar( shape:CircularNotchedRectangle()
@@ -252,6 +142,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    NotificationListener<ScrollNotification>
 //    TickerMode
 //    PrimaryScrollController
+//    FocusScope.of(context).requestFocus(FocusNode());
 
 
 //    RefreshIndicator
