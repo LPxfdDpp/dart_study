@@ -9,15 +9,6 @@ void main() async{
 
 
 
-
-
-
-
-
-
-
-
-
 // var oo =  Offset.zero;
 //
 // var ss = Size(50.0, 60.0);
@@ -27,6 +18,10 @@ void main() async{
 }
 
 class DDEEMMOO with A,B {
+
+  const DDEEMMOO.hehe();
+
+
   @override
   soo() {
     // TODO: implement soo

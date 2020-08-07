@@ -36,7 +36,6 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
     print(MediaQuery.of(context).size.width);
     print(MediaQuery.of(context).size.height);
 
-
 //    Expanded
 //    Column
 //    Positioned
@@ -44,37 +43,17 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    CustomScrollView
 
 
-
     
     return Scaffold(
+      backgroundColor: Colors.amber,
       resizeToAvoidBottomInset:true,
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-            Colors.green,
-            Colors.deepOrange,
-            Colors.amber,
-            Colors.lightBlue,
-          ]),
-        ),
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              GestureDetector(
-                onTap: (){
-                  FocusScope.of(context).requestFocus(FocusNode());
-                },
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.blueGrey,
-                ),
-              ),
-              TextField(),
-            ],
+      body: Center(
+        child: Container(
+          width: 300,
+          height: 300,
+          color: Colors.deepOrange,
+          child: CustomPaint(
+            painter: MyPainer(dianShu:9,alreadyShowed: 3,jingdu: 0.6),
           ),
         ),
       ),
@@ -83,6 +62,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
 
   }
+
 
   ///RenderObjectElement CustomSingleChildLayout
   ///BoxScrollView SliverMultiBoxAdaptorWidget RenderSliverMultiBoxAdaptor SliverMultiBoxAdaptorParentData继续
@@ -143,7 +123,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    TickerMode
 //    PrimaryScrollController
 //    FocusScope.of(context).requestFocus(FocusNode());
-
+//    Function .call()
 
 //    RefreshIndicator
 //    mainAxisAlignment: MainAxisAlignment.spaceBetween, Row
@@ -190,5 +170,80 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Layer 现在有几层
 //    Widget BuildOwner PipelineOwner
 //    RepaintBoundary SingleChildScrollView
+
+  //小玩意
+//    AnimatedSwitcher
+//    ColorFiltered
+//    InkWell
+
   }
+}
+class MyPainer extends CustomPainter {
+
+  //总点的个数
+  final dianShu;
+  //已经显示的点
+  final int alreadyShowed;
+  //当前进度 百分比
+  final jingdu;
+
+  MyPainer({this.dianShu,this.alreadyShowed,this.jingdu});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    print(size.height);
+
+    //点的总宽度
+    var dianWidth = size.width/8;
+    //每个点的宽度 也即是他们的高度 也即是控件的高度
+    var eachWH = dianWidth/(dianShu);
+    //进度bar的总宽度
+    var totalProgress;
+    if(alreadyShowed != null) {
+      totalProgress = size.width - eachWH*(dianShu+dianShu+1);//需要给空间
+    }else{
+      totalProgress = size.width - eachWH*(dianShu+dianShu+2);
+    }
+    //进度的宽度
+    var jingDuProcess = totalProgress*jingdu;
+
+    //圆圈的笔
+    var pain = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..color = Color.fromRGBO(0, 168, 126, 1)
+      ..strokeWidth = 1.0;
+
+    var jingDuProcessPain = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..color = Colors.blue
+      ..strokeWidth = 1.0;
+
+    //循环画左边的圈
+    var temp = 0;
+    while(temp<alreadyShowed){
+      canvas.drawOval(Rect.fromCircle(center:Offset((2*temp+1)*eachWH+eachWH/2, eachWH/2),radius: eachWH/2), pain);
+      temp++;
+    }
+    //画进度条背景
+    canvas.drawRect(Rect.fromLTWH((alreadyShowed+alreadyShowed+1)*eachWH, 0, totalProgress, eachWH), pain);
+    //画进度条进度
+    canvas.drawRect(Rect.fromLTWH((alreadyShowed+alreadyShowed+1)*eachWH, 0, totalProgress, eachWH), pain);
+    canvas.drawRect(Rect.fromLTWH((alreadyShowed+alreadyShowed+1)*eachWH, 0, jingDuProcess, eachWH), jingDuProcessPain);
+    //循环画右边的圈
+    temp = 0;
+    while(temp<dianShu-alreadyShowed){
+      canvas.drawOval(Rect.fromCircle(center:Offset(((alreadyShowed+alreadyShowed+1)*eachWH)+totalProgress+((2*temp+1)*eachWH+eachWH/2), eachWH/2),radius: eachWH/2), pain);
+      temp++;
+    }
+
+
+
+
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
+
 }
