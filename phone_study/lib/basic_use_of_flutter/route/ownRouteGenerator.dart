@@ -19,6 +19,7 @@ import 'package:phone_study/show_demo/alphabet_scroll/alphabet_scroll_01.dart';
 import 'package:phone_study/show_demo/book_page_turning/style_01.dart';
 import 'package:phone_study/show_demo/calender/calender_01.dart';
 import 'package:phone_study/show_demo/customPainter/customerPainter_01.dart';
+import 'package:phone_study/show_demo/customPainter/process_with_circle_01.dart';
 import 'package:phone_study/show_demo/customPainter/regular_pentagon_01.dart';
 import 'package:phone_study/show_demo/popup_menu/popupMenu_01.dart';
 import 'package:phone_study/show_demo/simple_quadratic_bezier/simple_quadratic_bezier_01.dart';
@@ -52,6 +53,7 @@ class OwnRouteGenerator {
         ///customPainer
 //          show = CustomerPainter01();
 //          show = RegularPentagon01();
+//          show = ProcessWithCircle01();
         ///日历
 //            show = Calender01();
         ///贝塞尔曲线
