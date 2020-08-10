@@ -50,6 +50,21 @@ class MyPainer extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+
+    //有点意思
+//    var painn = Paint()
+//      ..style = PaintingStyle.stroke
+//      ..strokeWidth = 10
+//      ..shader = SweepGradient(
+//        colors: [
+//      Colors.blue,
+//      Colors.deepOrange,
+//      Colors.lightGreen,
+//
+//    ]).createShader(Offset(0, 0) & Size(size.width/2, size.height/2));
+////    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height ), painn);
+//  canvas.drawOval(Rect.fromLTWH(0, 0, size.width, size.height ), painn);
+
     print("ppp");
     print(size.height);
     //默认从180度的地方顺时针转
