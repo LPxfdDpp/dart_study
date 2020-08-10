@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -19,7 +20,6 @@ class PrePage extends StatefulWidget {
 }
 
 class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
-
   @override
   void initState() {
     super.initState();
@@ -30,11 +30,10 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.width);
-    print(MediaQuery.of(context).size.height);
+//    print(MediaQuery.of(context).size.width);
+//    print(MediaQuery.of(context).size.height);
 
 //    Expanded
 //    Column
@@ -42,26 +41,11 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    SliverList
 //    CustomScrollView
 
-
-
-    
     return Scaffold(
-      backgroundColor: Colors.amber,
-      resizeToAvoidBottomInset:true,
-      body: Center(
-        child: Container(
-          width: 300,
-          height: 300,
-          color: Colors.deepOrange,
-          child: Container(),
-        ),
-      ),
-    );
-
-
-
+        backgroundColor: Colors.amber,
+        resizeToAvoidBottomInset: true,
+        body: Center());
   }
-
 
   ///RenderObjectElement CustomSingleChildLayout
   ///BoxScrollView SliverMultiBoxAdaptorWidget RenderSliverMultiBoxAdaptor SliverMultiBoxAdaptorParentData继续
@@ -170,10 +154,9 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Widget BuildOwner PipelineOwner
 //    RepaintBoundary SingleChildScrollView
 
-  //小玩意
+    //小玩意
 //    AnimatedSwitcher
 //    ColorFiltered
 //    InkWell
-
   }
 }
