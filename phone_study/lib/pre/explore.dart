@@ -1,29 +1,91 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 
-import 'package:flutter/cupertino.dart';
-//import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-//import 'package:waterfall_flow/waterfall_flow.dart';
+ class ColorfulButton extends StatefulWidget {
+   ColorfulButton({Key key}) : super(key: key);
 
+   @override
+   _ColorfulButtonState createState() => _ColorfulButtonState();
+ }
 
+ class _ColorfulButtonState extends State<ColorfulButton> {
+   FocusNode _node;
+   bool _focused = false;
+   FocusAttachment _nodeAttachment;
+   Color _color = Colors.white;
 
-/*
-  探索专用
- */
-class Explore extends StatefulWidget {
-  @override
-  _ExploreState createState() => _ExploreState();
-}
+   @override
+   void initState() {
+     super.initState();
+     _node = FocusNode(debugLabel: 'Button');
+     _node.addListener(_handleFocusChange);
+     _nodeAttachment = _node.attach(context, onKey: _handleKeyPress);
+   }
 
-class _ExploreState extends State<Explore> {
-  @override
-  Widget build(BuildContext context) {
+   void _handleFocusChange() {
+     if (_node.hasFocus != _focused) {
+       setState(() {
+         _focused = _node.hasFocus;
+       });
+     }
+   }
 
+   bool _handleKeyPress(FocusNode node, RawKeyEvent event) {
+     if (event is RawKeyDownEvent) {
+       print('Focus node ${node.debugLabel} got key event: ${event.logicalKey}');
+       if (event.logicalKey == LogicalKeyboardKey.keyR) {
+         print('Changing color to red.');
+         setState(() {
+           _color = Colors.red;
+         });
+         return true;
+       } else if (event.logicalKey == LogicalKeyboardKey.keyG) {
+         print('Changing color to green.');
+         setState(() {
+           _color = Colors.green;
+         });
+         return true;
+       } else if (event.logicalKey == LogicalKeyboardKey.keyB) {
+         print('Changing color to blue.');
+         setState(() {
+           _color = Colors.blue;
+         });
+         return true;
+       }
+     }
+     return false;
+   }
 
+   @override
+   void dispose() {
+     _node.removeListener(_handleFocusChange);
+     // The attachment will automatically be detached in dispose().
+     _node.dispose();
+     super.dispose();
+   }
 
-//    WaterfallFlow(gridDelegate: null)
-//    LayoutGrid(templateColumnSizes: null, templateRowSizes: null)
-
-
-    return Container();
-  }
-}
+   @override
+   Widget build(BuildContext context) {
+     _nodeAttachment.reparent();
+     return GestureDetector(
+       onTap: () {
+         if (_focused) {
+             _node.unfocus();
+         } else {
+            _node.requestFocus();
+         }
+       },
+       child: Center(
+         child: Container(
+           width: 400,
+           height: 100,
+           color: _focused ? _color : Colors.white,
+           alignment: Alignment.center,
+           child: Text(
+               _focused ? "I'm in color! Press R,G,B!" : 'Press to focus'),
+         ),
+       ),
+     );
+   }
+ }

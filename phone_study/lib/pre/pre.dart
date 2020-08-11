@@ -6,10 +6,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:math' as math;
 import 'package:dio/dio.dart';
+
+import 'explore.dart';
+
+import 'package:vector_math/vector_math_64.dart' hide Colors;
 
 /**
  * 学习用
@@ -20,31 +25,131 @@ class PrePage extends StatefulWidget {
 }
 
 class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
+
+  Animation _animation;
+  Animation _animationP;
+  AnimationController _animationController;
+
+
   @override
   void initState() {
     super.initState();
+    _animationController = AnimationController(vsync: this,duration: Duration(milliseconds: 5000));
+     _animation = _animationController.drive(
+       Tween(
+         begin: 0,
+         end: 200,
+       ),
+     );
+    _animationP = _animationController.drive(
+      Tween(
+        begin: 0,
+        end: 2*math.pi,
+      ),
+    );
+//    _animation = Tween<int>(
+//      begin: 0,
+//      end: 200,
+//    ).animate(_animationController);
+    _animationController.addListener(() {
+      setState(() {
+
+      });
+    });
+
+
+    _animationController.forward();
   }
 
   @override
   void dispose() {
+    _animationController.dispose();
     super.dispose();
   }
 
+
+
+ var _deviceW;
+ var _deviceH;
   @override
   Widget build(BuildContext context) {
-//    print(MediaQuery.of(context).size.width);
-//    print(MediaQuery.of(context).size.height);
+    if(_deviceW == null) _deviceW = MediaQuery.of(context).size.width;
+    if(_deviceH == null) _deviceH = MediaQuery.of(context).size.height;
+;
 
-//    Expanded
-//    Column
-//    Positioned
-//    SliverList
+
 //    CustomScrollView
+//    SliverGrid
+//    SliverList
+
+    print("ppppppppppppppppppp");
+    print(_animation.value);
+    print(_animation.value.toString());
 
     return Scaffold(
         backgroundColor: Colors.amber,
         resizeToAvoidBottomInset: true,
-        body: Center());
+        body:
+        SafeArea(
+          child: Center(
+            child: ColoredBox(
+              color: Colors.blueGrey,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Viewport(
+                  offset: ViewportOffset.fixed(_animation.value*1.0),
+                  slivers: <Widget>[
+                    SliverToBoxAdapter(
+                      child: Transform(
+                        alignment: FractionalOffset.bottomCenter,
+                        transform: Matrix4(
+                            1,0,0,0,
+                            0,1,0,0,
+                            0,0,1,_animationController.value/10,
+//                          0,0,1,0.05,
+                            0,0,0,1
+                        )..rotateX(-_animationP.value/4/400),
+                        child: Container(
+                          width: _deviceW*4/3,
+                          height: _deviceH/2-30,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 50,
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Transform(
+//                        alignment: FractionalOffset.topCenter,
+                        transform: Matrix4(
+                          1,0,0,0,
+                          0,1,0,0,
+//                          0,0,1,_animationController.value/10,
+                          0,0,1,0.05,
+//                          0,0,1,0,
+                          0,0,0,1
+//                      )..rotateX(_animationP.value/4),
+                      )..rotate(Vector3(1, 0, 0), _animationP.value/4),
+                        child: Container(
+                          width: _deviceW*4/3,
+                          height: _deviceH/2-30,
+                          color: Colors.deepOrange,
+                        ),
+                      ),
+                    ),
+
+                  ],
+
+                ),
+              ),
+            ),
+          ),
+        )
+
+    );
   }
 
   ///RenderObjectElement CustomSingleChildLayout
@@ -90,7 +195,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Builder
 //    IndexedStack
 //    CheckboxListTile Switch
-    /// Viewport AnimatedList FractionalOffset ListWheelScrollView HitTestBehavior KeyedSubtree AutomaticKeepAlive待
+    /// ImageStreamCompleter Viewport AnimatedList FractionalOffset ListWheelScrollView HitTestBehavior KeyedSubtree AutomaticKeepAlive待
     /// FocusScope 待 鸡肋
 //    Placeholder
 //    Row IntrinsicHeight
@@ -105,7 +210,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    NotificationListener<ScrollNotification>
 //    TickerMode
 //    PrimaryScrollController
-//    FocusScope.of(context).requestFocus(FocusNode());
+//    SystemChannels.textInput.invokeMethod('TextInput.hide'); FocusScope.of(context).requestFocus(FocusNode());
 //    Function .call()
 
 //    RefreshIndicator

@@ -53,15 +53,24 @@ class MyPainer extends CustomPainter {
 
     //有点意思
 //    var painn = Paint()
-//      ..style = PaintingStyle.stroke
+//      ..style = PaintingStyle.fill
 //      ..strokeWidth = 10
 //      ..shader = SweepGradient(
 //        colors: [
-//      Colors.blue,
-//      Colors.deepOrange,
-//      Colors.lightGreen,
+//      Colors.green[100],
+//      Colors.green[500],
+//      Colors.green[700],
+//      Colors.green[300],
+//      Colors.green[500],
+//    ],stops: [
+//        0.2,
+//        0.4,
+//        0.6,
+//        0.8,
+//        1
+//      ]
 //
-//    ]).createShader(Offset(0, 0) & Size(size.width/2, size.height/2));
+//      ).createShader(Offset(0, 0) & Size(size.width, size.height));
 ////    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height ), painn);
 //  canvas.drawOval(Rect.fromLTWH(0, 0, size.width, size.height ), painn);
 
