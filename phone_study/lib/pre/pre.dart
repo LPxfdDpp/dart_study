@@ -47,18 +47,21 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
         end: 2*math.pi,
       ),
     );
-//    _animation = Tween<int>(
-//      begin: 0,
-//      end: 200,
-//    ).animate(_animationController);
-    _animationController.addListener(() {
-      setState(() {
 
-      });
+    _animationController.addListener(() {
+//      setState(() {
+//
+//      });
     });
 
 
     _animationController.forward();
+    _controller = ScrollController()..addListener(() {
+
+      print("jjjjj");
+
+    });
+
   }
 
   @override
@@ -71,6 +74,9 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
  var _deviceW;
  var _deviceH;
+
+ var _key = ValueKey("value");
+var _controller;
   @override
   Widget build(BuildContext context) {
     if(_deviceW == null) _deviceW = MediaQuery.of(context).size.width;
@@ -81,6 +87,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    CustomScrollView
 //    SliverGrid
 //    SliverList
+//    ListView
 
     print("ppppppppppppppppppp");
     print(_animation.value);
@@ -96,53 +103,57 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
               color: Colors.blueGrey,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Viewport(
-                  offset: ViewportOffset.fixed(_animation.value*1.0),
-                  slivers: <Widget>[
-                    SliverToBoxAdapter(
-                      child: Transform(
-                        alignment: FractionalOffset.bottomCenter,
-                        transform: Matrix4(
-                            1,0,0,0,
-                            0,1,0,0,
-                            0,0,1,_animationController.value/10,
-//                          0,0,1,0.05,
-                            0,0,0,1
-                        )..rotateX(-_animationP.value/4/400),
-                        child: Container(
-                          width: _deviceW*4/3,
-                          height: _deviceH/2-30,
-                          color: Colors.green,
-                        ),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: SizedBox(
-                        height: 50,
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Transform(
-//                        alignment: FractionalOffset.topCenter,
-                        transform: Matrix4(
-                          1,0,0,0,
-                          0,1,0,0,
-//                          0,0,1,_animationController.value/10,
-                          0,0,1,0.05,
-//                          0,0,1,0,
-                          0,0,0,1
-//                      )..rotateX(_animationP.value/4),
-                      )..rotate(Vector3(1, 0, 0), _animationP.value/4),
-                        child: Container(
-                          width: _deviceW*4/3,
-                          height: _deviceH/2-30,
-                          color: Colors.deepOrange,
-                        ),
-                      ),
-                    ),
+                child:
+                NotificationListener<ScrollUpdateNotification>(
+                    child:Scrollable(
+                    controller :_controller,
+                  viewportBuilder:(context,position){
 
-                  ],
+                    return Viewport(
+                      center: _key,
+                      offset: ViewportOffset.fixed(position.pixels),
+                      slivers: <Widget>[
+                        SliverToBoxAdapter(
+                          child: Container(
+                            width: _deviceW*4/3,
+                            height: _deviceH/2-30,
+                            color: Colors.deepOrange,
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: SizedBox(
+                            height: 50,
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                          key: _key,
+                          child: Container(
+                            width: _deviceW*4/3,
+                            height: _deviceH/2-30,
+                            color: Colors.green,
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: SizedBox(
+                            height: 50,
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: Container(
+                            width: _deviceW*4/3,
+                            height: _deviceH/2-30,
+                            color: Colors.lightBlueAccent,
+                          ),
+                        ),
+                      ],
+                    );
+                  }
 
+                ),
+
+                onNotification: (jjj){
+                      print("llllll");
+              },
                 ),
               ),
             ),
@@ -151,6 +162,27 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
     );
   }
+
+//  Transform(
+//  alignment: FractionalOffset.center,
+//  transform: Matrix4(
+//  1,0,0,0,
+//  0,1,0,0,
+////                          0,0,1,_animationController.value/10,
+//  0,0,1,0.05,
+////                          0,0,1,0,
+//  0,0,0,1
+////                      )..rotateX(_animationP.value/4),
+//  )..rotate(Vector3(1, 0, 0), _animationP.value/4),
+//  child: Container(
+//  width: _deviceW*4/3,
+//  height: _deviceH/2-30,
+//  color: Colors.deepOrange,
+//  ),
+//  )
+
+
+
 
   ///RenderObjectElement CustomSingleChildLayout
   ///BoxScrollView SliverMultiBoxAdaptorWidget RenderSliverMultiBoxAdaptor SliverMultiBoxAdaptorParentData继续
