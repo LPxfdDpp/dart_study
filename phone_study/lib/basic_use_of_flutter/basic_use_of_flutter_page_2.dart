@@ -49,12 +49,12 @@ class _BasicUseOfFlutterPage2State extends State<BasicUseOfFlutterPage2> with Ro
     print(preRoutPassInArguments);
 
 
-    Phone_study.routeObserver.subscribe(this, ModalRoute.of(context));
+    routeObserver.subscribe(this, ModalRoute.of(context));
   }
 
   @override
   void dispose() {
-    Phone_study.routeObserver.unsubscribe(this);
+    routeObserver.unsubscribe(this);
     super.dispose();
     print('RouteAware dispose');
   }

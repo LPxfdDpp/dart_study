@@ -31,36 +31,21 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
   AnimationController _animationController;
 
 
+
+
+
+  Key _key = ValueKey("value");
+
+
+
+
+ScrollController _scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(vsync: this,duration: Duration(milliseconds: 5000));
-     _animation = _animationController.drive(
-       Tween(
-         begin: 0,
-         end: 200,
-       ),
-     );
-    _animationP = _animationController.drive(
-      Tween(
-        begin: 0,
-        end: 2*math.pi,
-      ),
-    );
-
-    _animationController.addListener(() {
-//      setState(() {
-//
-//      });
-    });
 
 
-    _animationController.forward();
-    _controller = ScrollController()..addListener(() {
-
-      print("jjjjj");
-
-    });
 
   }
 
@@ -74,24 +59,24 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
  var _deviceW;
  var _deviceH;
-
- var _key = ValueKey("value");
-var _controller;
   @override
   Widget build(BuildContext context) {
     if(_deviceW == null) _deviceW = MediaQuery.of(context).size.width;
     if(_deviceH == null) _deviceH = MediaQuery.of(context).size.height;
-;
+
 
 
 //    CustomScrollView
-//    SliverGrid
 //    SliverList
 //    ListView
+//    RenderSliverList
+//    SliverPadding
 
-    print("ppppppppppppppppppp");
-    print(_animation.value);
-    print(_animation.value.toString());
+
+
+    print("build(BuildContext context)");
+
+
 
     return Scaffold(
         backgroundColor: Colors.amber,
@@ -99,87 +84,133 @@ var _controller;
         body:
         SafeArea(
           child: Center(
-            child: ColoredBox(
-              color: Colors.blueGrey,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child:
-                NotificationListener<ScrollUpdateNotification>(
-                    child:Scrollable(
-                    controller :_controller,
-                  viewportBuilder:(context,position){
+            child:
+            NotificationListener<ScrollUpdateNotification>(
+              child: Scrollable(
+                viewportBuilder: (BuildContext context, ViewportOffset offset) {
+                  return Viewport(
+                    offset: offset,
+                    slivers:
+                                 [ SliverToBoxAdapter(
+                key: _key,
+                child: GestureDetector(
+                  onTap: (){
+                    print("ddddddddddddd");
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Container(
+                    width: 200,
+                    height: 100,
+                    color: Colors.deepOrange,
+                    child: TextField(
 
-                    return Viewport(
-                      center: _key,
-                      offset: ViewportOffset.fixed(position.pixels),
-                      slivers: <Widget>[
-                        SliverToBoxAdapter(
-                          child: Container(
-                            width: _deviceW*4/3,
-                            height: _deviceH/2-30,
-                            color: Colors.deepOrange,
-                          ),
-                        ),
-                        SliverToBoxAdapter(
-                          child: SizedBox(
-                            height: 50,
-                          ),
-                        ),
-                        SliverToBoxAdapter(
-                          key: _key,
-                          child: Container(
-                            width: _deviceW*4/3,
-                            height: _deviceH/2-30,
-                            color: Colors.green,
-                          ),
-                        ),
-                        SliverToBoxAdapter(
-                          child: SizedBox(
-                            height: 50,
-                          ),
-                        ),
-                        SliverToBoxAdapter(
-                          child: Container(
-                            width: _deviceW*4/3,
-                            height: _deviceH/2-30,
-                            color: Colors.lightBlueAccent,
-                          ),
-                        ),
-                      ],
-                    );
-                  }
-
-                ),
-
-                onNotification: (jjj){
-                      print("llllll");
-              },
+                    ),
+                  ),
                 ),
               ),
-            ),
+              SliverToBoxAdapter(
+
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Container(
+                    width: 200,
+                    height: _deviceH*2/3,
+                    color: Colors.deepPurple,
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Container(
+                  width: 200,
+                  height: _deviceH*2/3,
+                  color: Colors.green,
+                ),
+              ),
+                   ]
+                    ,
+                  );
+                },
+              ),
+              onNotification: (ScrollUpdateNotification notification) {
+
+                print("onNotification");
+
+                final FocusScopeNode focusScope = FocusScope.of(context);
+                if (notification.dragDetails != null && focusScope.hasFocus) {
+                  focusScope.unfocus();
+                }
+                return false;
+              },
+            )
+
+
+
+
+
+
+
+//            Viewport(
+//              offset: ViewportOffset.fixed(0),
+//              anchor: 0.0,
+//            center: _key,
+//            slivers: <Widget>[
+//              SliverToBoxAdapter(
+//                key: _key,
+//                child: GestureDetector(
+//                  onTap: (){
+//                    print("ddddddddddddd");
+//                    FocusScope.of(context).unfocus();
+//                  },
+//                  child: Container(
+//                    width: 200,
+//                    height: 100,
+//                    color: Colors.deepOrange,
+//                    child: TextField(
+//
+//                    ),
+//                  ),
+//                ),
+//              ),
+//              SliverToBoxAdapter(
+//
+//                child: GestureDetector(
+//                  onTap: (){
+//                    FocusScope.of(context).unfocus();
+//                  },
+//                  child: Container(
+//                    width: 200,
+//                    height: _deviceH*2/3,
+//                    color: Colors.deepPurple,
+//                  ),
+//                ),
+//              ),
+//              SliverToBoxAdapter(
+//                child: Container(
+//                  width: 200,
+//                  height: _deviceH*2/3,
+//                  color: Colors.green,
+//                ),
+//              ),
+//
+//              ],
+//            )
+
+
+
+
+
+
+
+
+
+
           ),
         )
 
     );
   }
-
-//  Transform(
-//  alignment: FractionalOffset.center,
-//  transform: Matrix4(
-//  1,0,0,0,
-//  0,1,0,0,
-////                          0,0,1,_animationController.value/10,
-//  0,0,1,0.05,
-////                          0,0,1,0,
-//  0,0,0,1
-////                      )..rotateX(_animationP.value/4),
-//  )..rotate(Vector3(1, 0, 0), _animationP.value/4),
-//  child: Container(
-//  width: _deviceW*4/3,
-//  height: _deviceH/2-30,
-//  color: Colors.deepOrange,
-//  ),
-//  )
 
 
 
@@ -227,8 +258,9 @@ var _controller;
 //    Builder
 //    IndexedStack
 //    CheckboxListTile Switch
-    /// ImageStreamCompleter Viewport AnimatedList FractionalOffset ListWheelScrollView HitTestBehavior KeyedSubtree AutomaticKeepAlive待
+    /// ImageStreamCompleter Viewport AnimatedList FractionalOffset ListWheelScrollView 待
     /// FocusScope 待 鸡肋
+//    KeyedSubtree
 //    Placeholder
 //    Row IntrinsicHeight
 //    floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked, BottomAppBar( shape:CircularNotchedRectangle()
@@ -242,7 +274,7 @@ var _controller;
 //    NotificationListener<ScrollNotification>
 //    TickerMode
 //    PrimaryScrollController
-//    SystemChannels.textInput.invokeMethod('TextInput.hide'); FocusScope.of(context).requestFocus(FocusNode());
+//    SystemChannels.textInput.invokeMethod('TextInput.hide'); FocusScope.of(context).unfocus(); FocusScope.of(context).requestFocus(FocusNode());
 //    Function .call()
 
 //    RefreshIndicator
