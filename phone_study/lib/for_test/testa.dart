@@ -7,7 +7,7 @@ import 'dart:math';
 void main() async{
 
 
-
+print(WEE() is WE);
 
 
 
@@ -18,6 +18,16 @@ void main() async{
 // print((oo & ss).toString());
 
 }
+
+
+class  WE {
+
+}
+
+class WEE extends WE {
+
+}
+
 
 class DDEEMMOO with A,B {
 

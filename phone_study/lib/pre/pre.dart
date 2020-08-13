@@ -76,6 +76,8 @@ ScrollController _scrollController = ScrollController();
 
     print("build(BuildContext context)");
 
+    _something();
+
 
 
     return Scaffold(
@@ -212,6 +214,14 @@ ScrollController _scrollController = ScrollController();
     );
   }
 
+  _something(){
+    print("_something");
+    NavigatorState _nn = Navigator.of(context);
+    print(_nn.hashCode);
+
+
+
+  }
 
 
 
