@@ -1,13 +1,35 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:dio/dio.dart';
-
 import 'dart:math';
+//import 'package:flutter/foundation.dart' show describeEnum;
 
 void main() async{
+//  StreamController _streamController = StreamController.broadcast(sync: false);
+//
+//// 接收所有
+//  _streamController.stream.where((event) => event is WE).cast<WE>().listen((event) {
+//    print(event.runtimeType);
+//  });
+//
+//// 接收部分
+//  _streamController.stream.where((event) => event is WE<DDEEMMOO>).cast<WE<DDEEMMOO>>().listen((event) {
+//    print(event.runtimeType);
+//  });
+//
+//  Timer(Duration(seconds: 2), (){
+//    _streamController.add(WE());
+//  });
+//  Timer(Duration(seconds: 4), (){
+//    _streamController.add(WE<int>());
+//  });
+//  Timer(Duration(seconds: 6), (){
+//    _streamController.add(WE<DDEEMMOO>());
+//  });
 
 
-print(WEE() is WE);
+//var hhh = WE() as WE<DDEEMMOO>;
+
+//print(WE() is dynamic);
+
 
 
 
@@ -17,14 +39,31 @@ print(WEE() is WE);
 //
 // print((oo & ss).toString());
 
+
+//  WE ppp = WE();
+
+//  ppp?.hei();
+
+print(SelectedColor.PrimaryColor.runtimeType);
+
+
+
+}
+
+enum SelectedColor {
+  PrimaryColor,
+  SecondaryColor,
 }
 
 
-class  WE {
 
+class  WE<T> {
+  hei(){
+    print("hei");
+  }
 }
 
-class WEE extends WE {
+class WEE extends WE with A{
 
 }
 

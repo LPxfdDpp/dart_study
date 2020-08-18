@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:ui';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,8 @@ import 'explore.dart';
 
 import 'package:vector_math/vector_math_64.dart' hide Colors;
 
+import 'package:flutter/foundation.dart' show describeEnum;
+
 /**
  * 学习用
  */
@@ -29,24 +33,10 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
   Animation _animation;
   Animation _animationP;
   AnimationController _animationController;
-
-
-
-
-
-  Key _key = ValueKey("value");
-
-
-
-
-ScrollController _scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(vsync: this,duration: Duration(milliseconds: 5000));
-
-
-
   }
 
   @override
@@ -55,159 +45,49 @@ ScrollController _scrollController = ScrollController();
     super.dispose();
   }
 
-
-
- var _deviceW;
- var _deviceH;
+  var _deviceW;
+  var _deviceH;
   @override
   Widget build(BuildContext context) {
+    print("build(BuildContext context)");
+    print(context.hashCode);
     if(_deviceW == null) _deviceW = MediaQuery.of(context).size.width;
     if(_deviceH == null) _deviceH = MediaQuery.of(context).size.height;
-
 
 
 //    CustomScrollView
 //    SliverList
 //    ListView
 //    RenderSliverList
+//
 //    SliverPadding
-
-
-
-    print("build(BuildContext context)");
+//    SceneBuilder
+//    Scene
+//    Layer
+//    Positioned.fill(child: null)
 
     _something();
-
-
-
     return Scaffold(
         backgroundColor: Colors.amber,
         resizeToAvoidBottomInset: true,
         body:
         SafeArea(
           child: Center(
-            child:
-            NotificationListener<ScrollUpdateNotification>(
-              child: Scrollable(
-                viewportBuilder: (BuildContext context, ViewportOffset offset) {
-                  return Viewport(
-                    offset: offset,
-                    slivers:
-                                 [ SliverToBoxAdapter(
-                key: _key,
-                child: GestureDetector(
-                  onTap: (){
-                    print("ddddddddddddd");
-                    FocusScope.of(context).unfocus();
-                  },
-                  child: Container(
-                    width: 200,
-                    height: 100,
-                    color: Colors.deepOrange,
-                    child: TextField(
-
-                    ),
-                  ),
-                ),
-              ),
-              SliverToBoxAdapter(
-
-                child: GestureDetector(
-                  onTap: (){
-                    FocusScope.of(context).unfocus();
-                  },
-                  child: Container(
-                    width: 200,
-                    height: _deviceH*2/3,
-                    color: Colors.deepPurple,
-                  ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Container(
-                  width: 200,
-                  height: _deviceH*2/3,
-                  color: Colors.green,
-                ),
-              ),
-                   ]
-                    ,
-                  );
-                },
-              ),
-              onNotification: (ScrollUpdateNotification notification) {
-
-                print("onNotification");
-
-                final FocusScopeNode focusScope = FocusScope.of(context);
-                if (notification.dragDetails != null && focusScope.hasFocus) {
-                  focusScope.unfocus();
-                }
-                return false;
-              },
-            )
-
-
-
-
-
-
-
-//            Viewport(
-//              offset: ViewportOffset.fixed(0),
-//              anchor: 0.0,
-//            center: _key,
-//            slivers: <Widget>[
-//              SliverToBoxAdapter(
-//                key: _key,
-//                child: GestureDetector(
-//                  onTap: (){
-//                    print("ddddddddddddd");
-//                    FocusScope.of(context).unfocus();
-//                  },
-//                  child: Container(
-//                    width: 200,
-//                    height: 100,
-//                    color: Colors.deepOrange,
-//                    child: TextField(
-//
-//                    ),
-//                  ),
-//                ),
-//              ),
-//              SliverToBoxAdapter(
-//
-//                child: GestureDetector(
-//                  onTap: (){
-//                    FocusScope.of(context).unfocus();
-//                  },
-//                  child: Container(
-//                    width: 200,
-//                    height: _deviceH*2/3,
-//                    color: Colors.deepPurple,
-//                  ),
-//                ),
-//              ),
-//              SliverToBoxAdapter(
-//                child: Container(
-//                  width: 200,
-//                  height: _deviceH*2/3,
-//                  color: Colors.green,
-//                ),
-//              ),
-//
-//              ],
-//            )
-
-
-
-
-
-
-
-
-
-
+            child: Column(
+              children: [
+                Container(),
+                for (int i=0;i<3;i++) ...[
+                  if (i%2 == 0)
+                    ListTile(title: Text("food.name"+i.toString())),
+                  SizedBox(height: 50.0),
+                ],
+                ...[Container(
+                  width: 100,
+                  height: 50,
+                  color: Colors.deepPurple,
+                )]
+              ],
+            ),
           ),
         )
 
@@ -215,12 +95,11 @@ ScrollController _scrollController = ScrollController();
   }
 
   _something(){
-    print("_something");
-    NavigatorState _nn = Navigator.of(context);
-    print(_nn.hashCode);
+    print("in _something");
 
 
 
+    print("out _something");
   }
 
 
@@ -337,5 +216,8 @@ ScrollController _scrollController = ScrollController();
 //    AnimatedSwitcher
 //    ColorFiltered
 //    InkWell
+//    for (int i=0;i<3;i++) ...[ 已经可以用了
+
   }
 }
+

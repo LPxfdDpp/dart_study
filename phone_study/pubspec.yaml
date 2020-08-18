@@ -14,7 +14,7 @@ description: 学习flutter用
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.2.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -29,8 +29,7 @@ dependencies:
 #json_serializable 学习用
   json_annotation: ^3.0.0
   lpinyin: ^1.0.9
-#  event_bus 1.1.1
-
+  event_bus: 1.1.1
   provider: ^4.1.3
   google_fonts: ^1.1.0
 
