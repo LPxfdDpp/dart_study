@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:isolate';
 import 'dart:ui';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/cupertino.dart';
@@ -65,6 +66,10 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Scene
 //    Layer
 //    Positioned.fill(child: null)
+//    Isolate
+
+
+
 
     _something();
     return Scaffold(
@@ -95,11 +100,40 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
   }
 
   _something(){
-    print("in _something");
+    print("*****************************************                      in _something");
+    print(Isolate.current.hashCode);
+
+
+    Capability pauseCapability = Capability();
+
+    ReceivePort receivePort = ReceivePort();
+    SendPort sendPort = receivePort.sendPort;
+
+    receivePort.listen((message) {
+      Timer(Duration(seconds: 2), (){
+        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa         ");
+        print(Isolate.current.hashCode);
+        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa         "+message.runtimeType.toString());
+        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa         ");
+
+      });
+    });
+    Isolate isolate = Isolate(sendPort,pauseCapability: pauseCapability,);
+
+    isolate.pause(pauseCapability);
+
+
+    sendPort.send(90);
+    Timer(Duration(seconds: 3), (){
+      print("================");
+      isolate.resume(pauseCapability);
+    });
 
 
 
-    print("out _something");
+
+    Timer(Duration(days: 1), (){});
+    print("*****************************************                      out _something");
   }
 
 

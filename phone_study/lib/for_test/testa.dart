@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:isolate';
 import 'dart:math';
 //import 'package:flutter/foundation.dart' show describeEnum;
 
@@ -43,8 +44,6 @@ void main() async{
 //  WE ppp = WE();
 
 //  ppp?.hei();
-
-print(SelectedColor.PrimaryColor.runtimeType);
 
 
 
