@@ -19,7 +19,7 @@ import 'explore.dart';
 
 import 'package:vector_math/vector_math_64.dart' hide Colors;
 
-import 'package:flutter/foundation.dart' show describeEnum;
+import 'package:flutter/foundation.dart' show compute, describeEnum;
 
 /**
  * 学习用
@@ -31,29 +31,45 @@ class PrePage extends StatefulWidget {
 
 class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
-  Animation _animation;
-  Animation _animationP;
-  AnimationController _animationController;
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(vsync: this,duration: Duration(milliseconds: 5000));
-  }
+  int _count = 0;
 
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  var _deviceW;
-  var _deviceH;
   @override
   Widget build(BuildContext context) {
-    print("build(BuildContext context)");
-    print(context.hashCode);
-    if(_deviceW == null) _deviceW = MediaQuery.of(context).size.width;
-    if(_deviceH == null) _deviceH = MediaQuery.of(context).size.height;
+    return Material(
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            Container(
+              width: 100,
+              height: 100,
+              child: CircularProgressIndicator(),
+            ),
+            FlatButton(
+                onPressed: () async {
+                  print("aaaaaaaaaaaaaaaaaaa");
+                  _count = await compute<int,int>(countEven,1000000000);
+
+//                  _count = await asyncCountEven(1000000000);
+//                  setState(() {});
+
+//                   asyncCountEven(1000000000).then((value) {
+
+//                   });
+
+                      setState(() {
+
+                     });
+                },
+                child: Text(
+                  _count.toString(),
+                )),
+          ],
+          mainAxisSize: MainAxisSize.min,
+        ),
+      ),
+    );
+  }
+
 
 
 //    CustomScrollView
@@ -69,72 +85,61 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Isolate
 
 
-
-
-    _something();
-    return Scaffold(
-        backgroundColor: Colors.amber,
-        resizeToAvoidBottomInset: true,
-        body:
-        SafeArea(
-          child: Center(
-            child: Column(
-              children: [
-                Container(),
-                for (int i=0;i<3;i++) ...[
-                  if (i%2 == 0)
-                    ListTile(title: Text("food.name"+i.toString())),
-                  SizedBox(height: 50.0),
-                ],
-                ...[Container(
-                  width: 100,
-                  height: 50,
-                  color: Colors.deepPurple,
-                )]
-              ],
-            ),
-          ),
-        )
-
-    );
+  static Future<int> asyncCountEven(int num) async{
+    int count = 0;
+    while (num > 0) {
+      if (num % 2 == 0) {
+        count++;
+      }
+      num--;
+    }
+    return count;
   }
-
   _something(){
     print("*****************************************                      in _something");
-    print(Isolate.current.hashCode);
 
-
-    Capability pauseCapability = Capability();
-
-    ReceivePort receivePort = ReceivePort();
-    SendPort sendPort = receivePort.sendPort;
-
-    receivePort.listen((message) {
-      Timer(Duration(seconds: 2), (){
-        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa         ");
-        print(Isolate.current.hashCode);
-        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa         "+message.runtimeType.toString());
-        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa         ");
-
-      });
-    });
-    Isolate isolate = Isolate(sendPort,pauseCapability: pauseCapability,);
-
-    isolate.pause(pauseCapability);
-
-
-    sendPort.send(90);
-    Timer(Duration(seconds: 3), (){
-      print("================");
-      isolate.resume(pauseCapability);
-    });
-
-
-
-
-    Timer(Duration(days: 1), (){});
     print("*****************************************                      out _something");
   }
+//计算偶数的个数
+  static int countEven(int num)  {
+    print("ssssssssssssssssssssssssssssssssssssssssssssssssss");
+    int count = 0;
+    while (num > 0) {
+      if (num % 2 == 0) {
+        count++;
+      }
+      num--;
+    }
+    return count;
+  }
+
+  static Future<dynamic> isolateCountEven(int num) async {
+    final response = ReceivePort();
+    await Isolate.spawn(countEvent2, response.sendPort);
+    final sendPort = await response.first;
+    final answer = ReceivePort();
+    sendPort.send([answer.sendPort, num]);
+    return answer.first;
+  }
+
+  static void countEvent2(SendPort port) {
+    final rPort = ReceivePort();
+    port.send(rPort.sendPort);
+    rPort.listen((message) {
+      final send = message[0] as SendPort;
+      final n = message[1] as int;
+      send.send(countEven(n));
+    });
+  }
+
+
+
+
+
+
+
+
+
 
 
 

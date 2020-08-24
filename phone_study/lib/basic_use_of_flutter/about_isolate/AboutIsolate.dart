@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:isolate';
-import 'dart:math';
-//import 'package:flutter/foundation.dart' show describeEnum;
 
 void main() async {
   print("main()                      Isolate.current.hashCode");
   print(Isolate.current.hashCode);
 
-  await isolateCountEven(1000000000);
+  await isolateCountEven(9999999999);
+
+  print("done");
 
   Timer(Duration(days: 1), () {});
 }
@@ -23,9 +23,14 @@ int countEven(int num) {
   return count;
 }
 
+///isolateCountEven countEvent2 解释
+///第一步 接收方和发送方交换 sendPort
+///第二步 接收方定义listen做好接收消息的准备
+///第三步 发送方可以通过接收方的sendPort发送消息了
 Future<dynamic> isolateCountEven(int num) async {
   final response = ReceivePort();
-  await Isolate.spawn(countEvent2, response.sendPort);
+  Isolate isolate = await Isolate.spawn(countEvent2, response.sendPort);
+//  isolate.pauseCapability;
   final sendPort = await response.first;
   final answer = ReceivePort();
   sendPort.send([answer.sendPort, num]);
@@ -33,7 +38,6 @@ Future<dynamic> isolateCountEven(int num) async {
   print(Isolate.current.hashCode);
   return answer.first;
 }
-
 void countEvent2(SendPort port) {
   print("countEvent2(SendPort port) {");
   print(Isolate.current.hashCode);
@@ -46,45 +50,4 @@ void countEvent2(SendPort port) {
     final n = message[1] as int;
     send.send(countEven(n));
   });
-}
-
-enum SelectedColor {
-  PrimaryColor,
-  SecondaryColor,
-}
-
-class WE<T> {
-  hei() {
-    print("hei");
-  }
-}
-
-class WEE extends WE with A {}
-
-class DDEEMMOO with A, B {
-  const DDEEMMOO.hehe();
-
-  @override
-  soo() {
-    // TODO: implement soo
-    throw UnimplementedError();
-  }
-}
-
-abstract class HHH {
-  soo() {
-    print("soo");
-  }
-}
-
-mixin A {
-  run() {
-    print("A");
-  }
-}
-
-mixin B implements A, HHH {
-//  run (){
-//    print("B");
-//  }
 }
