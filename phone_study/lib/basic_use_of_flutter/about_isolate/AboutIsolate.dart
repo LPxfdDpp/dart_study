@@ -51,3 +51,61 @@ void countEvent2(SendPort port) {
     send.send(countEven(n));
   });
 }
+
+
+
+class Worker {
+  ///生成的
+  SendPort _sendPort;
+
+  Isolate _isolate;
+  final _isolateReady = Completer<void>();
+
+  Future<void> get isReady => _isolateReady.future;
+
+  Worker(){
+    init();
+  }
+
+  Future<void> init() async{
+    ///主线程的
+    final receivePort = ReceivePort();
+    receivePort.listen((_handleMessage));
+
+     _isolate = await Isolate.spawn(_isolateEntry, receivePort.sendPort);
+  }
+  ///主线程在这里干事
+  _handleMessage(dynamic message){
+    if(message is SendPort){
+      _sendPort = message;
+      _isolateReady.complete();
+      return;
+    }
+    ///其他消息处理
+
+  }
+
+
+  static void _isolateEntry(dynamic message){
+    ///主线程的
+    SendPort sendPort;
+    ///生成的
+    final receivePort = ReceivePort();
+    receivePort.listen((dynamic message){
+      ///生成的在这里干事
+    });
+
+    if(message is SendPort){
+      sendPort = message;
+      sendPort.send(receivePort.sendPort);
+      return;
+    }
+
+  }
+
+  void dispose(){
+    _isolate.kill();
+  }
+
+
+}
