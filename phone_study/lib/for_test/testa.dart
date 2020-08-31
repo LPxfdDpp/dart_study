@@ -2,56 +2,43 @@ import 'dart:async';
 import 'dart:isolate';
 import 'dart:math';
 //import 'package:flutter/foundation.dart' show describeEnum;
+import 'package:http/http.dart' as http;
 
 void main() async {
   print("main()                      Isolate.current.hashCode");
-  print(Isolate.current.hashCode);
 
-  await isolateCountEven(1000000000);
+  Hekpp().ke();
+
+int kk = 9999;
+
+print(kk >= 1000?(kk/1000).toStringAsFixed(1)+"k":kk.toString());
+
 
   Timer(Duration(days: 1), () {});
 }
 
-int countEven(int num) {
-  int count = 0;
-  while (num > 0) {
-    if (num % 2 == 0) {
-      count++;
-    }
-    num--;
+
+
+class Hekpp extends Hkep {
+
+//  @override
+//  ke() async{
+//    var ppp = await Future.delayed(Duration(seconds: 3),()=>89);
+//    print(ppp);
+//  }
+
+}
+class Hkep {
+
+  ke(){
+    print("Hkep ke");
   }
-  return count;
+
 }
 
-Future<dynamic> isolateCountEven(int num) async {
-  final response = ReceivePort();
-  await Isolate.spawn(countEvent2, response.sendPort);
-  final sendPort = await response.first;
-  final answer = ReceivePort();
-  sendPort.send([answer.sendPort, num]);
-  print("isolateCountEven(int num) async {");
-  print(Isolate.current.hashCode);
-  return answer.first;
-}
 
-void countEvent2(SendPort port) {
-  print("countEvent2(SendPort port) {");
-  print(Isolate.current.hashCode);
-  final rPort = ReceivePort();
-  port.send(rPort.sendPort);
-  rPort.listen((message) {
-    print("countEvent2(SendPort port) {      rPort.listen((message) {");
-    print(Isolate.current.hashCode);
-    final send = message[0] as SendPort;
-    final n = message[1] as int;
-    send.send(countEven(n));
-  });
-}
 
-enum SelectedColor {
-  PrimaryColor,
-  SecondaryColor,
-}
+
 
 class WE<T> {
   hei() {

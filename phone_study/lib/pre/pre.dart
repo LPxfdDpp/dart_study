@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:isolate';
+import 'dart:typed_data';
 import 'dart:ui';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,7 +20,9 @@ import 'explore.dart';
 
 import 'package:vector_math/vector_math_64.dart' hide Colors;
 
-import 'package:flutter/foundation.dart' show compute, describeEnum;
+import 'package:flutter/foundation.dart' show compute, consolidateHttpClientResponseBytes, describeEnum;
+
+import 'package:flutter/src/painting/_network_image_io.dart' as IoNetImage;
 
 /**
  * 学习用
@@ -34,37 +37,52 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
   int _count = 0;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+
+  TextEditingController _textEditingController = TextEditingController();
+  @override
   Widget build(BuildContext context) {
+
+    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
     return Material(
       child: Center(
         child: Column(
           children: <Widget>[
-            Container(
-              width: 100,
-              height: 100,
-              child: CircularProgressIndicator(),
+            SizedBox(
+              width: 10,
+              height: 300,
             ),
-            FlatButton(
-                onPressed: () async {
-                  print("aaaaaaaaaaaaaaaaaaa");
-                  _count = await compute<int,int>(countEven,1000000000);
-
-//                  _count = await asyncCountEven(1000000000);
-//                  setState(() {});
-
-//                   asyncCountEven(1000000000).then((value) {
-
-//                   });
-
-                      setState(() {
-
-                     });
-                },
-                child: Text(
-                  _count.toString(),
-                )),
+            Container(
+              width: double.maxFinite,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.deepOrange,
+                borderRadius: BorderRadius.all(Radius.circular(100))
+              ),
+              alignment: Alignment.center,
+              child:
+              TextField(
+                controller: _textEditingController,
+                style: TextStyle(
+                  fontSize: 18,
+                  textBaseline: TextBaseline.alphabetic,
+                ),
+                decoration: InputDecoration(
+                  isDense: true,
+                  contentPadding: EdgeInsets.zero,
+                  hintText: "随便说点什么吧",
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(
+                      textBaseline: TextBaseline.alphabetic,
+                      ),
+                ),
+              ),
+            ),
           ],
-          mainAxisSize: MainAxisSize.min,
         ),
       ),
     );
@@ -83,53 +101,14 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Layer
 //    Positioned.fill(child: null)
 //    Isolate
+//  Image
 
 
-  static Future<int> asyncCountEven(int num) async{
-    int count = 0;
-    while (num > 0) {
-      if (num % 2 == 0) {
-        count++;
-      }
-      num--;
-    }
-    return count;
-  }
+
   _something(){
     print("*****************************************                      in _something");
 
     print("*****************************************                      out _something");
-  }
-//计算偶数的个数
-  static int countEven(int num)  {
-    print("ssssssssssssssssssssssssssssssssssssssssssssssssss");
-    int count = 0;
-    while (num > 0) {
-      if (num % 2 == 0) {
-        count++;
-      }
-      num--;
-    }
-    return count;
-  }
-
-  static Future<dynamic> isolateCountEven(int num) async {
-    final response = ReceivePort();
-    await Isolate.spawn(countEvent2, response.sendPort);
-    final sendPort = await response.first;
-    final answer = ReceivePort();
-    sendPort.send([answer.sendPort, num]);
-    return answer.first;
-  }
-
-  static void countEvent2(SendPort port) {
-    final rPort = ReceivePort();
-    port.send(rPort.sendPort);
-    rPort.listen((message) {
-      final send = message[0] as SendPort;
-      final n = message[1] as int;
-      send.send(countEven(n));
-    });
   }
 
 
@@ -256,7 +235,94 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    ColorFiltered
 //    InkWell
 //    for (int i=0;i<3;i++) ...[ 已经可以用了
+//    RendererBinding.instance.deferFirstFrame() RendererBinding.instance.allowFirstFrame()
 
   }
 }
 
+
+
+class KaNetworkImage extends IoNetImage.NetworkImage {
+
+ int eachDelay;
+
+  KaNetworkImage(String url,{this.eachDelay = 2}) : super(url);
+
+
+  @override
+  ImageStreamCompleter load(NetworkImage key, DecoderCallback decode) {
+    // Ownership of this controller is handed off to [_loadAsync]; it is that
+    // method's responsibility to close the controller's stream when the image
+    // has been loaded or an error is thrown.
+    final StreamController<ImageChunkEvent> chunkEvents = StreamController<ImageChunkEvent>();
+
+    return MultiFrameImageStreamCompleter(
+      codec: _loadAsync(key as NetworkImage, chunkEvents, decode),
+      chunkEvents: chunkEvents.stream,
+      scale: key.scale,
+      informationCollector: () {
+        return <DiagnosticsNode>[
+          DiagnosticsProperty<ImageProvider>('Image provider', this),
+          DiagnosticsProperty<NetworkImage>('Image key', key),
+        ];
+      },
+    );
+  }
+
+  // Do not access this field directly; use [_httpClient] instead.
+  // We set `autoUncompress` to false to ensure that we can trust the value of
+  // the `Content-Length` HTTP header. We automatically uncompress the content
+  // in our call to [consolidateHttpClientResponseBytes].
+  static final HttpClient _sharedHttpClient = HttpClient()..autoUncompress = false;
+
+  static HttpClient get _httpClient {
+    HttpClient client = _sharedHttpClient;
+    assert(() {
+      if (debugNetworkImageHttpClientProvider != null)
+        client = debugNetworkImageHttpClientProvider();
+      return true;
+    }());
+    return client;
+  }
+
+  Future<Codec> _loadAsync(
+      NetworkImage key,
+      StreamController<ImageChunkEvent> chunkEvents,
+      DecoderCallback decode,
+      ) async {
+    try {
+      assert(key == this);
+
+      final Uri resolved = Uri.base.resolve(key.url);
+      final HttpClientRequest request = await _httpClient.getUrl(resolved);
+      headers?.forEach((String name, String value) {
+        request.headers.add(name, value);
+      });
+      final HttpClientResponse response = await request.close();
+      if (response.statusCode != HttpStatus.ok) {
+        // The network may be only temporarily unavailable, or the file will be
+        // added on the server later. Avoid having future calls to resolve
+        // fail to check the network again.
+        PaintingBinding.instance.imageCache.evict(key);
+        throw NetworkImageLoadException(statusCode: response.statusCode, uri: resolved);
+      }
+
+      final Uint8List bytes = await consolidateHttpClientResponseBytes(
+        response,
+        onBytesReceived: (int cumulative, int total) {
+          ImageChunkEvent(
+            cumulativeBytesLoaded: cumulative,
+            expectedTotalBytes: total,
+          );
+        },
+      );
+      if (bytes.lengthInBytes == 0)
+        throw Exception('NetworkImage is an empty file: $resolved');
+
+      return decode(bytes);
+    } finally {
+      chunkEvents.close();
+    }
+  }
+
+}
