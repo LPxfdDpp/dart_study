@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:phone_study/main.dart';
+import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:math' as math;
 import 'package:dio/dio.dart';
@@ -33,62 +35,11 @@ class PrePage extends StatefulWidget {
 }
 
 class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
+  _something(){
+    print("*****************************************                      in _something");
 
-  int _count = 0;
-
-  @override
-  void initState() {
-    super.initState();
+    print("*****************************************                      out _something");
   }
-
-
-  TextEditingController _textEditingController = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-
-    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-
-    return Material(
-      child: Center(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              width: 10,
-              height: 300,
-            ),
-            Container(
-              width: double.maxFinite,
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.deepOrange,
-                borderRadius: BorderRadius.all(Radius.circular(100))
-              ),
-              alignment: Alignment.center,
-              child:
-              TextField(
-                controller: _textEditingController,
-                style: TextStyle(
-                  fontSize: 18,
-                  textBaseline: TextBaseline.alphabetic,
-                ),
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.zero,
-                  hintText: "随便说点什么吧",
-                  border: InputBorder.none,
-                  hintStyle: TextStyle(
-                      textBaseline: TextBaseline.alphabetic,
-                      ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-
 
 //    CustomScrollView
 //    SliverList
@@ -104,22 +55,127 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //  Image
 
 
+  @override
+  void initState() {
+    super.initState();
+  }
 
-  _something(){
-    print("*****************************************                      in _something");
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
 
-    print("*****************************************                      out _something");
+  ValueNotifier<bool> _valueNotifier = ValueNotifier(false);
+ScrollController _scrollController = ScrollController();
+  @override
+  Widget build(BuildContext context) {
+
+
+
+    print("aaaaaaaaaaaaaaa    preprepreprepreprepreprepre");
+
+
+// RenderObject
+
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          ListView(
+            controller: _scrollController,
+            children: [
+              ...List.generate(5, (index) {
+                if(index == 1){
+                  return ChangeNotifierProvider<ValueNotifier<bool>>.value(
+                    value: _valueNotifier,
+                    child: Consumer<ValueNotifier<bool>>(
+                        builder: (context,_,__){
+                          if(_valueNotifier.value){
+                            return Container(
+                              width: 250,
+                              height: MediaQuery.of(context).size.height*2,
+                              // height: MediaQuery.of(context).size.height*2/3+50,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.black
+                                )
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(index.toString()+"---000000000000000000000"),
+                            );
+                          }
+
+                      return GestureDetector(
+                        onTap: (){
+                          _valueNotifier.value = true;
+                        },
+                        child: Container(
+                          width: 250,
+                          height: MediaQuery.of(context).size.height*2/3,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.black
+                              )
+                          ),
+                          child: Text(index.toString()),
+                        ),
+                      );
+
+                    }),
+                  );
+                }
+                  return   GestureDetector(
+                    onTap: (){
+                      if(index == 0){
+                        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa                  _scrollController.position.maxScrollExtent");
+                        print(_scrollController.position.maxScrollExtent);
+
+                        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+                      }
+                    },
+                    child: Container(
+                      width: 250,
+                      height: MediaQuery.of(context).size.height*2/3,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.black
+                          )
+                      ),
+                      child: Text(index.toString()),
+                    ),
+                  );
+              }),
+
+
+            ],
+          ),
+          Positioned(
+            right: 0,
+              top: 0,
+              child: GestureDetector(
+                onTap: (){
+                  print("aaaaaaaaaaaaaaaaaaaaaaaaaa                     _scrollController.offset");
+                  print(_scrollController.offset);
+                },
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  color: Colors.deepOrange,
+                ),
+              ))
+        ],
+      ),
+    );
   }
 
 
 
-
-
-
-
-
-
-
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
 
   ///RenderObjectElement CustomSingleChildLayout
@@ -238,91 +294,8 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    RendererBinding.instance.deferFirstFrame() RendererBinding.instance.allowFirstFrame()
 
   }
+
+
 }
 
 
-
-class KaNetworkImage extends IoNetImage.NetworkImage {
-
- int eachDelay;
-
-  KaNetworkImage(String url,{this.eachDelay = 2}) : super(url);
-
-
-  @override
-  ImageStreamCompleter load(NetworkImage key, DecoderCallback decode) {
-    // Ownership of this controller is handed off to [_loadAsync]; it is that
-    // method's responsibility to close the controller's stream when the image
-    // has been loaded or an error is thrown.
-    final StreamController<ImageChunkEvent> chunkEvents = StreamController<ImageChunkEvent>();
-
-    return MultiFrameImageStreamCompleter(
-      codec: _loadAsync(key as NetworkImage, chunkEvents, decode),
-      chunkEvents: chunkEvents.stream,
-      scale: key.scale,
-      informationCollector: () {
-        return <DiagnosticsNode>[
-          DiagnosticsProperty<ImageProvider>('Image provider', this),
-          DiagnosticsProperty<NetworkImage>('Image key', key),
-        ];
-      },
-    );
-  }
-
-  // Do not access this field directly; use [_httpClient] instead.
-  // We set `autoUncompress` to false to ensure that we can trust the value of
-  // the `Content-Length` HTTP header. We automatically uncompress the content
-  // in our call to [consolidateHttpClientResponseBytes].
-  static final HttpClient _sharedHttpClient = HttpClient()..autoUncompress = false;
-
-  static HttpClient get _httpClient {
-    HttpClient client = _sharedHttpClient;
-    assert(() {
-      if (debugNetworkImageHttpClientProvider != null)
-        client = debugNetworkImageHttpClientProvider();
-      return true;
-    }());
-    return client;
-  }
-
-  Future<Codec> _loadAsync(
-      NetworkImage key,
-      StreamController<ImageChunkEvent> chunkEvents,
-      DecoderCallback decode,
-      ) async {
-    try {
-      assert(key == this);
-
-      final Uri resolved = Uri.base.resolve(key.url);
-      final HttpClientRequest request = await _httpClient.getUrl(resolved);
-      headers?.forEach((String name, String value) {
-        request.headers.add(name, value);
-      });
-      final HttpClientResponse response = await request.close();
-      if (response.statusCode != HttpStatus.ok) {
-        // The network may be only temporarily unavailable, or the file will be
-        // added on the server later. Avoid having future calls to resolve
-        // fail to check the network again.
-        PaintingBinding.instance.imageCache.evict(key);
-        throw NetworkImageLoadException(statusCode: response.statusCode, uri: resolved);
-      }
-
-      final Uint8List bytes = await consolidateHttpClientResponseBytes(
-        response,
-        onBytesReceived: (int cumulative, int total) {
-          ImageChunkEvent(
-            cumulativeBytesLoaded: cumulative,
-            expectedTotalBytes: total,
-          );
-        },
-      );
-      if (bytes.lengthInBytes == 0)
-        throw Exception('NetworkImage is an empty file: $resolved');
-
-      return decode(bytes);
-    } finally {
-      chunkEvents.close();
-    }
-  }
-
-}
