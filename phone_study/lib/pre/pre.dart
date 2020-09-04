@@ -22,7 +22,8 @@ import 'explore.dart';
 
 import 'package:vector_math/vector_math_64.dart' hide Colors;
 
-import 'package:flutter/foundation.dart' show compute, consolidateHttpClientResponseBytes, describeEnum;
+import 'package:flutter/foundation.dart'
+    show compute, consolidateHttpClientResponseBytes, describeEnum;
 
 import 'package:flutter/src/painting/_network_image_io.dart' as IoNetImage;
 
@@ -35,10 +36,12 @@ class PrePage extends StatefulWidget {
 }
 
 class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
-  _something(){
-    print("*****************************************                      in _something");
+  _something() {
+    print(
+        "*****************************************                      in _something");
 
-    print("*****************************************                      out _something");
+    print(
+        "*****************************************                      out _something");
   }
 
 //    CustomScrollView
@@ -54,10 +57,11 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Isolate
 //  Image
 
-
   @override
   void initState() {
     super.initState();
+
+
   }
 
   @override
@@ -65,118 +69,68 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
     super.didChangeDependencies();
   }
 
-  ValueNotifier<bool> _valueNotifier = ValueNotifier(false);
-ScrollController _scrollController = ScrollController();
+  double hidttt = 100;
+
   @override
   Widget build(BuildContext context) {
-
-
-
     print("aaaaaaaaaaaaaaa    preprepreprepreprepreprepre");
 
 
+
+
 // RenderObject
+  return
+
+            Scaffold(
+              body: DraggableScrollableSheet(
+                builder: (BuildContext context, ScrollController scrollController) {
+                  return Container(
+                    color: Colors.blue[100],
+                    child: ListView.builder(
+                      controller: scrollController,
+                      itemCount: 25,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Transform.translate(
+                            offset: Offset(index+0.0, 0),
+                            child: ListTile(title: Text('Item $index')));
+                      },
+                    ));}),
+            );
 
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          ListView(
-            controller: _scrollController,
-            children: [
-              ...List.generate(5, (index) {
-                if(index == 1){
-                  return ChangeNotifierProvider<ValueNotifier<bool>>.value(
-                    value: _valueNotifier,
-                    child: Consumer<ValueNotifier<bool>>(
-                        builder: (context,_,__){
-                          if(_valueNotifier.value){
-                            return Container(
-                              width: 250,
-                              height: MediaQuery.of(context).size.height*2,
-                              // height: MediaQuery.of(context).size.height*2/3+50,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.black
-                                )
-                              ),
-                              alignment: Alignment.center,
-                              child: Text(index.toString()+"---000000000000000000000"),
-                            );
-                          }
-
-                      return GestureDetector(
-                        onTap: (){
-                          _valueNotifier.value = true;
-                        },
-                        child: Container(
-                          width: 250,
-                          height: MediaQuery.of(context).size.height*2/3,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.black
-                              )
-                          ),
-                          child: Text(index.toString()),
-                        ),
-                      );
-
-                    }),
-                  );
-                }
-                  return   GestureDetector(
-                    onTap: (){
-                      if(index == 0){
-                        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa                  _scrollController.position.maxScrollExtent");
-                        print(_scrollController.position.maxScrollExtent);
-
-                        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-                      }
-                    },
-                    child: Container(
-                      width: 250,
-                      height: MediaQuery.of(context).size.height*2/3,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Colors.black
-                          )
-                      ),
-                      child: Text(index.toString()),
-                    ),
-                  );
-              }),
 
 
-            ],
-          ),
-          Positioned(
-            right: 0,
-              top: 0,
-              child: GestureDetector(
-                onTap: (){
-                  print("aaaaaaaaaaaaaaaaaaaaaaaaaa                     _scrollController.offset");
-                  print(_scrollController.offset);
-                },
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  color: Colors.deepOrange,
-                ),
-              ))
-        ],
-      ),
+    return ListView(
+      children: [
+
+        SizedBox(width: 10,height: 10,)
+
+        // GestureDetector(
+        //   onTap: () {
+        //     setState(() {
+        //       hidttt += 150;
+        //     });
+        //   },
+        //   child: ColoredBox(
+        //     color: Colors.lightGreen,
+        //     child: SizedBox(
+        //       width: 200,
+        //       height: hidttt,
+        //     ),
+        //   ),
+        // )
+      ],
     );
+
+
+
+
   }
-
-
 
   @override
   void dispose() {
     super.dispose();
   }
-
 
   ///RenderObjectElement CustomSingleChildLayout
   ///BoxScrollView SliverMultiBoxAdaptorWidget RenderSliverMultiBoxAdaptor SliverMultiBoxAdaptorParentData继续
@@ -285,6 +239,9 @@ ScrollController _scrollController = ScrollController();
 //    Layer 现在有几层
 //    Widget BuildOwner PipelineOwner
 //    RepaintBoundary SingleChildScrollView
+//     ReorderableListView
+//     ValueListenableBuilder
+//     DraggableScrollableSheet
 
     //小玩意
 //    AnimatedSwitcher
@@ -292,10 +249,27 @@ ScrollController _scrollController = ScrollController();
 //    InkWell
 //    for (int i=0;i<3;i++) ...[ 已经可以用了
 //    RendererBinding.instance.deferFirstFrame() RendererBinding.instance.allowFirstFrame()
-
   }
-
-
 }
 
+class AAAA extends StatefulWidget {
+  final double width;
+  final double height;
+
+  const AAAA({Key key, this.width, this.height}) : super(key: key);
+
+  @override
+  _AAAAState createState() => _AAAAState();
+}
+
+class _AAAAState extends State<AAAA> {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: widget.width,
+      height: widget.height,
+      child: ColoredBox(color: Colors.deepPurple,child: SizedBox(width: 11,height: 10,),),
+    );
+  }
+}
 
