@@ -9,26 +9,13 @@ import 'package:dio/dio.dart';
 void main() async {
 
 
-  print(AA<String>() is AA);
-  print(AA() is AA<String>);
-  print(AA<String>() is AA<int>);
-  print(AA<String>() is AA<String>);
-
-
-
-  Dio dio = Dio();
-
-
-  dio.options = dio.options.merge(
-    baseUrl: "https://www.baidu.com",
-  );
-
-  dio.get("/lxmhhy/p/13614097.html").then((value) {
-
-    print(value.data);
-  }).catchError((e){
-    print(e);
-  });
+       List<int> list1 = [1, 2, 3, 4];
+       List<int> list2 = [5, 6, 7, 8, 9];
+       // Copies the 4th and 5th items in list2 as the 2nd and 3rd items
+      // of list1.
+       list1.setRange(1, 3, list2, 3);
+       list1.join(', '); // '1, 8, 9, 4'
+    print(list1);
 
 
 

@@ -57,6 +57,8 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Isolate
 //  Image
 
+  RenderBox a ;
+
   @override
   void initState() {
     super.initState();
