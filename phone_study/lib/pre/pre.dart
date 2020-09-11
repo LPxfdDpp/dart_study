@@ -57,13 +57,11 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Isolate
 //  Image
 
-  RenderBox a ;
+  Layer a ;
 
   @override
   void initState() {
     super.initState();
-
-
   }
 
   @override
@@ -80,23 +78,28 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
 
 
+
+
+
 // RenderObject
   return
 
             Scaffold(
               body: DraggableScrollableSheet(
                 builder: (BuildContext context, ScrollController scrollController) {
-                  return Container(
-                    color: Colors.blue[100],
-                    child: ListView.builder(
-                      controller: scrollController,
-                      itemCount: 25,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Transform.translate(
-                            offset: Offset(index+0.0, 0),
-                            child: ListTile(title: Text('Item $index')));
-                      },
-                    ));}),
+                  return GestureDetector(
+                    child: Container(
+                      color: Colors.blue[100],
+                      child: ListView.builder(
+                        controller: scrollController,
+                        itemCount: 125,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Transform.translate(
+                              offset: Offset(index+0.0, 0),
+                              child: ListTile(title: Text('Item $index')));
+                        },
+                      )),
+                  );}),
             );
 
 
