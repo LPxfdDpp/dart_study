@@ -6,177 +6,123 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 
 
+void smain() async {
 
+  String message = "https://petreasureceshiyong.oss-cn-hongkong.aliyuncs.com/temp/001.mp4";
+
+  print(message.substring(message.length-7));
+}
 void main() async {
 
+  Dio dio = Dio(
+      BaseOptions(receiveTimeout: 20000)
+  );
+
+
+   List<String> working = [];
+   Map<String,Completer<String>> enteringNoFuture = {};
+   Map<String,CancelToken> enteringNoCancelToken = {};
+
+   Future<String> work(dynamic message) async{
+    if(message is String){
+      if(working.length == 6){
+
+        var which = working.elementAt(0);
+
+        enteringNoCancelToken[which].cancel();
+        enteringNoCancelToken.remove(which);
+
+        enteringNoFuture[which].completeError("drop");
+        enteringNoFuture.remove(which);
+
+        working.remove(which);
+      }
+
+      working.add(message);
+      var completer = Completer<String>();
+      var cancelToken = CancelToken();
+      enteringNoFuture[message] = completer;
+      enteringNoCancelToken[message] = cancelToken;
+
+
+
+      dio.download(message, "./"+message.substring(message.length-7),cancelToken:cancelToken).then((value){
+        if(! completer.isCompleted){
+          completer.complete(message);//这里就发视频信息
+          working.remove(message);
+          enteringNoFuture.remove(message);
+          enteringNoCancelToken.remove(message);
+        }
+      }).catchError((e){
+        print("99999999999999999999999999999"+message.substring(message.length-7));
+        print(e.toString());
+
+        if(! completer.isCompleted){
+          enteringNoCancelToken.remove(message);
+
+          enteringNoFuture[message].completeError("error");
+          enteringNoFuture.remove(message);
+
+          working.remove(message);
+        }
+      });
+
+//      Timer(Duration(seconds: Random().nextInt(10)), (){
+//
+//        if(! completer.isCompleted){
+//          completer.complete(message);
+//          working.remove(message);
+//          enteringNoFuture.remove(message);
+//        }
+//      });
+
+      return completer.future;
+    }
+
+    return Future.error("nothing");
+  }
+
+
   String data = "https://petreasureceshiyong.oss-cn-hongkong.aliyuncs.com/temp/00";
-  Worker worker = Worker();
 
 
   List.generate(10, (index) {
 
-    worker.into(data+(index+1).toString()+".mp4").then((value){
-      print("********************");
+    work(data+(index+1).toString()+".mp4").then((value){
+      print("***********************");
       print(value);
     }).catchError((e){
-      print(e);
+      print("=======================");
+      print(e.toString());
     });
 
   });
 
-}
-
-
-
-class Worker {
-
-  ///定时抓取
-  static const Duration timerDuration = Duration(milliseconds: 300);
-  Timer _timer;
-
-  ///确定要定时抓取后的检测器
-  Timer _checkTimer;
-  Duration checkDuration = Duration(milliseconds: 100);
-
-  ///同时最多请求6个
-  ///若已经6个了 新来的直接添加在后面 第一个任务即最早的任务直接丢弃
-  List<String> working = List();
-
-  ///新来的请求加到这里等待定时抓取
-  List<String> entering = List();
-  Map<String,Completer> enteringNoFuture = {};
-
-
-  ///标记抓取的起点
-  String flagUrl;
-
-  ///生成的
-  SendPort sendPort;
-
-  Isolate _isolate;
-  final _isolateReady = Completer<void>();
-
-  Future<void> get isReady => _isolateReady.future;
-
-  Worker(){
-    init();
-  }
-
-  Future<void> init() async{
-    _timer = Timer.periodic(timerDuration, (t){
-      if(entering.length ==0){
-        return;
-      }
-
-      //抓取开始
-      flagUrl = entering[entering.length-1];
-      //抓取是否有用的检测也开始
-      _checkTimer = Timer(checkDuration, (){
-        _checkTimer = null;
-
-        //检测通过此次的抓取有用
-        if(flagUrl != null){
-          //从 flagUrl 开始向前拿3个任务
-          work(flagUrl);
-
-          int indexOfflagUrl = entering.indexOf(flagUrl);
-          if(indexOfflagUrl == 0){
-          }else if(indexOfflagUrl == 1){
-            work(entering.elementAt(0));
-          }else if(indexOfflagUrl == 2){
-            work(entering.elementAt(0));
-            work(entering.elementAt(1));
-          }else{
-            //再前面的任务直接销毁
-            for(int i=indexOfflagUrl-3;i>=0;i--){
-              enteringNoFuture[entering.elementAt(i)].completeError("drop");
-              enteringNoFuture.remove(entering.elementAt(i));
-            }
-            //entering flagUrl之前的清除
-            entering = entering.sublist(indexOfflagUrl+1);
-          }
-        }
-      });
-    });
-
-    ///主线程的
-    final receivePort = ReceivePort();
-    receivePort.listen((_handleMessage));
-
-    _isolate = await Isolate.spawn(_isolateEntry, receivePort.sendPort);
-  }
-  ///主线程在这里干事
-  _handleMessage(dynamic message){
-    if(message is SendPort){
-      sendPort = message;
-      _isolateReady.complete();
-      return;
-    }
-    ///其他消息处理
-
-  }
-
-
-  static void _isolateEntry(dynamic message){
-    ///主线程的
-    SendPort sendPort;
-    ///生成的
-    final receivePort = ReceivePort();
-    receivePort.listen((dynamic message){
-      ///生成的在这里干事
-      
-
-    });
-
-    if(message is SendPort){
-      sendPort = message;
-      sendPort.send(receivePort.sendPort);
-      return;
-    }
-
-  }
-
-  void work(String url) async{
-
-    if(working.length == 6){
-      enteringNoFuture[working.elementAt(0)].completeError("drop");
-      enteringNoFuture.remove(working.elementAt(0));
-      working.removeAt(0);
-    }
-
-    working.add(url);
-    entering.remove(url);
-
-    ///模拟任务
-    Timer(Duration(seconds: Random().nextInt(5)), (){
-      enteringNoFuture[url].complete(100);
-      enteringNoFuture.remove(url);
-    });
-  }
-
-  Future<int> into(String url){
-    if(_checkTimer != null && _checkTimer.isActive){
-      //上次的抓取丢弃
-      flagUrl = null;
-    }
-
-    ///todo 这里会有bug
-    if(entering.contains(url)){
-      return Future.value(-2);
-    }
-
-    entering.add(url);
-    var completer = Completer<int>();
-    enteringNoFuture[url] = completer;
-
-    return completer.future;
-  }
-
-
-
-  void dispose(){
-    _isolate.kill();
-  }
+//  var tt;
+//   tt = Timer.periodic(Duration(seconds: 2), (t){
+//
+//    print("(((((((((((((((((((((((((((((((((((");
+//    print(working.length);
+//    print(enteringNoFuture.length);
+//    if(working.length == 0){
+//
+//      List.generate(10, (index) {
+//
+//        work(data+(index+1).toString()+".mp4").then((value){
+//          print("***********************111");
+//          print(value);
+//        }).catchError((e){
+//          print("=======================222");
+//          print(e.toString());
+//        });
+//
+//      });
+//
+//      tt.cancel();
+//
+//    }
+//  });
 
 
 }
+
