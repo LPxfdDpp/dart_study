@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:phone_study/main.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
@@ -58,10 +59,15 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //  Image
 
   Layer a ;
+  SceneBuilder b ;
+  Widget c ;
 
   @override
   void initState() {
     super.initState();
+
+    sadfasd();
+
   }
 
   @override
@@ -255,26 +261,69 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    for (int i=0;i<3;i++) ...[ 已经可以用了
 //    RendererBinding.instance.deferFirstFrame() RendererBinding.instance.allowFirstFrame()
   }
-}
 
-class AAAA extends StatefulWidget {
-  final double width;
-  final double height;
 
-  const AAAA({Key key, this.width, this.height}) : super(key: key);
 
-  @override
-  _AAAAState createState() => _AAAAState();
-}
 
-class _AAAAState extends State<AAAA> {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.width,
-      height: widget.height,
-      child: ColoredBox(color: Colors.deepPurple,child: SizedBox(width: 11,height: 10,),),
+  sadfasd(){
+
+    Dio _dio = Dio(
+        BaseOptions(
+            responseType : ResponseType.stream
+        )
     );
+
+    String message = "http://petreasureceshiyong.oss-cn-hongkong.aliyuncs.com/temp/001.mp4";
+
+    // print(message.substring(message.lastIndexOf(".")));
+
+    // Dio().get<ResponseBody>(message).then((media){
+
+    List<int> fafa = List<int>();
+    Uint8List fileBytes;
+
+    CancelToken cancelToken = CancelToken();
+    StreamSubscription subscription;
+
+    cancelToken.whenCancel.then((value){
+      subscription.cancel();
+      fafa = null;
+      fileBytes = null;
+    } );
+
+    _dio.request<ResponseBody>(message,cancelToken: cancelToken).then((media){
+      subscription = media.data.stream.listen(
+            (data) => fafa.addAll(data),
+        onDone: () async {
+          print("onDone");
+          fileBytes = Uint8List.fromList(fafa);
+          fafa = null;
+
+          DefaultCacheManager().putFile(message, fileBytes,
+            eTag:message,
+            maxAge:const Duration(days: 30),
+            fileExtension : message.substring(message.lastIndexOf(".")+1),
+          ).then((_){
+
+            print("99999999999999999999999999999    到此将结束");
+
+            DefaultCacheManager().getFileFromCache(message).then((value){
+
+              print(value.originalUrl);
+
+            }); //这里就发视频信息
+
+          });
+        },
+        cancelOnError: true,
+      );
+    });
+
+    // Timer(Duration(seconds: 5), (){
+    //   cancelToken.cancel();
+    // });
+
+
   }
 }
 

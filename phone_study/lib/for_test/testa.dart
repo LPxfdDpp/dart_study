@@ -1,18 +1,73 @@
 import 'dart:async';
-import 'dart:collection';
-import 'dart:isolate';
-import 'dart:math';
+import 'dart:io';
+import 'dart:ui';
+import 'dart:typed_data';
 //import 'package:flutter/foundation.dart' show describeEnum;
 import 'package:dio/dio.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 
-void smain() async {
-
-  String message = "https://petreasureceshiyong.oss-cn-hongkong.aliyuncs.com/temp/001.mp4";
-
-  print(message.substring(message.length-7));
-}
 void main() async {
+
+  Dio _dio = Dio(
+      BaseOptions(
+        responseType : ResponseType.stream
+    )
+  );
+
+  String message = "http://petreasureceshiyong.oss-cn-hongkong.aliyuncs.com/temp/001.mp4";
+
+  // print(message.substring(message.lastIndexOf(".")));
+
+  // Dio().get<ResponseBody>(message).then((media){
+
+  List<int> fafa = List<int>();
+  Uint8List fileBytes;
+
+  CancelToken cancelToken = CancelToken();
+  StreamSubscription subscription;
+
+  cancelToken.whenCancel.then((value){
+    subscription.cancel();
+    fafa = null;
+    fileBytes = null;
+  } );
+
+  _dio.request<ResponseBody>(message,cancelToken: cancelToken).then((media){
+    subscription = media.data.stream.listen(
+          (data) => fafa.addAll(data),
+      onDone: () async {
+        print("onDone");
+        fileBytes = Uint8List.fromList(fafa);
+        fafa = null;
+
+        DefaultCacheManager().putFile(message, fileBytes,
+          eTag:message,
+          maxAge:const Duration(days: 30),
+          fileExtension : message.substring(message.lastIndexOf(".")+1),
+        ).then((_){
+
+            print("99999999999999999999999999999    到此将结束");
+
+            DefaultCacheManager().getFileFromCache(message).then((value){
+
+              print(value.originalUrl);
+
+            }); //这里就发视频信息
+
+        });
+      },
+      cancelOnError: true,
+    );
+  });
+
+  Timer(Duration(seconds: 5), (){
+    cancelToken.cancel();
+  });
+
+
+}
+void amain() async {
 
   Dio dio = Dio(
       BaseOptions(receiveTimeout: 20000)
@@ -46,6 +101,17 @@ void main() async {
 
 
 
+      dio.get<ResponseBody>(message,cancelToken:cancelToken,).then((media){
+        
+        media.data.stream.toList().then((value){
+          
+          
+          
+        });
+        
+      });
+      
+
       dio.download(message, "./"+message.substring(message.length-7),cancelToken:cancelToken).then((value){
         if(! completer.isCompleted){
           completer.complete(message);//这里就发视频信息
@@ -67,15 +133,6 @@ void main() async {
         }
       });
 
-//      Timer(Duration(seconds: Random().nextInt(10)), (){
-//
-//        if(! completer.isCompleted){
-//          completer.complete(message);
-//          working.remove(message);
-//          enteringNoFuture.remove(message);
-//        }
-//      });
-
       return completer.future;
     }
 
@@ -83,6 +140,7 @@ void main() async {
   }
 
 
+  File sa;
   String data = "https://petreasureceshiyong.oss-cn-hongkong.aliyuncs.com/temp/00";
 
 

@@ -37,6 +37,7 @@ dependencies:
   http: 0.12.2
   dio: 3.0.9
 #  isolate: 2.0.3
+  flutter_cache_manager: 1.4.1
 
 # 作为学习参考 开始
 #  waterfall_flow: 2.0.2

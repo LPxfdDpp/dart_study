@@ -135,7 +135,7 @@ void handlePointerDataPacket(ui.PointerDataPacket packet) {
     }
   }
 }
-void main() => runApp(new Phone_study());
+void main() => runApp(Phone_study());
 // void main(){
 //
 //   color = const ui.Color(0xFF00FF00);
