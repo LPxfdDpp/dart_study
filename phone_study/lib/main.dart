@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'basic_use_of_flutter/route/ownNavigatorObserver.dart';
 import 'basic_use_of_flutter/route/ownRouteGenerator.dart';
 import 'dart:typed_data';
@@ -45,30 +46,8 @@ ui.Picture paint(ui.Rect paintBounds) {
   var picture = recorder.endRecording();
 
 
-  // var image = picture.toImage(1440, 2560);
-  // image.then((thisImage) {
-  //
-  //   thisImage.toByteData().then((toByteData) {
-  //     File file = File("/hhhheeehhheeello.jpg");
-  //
-  //     // toByteData.
-  //     List<int> bytes = [];
-  //     for(int i=0;i<toByteData.lengthInBytes;i++){
-  //       bytes[i] = toByteData.getInt64(byteOffset)
-  //     }
-  //
-  //     file.writeAsBytes(toByteData);
-  //     file.
-  //   });
-  //
-  // });
-  //
-  //
-  //
-  // if(file.){
-  //
-  // }
-  
+
+
   return picture;
   
   
@@ -103,15 +82,41 @@ ui.Scene composite(ui.Picture picture, ui.Rect paintBounds) {
   return sceneBuilder.build();
 }
 
+///beginFrame sky engin的实现方法
+// void beginFrame(Duration timeStamp) {
+//   final ui.Rect paintBounds = ui.Offset.zero & (ui.window.physicalSize / ui.window.devicePixelRatio);
+//   // First, record a picture with our painting commands.
+//   final ui.Picture picture = paint(paintBounds);
+//   // Second, include that picture in a scene graph.
+//   final ui.Scene scene = composite(picture, paintBounds);
+//   // Third, instruct the engine to render that scene graph.
+//   ui.window.render(scene);
+// }
+
+///beginFrame 这个方式更接近flutter框架的实现
 void beginFrame(Duration timeStamp) {
-  final ui.Rect paintBounds = ui.Offset.zero & (ui.window.physicalSize / ui.window.devicePixelRatio);
-  // First, record a picture with our painting commands.
-  final ui.Picture picture = paint(paintBounds);
-  // Second, include that picture in a scene graph.
-  final ui.Scene scene = composite(picture, paintBounds);
-  // Third, instruct the engine to render that scene graph.
-  ui.window.render(scene);
+  final double devicePixelRatio = ui.window.devicePixelRatio;
+  ///创建一个画板
+  final ui.PictureRecorder recorder = ui.PictureRecorder();
+  ///基于画板创建一个 Canvas
+  final ui.Canvas canvas = ui.Canvas(recorder);
+  canvas.scale(devicePixelRatio, devicePixelRatio);
+  var centerX = ui.window.physicalSize.width / 2.0;
+  var centerY = ui.window.physicalSize.height / 2.0;
+  ///画一个 100 的剧中蓝色
+  canvas.drawRect(Rect.fromCenter(center: Offset.zero, width: 100, height: 100),
+      new Paint()..color = color);
+  final ui.SceneBuilder sceneBuilder = ui.SceneBuilder();
+  OffsetLayer rootLayer = new OffsetLayer();
+  OffsetLayer offsetLayer = new OffsetLayer(offset: Offset(centerX, centerY));
+  rootLayer.append(offsetLayer);
+  PictureLayer pictureLayer = new PictureLayer(Rect.zero);
+  pictureLayer.picture = recorder.endRecording();
+  offsetLayer.append(pictureLayer);
+  rootLayer.addToScene(sceneBuilder);
+  ui.window.render(sceneBuilder.build());
 }
+
 
 void handlePointerDataPacket(ui.PointerDataPacket packet) {
   // The pointer packet contains a number of pointer movements, which we iterate
@@ -135,71 +140,39 @@ void handlePointerDataPacket(ui.PointerDataPacket packet) {
     }
   }
 }
-void main() => runApp(Phone_study());
-// void main(){
-//
-//   color = const ui.Color(0xFF00FF00);
-//   // The engine calls onBeginFrame whenever it wants us to produce a frame.
-//   ui.window.onBeginFrame = beginFrame;
-//   // The engine calls onPointerDataPacket whenever it had updated information
-//   // about the pointers directed at our app.
-//   ui.window.onPointerDataPacket = handlePointerDataPacket;
-//   // Here we kick off the whole process by asking the engine to schedule a new
-//   // frame. The engine will eventually call onBeginFrame when it is time for us
-//   // to actually produce the frame.
-//   ui.window.scheduleFrame();
-//
-//
-// }
 
-class AAAA extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body:
+///启动入口 001
+void main1(){
 
-        GestureDetector(
-          onTap: (){
-            print("000000000000000");
+  color = const ui.Color(0xFF00FF00);
+  // The engine calls onBeginFrame whenever it wants us to produce a frame.
+  ui.window.onBeginFrame = beginFrame;
+  // The engine calls onPointerDataPacket whenever it had updated information
+  // about the pointers directed at our app.
+  ui.window.onPointerDataPacket = handlePointerDataPacket;
+  // Here we kick off the whole process by asking the engine to schedule a new
+  // frame. The engine will eventually call onBeginFrame when it is time for us
+  // to actually produce the frame.
+  ui.window.scheduleFrame();
 
-            // debugDumpRenderTree();
-            debugDumpLayerTree();
-          },
-          child:
-          ColoredBox(
-            color: Colors.lightGreen,
-            child: SizedBox(
-              width: 150,
-              height: 150,
-              //   child: RepaintBoundary(
-              //     child: Container(
-              //       width: 50,
-              //       height: 50,
-              //       color: Colors.deepPurple,
-              //       child: ColoredBox(color: Colors.black,
-              //       child: SizedBox(
-              //         width: 100,
-              //         height: 100,
-              //       ),
-              //       ),
-              //     ),
-              //   ),
-            ),
-          ),
-
-
-
-        ),
-
-
-
-      ),
-    );
-  }
 }
 
 
+
+
+
+///启动入口 000
+void main(){
+  ///没啥效果
+  // debugDisablePhysicalShapeLayers = true;
+
+  debugPaintLayerBordersEnabled = true;
+  debugRepaintRainbowEnabled = true;
+
+  debugPaintPointersEnabled = true;
+
+  runApp(Phone_study());
+}
 class Phone_study extends StatelessWidget {
 
 
