@@ -1,32 +1,10 @@
 import 'dart:async';
-import 'dart:collection';
-import 'dart:developer';
-import 'dart:io';
-import 'dart:isolate';
-import 'dart:typed_data';
 import 'dart:ui';
-import 'package:event_bus/event_bus.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:phone_study/main.dart';
-import 'package:provider/provider.dart';
-import 'package:rxdart/rxdart.dart';
-import 'dart:math' as math;
-import 'package:dio/dio.dart';
 
-import 'explore.dart';
-
-import 'package:vector_math/vector_math_64.dart' hide Colors;
-
-import 'package:flutter/foundation.dart'
-    show compute, consolidateHttpClientResponseBytes, describeEnum;
-
-import 'package:flutter/src/painting/_network_image_io.dart' as IoNetImage;
 
 /**
  * 学习用
@@ -77,13 +55,15 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
   double hidttt = 100;
 
+  StreamController _streamController = StreamController();
+
   @override
   Widget build(BuildContext context) {
     print("aaaaaaaaaaaaaaa    preprepreprepreprepreprepre");
 
 
 
-
+当前控件 脏状态 mount
 
 
 
@@ -91,21 +71,31 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
   return
 
             Scaffold(
-              body: DraggableScrollableSheet(
-                builder: (BuildContext context, ScrollController scrollController) {
-                  return GestureDetector(
-                    child: Container(
-                      color: Colors.blue[100],
-                      child: ListView.builder(
-                        controller: scrollController,
-                        itemCount: 125,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Transform.translate(
-                              offset: Offset(index+0.0, 0),
-                              child: ListTile(title: Text('Item $index')));
-                        },
-                      )),
-                  );}),
+              body: StreamBuilder(
+                  stream: _streamController.stream,
+                  builder:(context,da){
+                    print("ppppppppppppp");
+                    print(da.data);  build ?
+
+                    if(da.data == null){
+                      return Container(
+                        width: 100,
+                        height: 100,
+                        child: Center(
+                          child: Text("no data"),
+                        ),
+                      );
+                    }
+
+                    return Container(
+                      width: 100,
+                      height: 100,
+                      child: Center(
+                        child: Text(da.data),
+                      ),
+                    );
+
+              }),
             );
 
 
@@ -267,62 +257,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
   sadfasd(){
 
-    Dio _dio = Dio(
-        BaseOptions(
-            responseType : ResponseType.stream
-        )
-    );
-
-    String message = "http://petreasureceshiyong.oss-cn-hongkong.aliyuncs.com/temp/001.mp4";
-
-    // print(message.substring(message.lastIndexOf(".")));
-
-    // Dio().get<ResponseBody>(message).then((media){
-
-    List<int> fafa = List<int>();
-    Uint8List fileBytes;
-
-    CancelToken cancelToken = CancelToken();
-    StreamSubscription subscription;
-
-    cancelToken.whenCancel.then((value){
-      subscription.cancel();
-      fafa = null;
-      fileBytes = null;
-    } );
-
-    _dio.request<ResponseBody>(message,cancelToken: cancelToken).then((media){
-      subscription = media.data.stream.listen(
-            (data) => fafa.addAll(data),
-        onDone: () async {
-          print("onDone");
-          fileBytes = Uint8List.fromList(fafa);
-          fafa = null;
-
-          DefaultCacheManager().putFile(message, fileBytes,
-            eTag:message,
-            maxAge:const Duration(days: 30),
-            fileExtension : message.substring(message.lastIndexOf(".")+1),
-          ).then((_){
-
-            print("99999999999999999999999999999    到此将结束");
-
-            DefaultCacheManager().getFileFromCache(message).then((value){
-
-              print(value.originalUrl);
-
-            }); //这里就发视频信息
-
-          });
-        },
-        cancelOnError: true,
-      );
-    });
-
-    // Timer(Duration(seconds: 5), (){
-    //   cancelToken.cancel();
-    // });
-
+      _streamController.add("event in");
 
   }
 }
