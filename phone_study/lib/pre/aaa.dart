@@ -69,13 +69,18 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage>
                   opacity = 1 - (wei/_width)*0.7;
                 }else if(wei <0 ){
                   wei = -wei;
-                  if(wei <= _width/2){
-                    scale  = 0.8 + ((_width/2-wei)/(_width/2))*0.2;
-                    opacity = 0.3 + ((_width/2-wei)/(_width/2))*0.7;
-                  }else if(wei > _width/2){
-                    scale = 0.8;
-                    opacity = 0.3;
-                  }
+                  scale  = 0.8 + (1-wei/_width)*0.2;
+                  opacity = 0.3 + (1-wei/_width)*0.7;
+
+                  ///其他效果
+//                  wei = -wei;
+//                  if(wei <= _width/2){
+//                    scale  = 0.8 + ((_width/2-wei)/(_width/2))*0.2;
+//                    opacity = 0.3 + ((_width/2-wei)/(_width/2))*0.7;
+//                  }else if(wei > _width/2){
+//                    scale = 0.8;
+//                    opacity = 0.3;
+//                  }
                 }
               }
 
@@ -91,11 +96,11 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage>
 
 
               return Opacity(
-//              opacity: opacity,
-                opacity: 1,
+              opacity: opacity,
+//                opacity: 1,
                 child: Transform.scale(
-//                scale: scale,
-                  scale: 1,
+                scale: scale,
+//                  scale: 1,
                   child: child,
                 ),
               );
