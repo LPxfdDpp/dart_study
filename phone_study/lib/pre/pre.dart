@@ -63,7 +63,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
 
 
-当前控件 脏状态 mount
+//当前控件 脏状态 mount
 
 
 
@@ -75,7 +75,8 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
                   stream: _streamController.stream,
                   builder:(context,da){
                     print("ppppppppppppp");
-                    print(da.data);  build ?
+                    print(da.data);
+//                    build ?
 
                     if(da.data == null){
                       return Container(

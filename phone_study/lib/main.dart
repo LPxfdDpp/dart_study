@@ -166,10 +166,10 @@ void main(){
   ///没啥效果
   // debugDisablePhysicalShapeLayers = true;
 
-  debugPaintLayerBordersEnabled = true;
-  debugRepaintRainbowEnabled = true;
+//  debugPaintLayerBordersEnabled = true;
+//  debugRepaintRainbowEnabled = true;
 
-  debugPaintPointersEnabled = true;
+//  debugPaintPointersEnabled = true;
 
   runApp(Phone_study());
 }
