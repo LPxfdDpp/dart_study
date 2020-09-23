@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:phone_study/pre/pre.dart';
 import 'basic_use_of_flutter/route/ownNavigatorObserver.dart';
 import 'basic_use_of_flutter/route/ownRouteGenerator.dart';
 import 'dart:typed_data';
@@ -11,8 +12,6 @@ import 'dart:ui' as ui;
 //需要监听的Widget中 需要 extends State<xxx> with RouteAware {
 // final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 final RouteObserver<Route> routeObserver = RouteObserver<Route>();
-
-
 
 ui.Color color;
 
@@ -42,16 +41,9 @@ ui.Picture paint(ui.Rect paintBounds) {
   // can draw a Picture into another canvas or include it as part of a
   // composited scene.
 
-
   var picture = recorder.endRecording();
 
-
-
-
   return picture;
-  
-  
-  
 }
 
 ui.Scene composite(ui.Picture picture, ui.Rect paintBounds) {
@@ -96,13 +88,16 @@ ui.Scene composite(ui.Picture picture, ui.Rect paintBounds) {
 ///beginFrame 这个方式更接近flutter框架的实现
 void beginFrame(Duration timeStamp) {
   final double devicePixelRatio = ui.window.devicePixelRatio;
+
   ///创建一个画板
   final ui.PictureRecorder recorder = ui.PictureRecorder();
+
   ///基于画板创建一个 Canvas
   final ui.Canvas canvas = ui.Canvas(recorder);
   canvas.scale(devicePixelRatio, devicePixelRatio);
   var centerX = ui.window.physicalSize.width / 2.0;
   var centerY = ui.window.physicalSize.height / 2.0;
+
   ///画一个 100 的剧中蓝色
   canvas.drawRect(Rect.fromCenter(center: Offset.zero, width: 100, height: 100),
       new Paint()..color = color);
@@ -116,7 +111,6 @@ void beginFrame(Duration timeStamp) {
   rootLayer.addToScene(sceneBuilder);
   ui.window.render(sceneBuilder.build());
 }
-
 
 void handlePointerDataPacket(ui.PointerDataPacket packet) {
   // The pointer packet contains a number of pointer movements, which we iterate
@@ -142,8 +136,7 @@ void handlePointerDataPacket(ui.PointerDataPacket packet) {
 }
 
 ///启动入口 001
-void main1(){
-
+void main1() {
   color = const ui.Color(0xFF00FF00);
   // The engine calls onBeginFrame whenever it wants us to produce a frame.
   ui.window.onBeginFrame = beginFrame;
@@ -154,15 +147,15 @@ void main1(){
   // frame. The engine will eventually call onBeginFrame when it is time for us
   // to actually produce the frame.
   ui.window.scheduleFrame();
-
 }
 
-
-
-
+///启动入口 002
+void main() {
+  runApp(SizedBox(child: ColoredBox(color: Colors.deepPurple)));
+}
 
 ///启动入口 000
-void main(){
+void main0() {
   ///没啥效果
   // debugDisablePhysicalShapeLayers = true;
 
@@ -173,44 +166,18 @@ void main(){
 
   runApp(Phone_study());
 }
+
 class Phone_study extends StatelessWidget {
-
-
-
   @override
   Widget build(BuildContext context) {
-
-
-
-    return
-
-
-
-
-
-
-
-      MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
       initialRoute: '/',
       onGenerateRoute: OwnRouteGenerator.generateRoute,
-      navigatorObservers: [
-        OwnNavigatorObserver(),
-        routeObserver
-      ],
+      navigatorObservers: [OwnNavigatorObserver(), routeObserver],
     );
-
-
-
-
   }
-
-
-
-
-
-
 }

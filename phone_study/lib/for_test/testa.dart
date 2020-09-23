@@ -1,16 +1,16 @@
 
+import 'dart:async';
+
+void main() {
 
 
-void main() async {
+
+  var aa = 120;
+
+  aa.clamp(100, 110);
+
+  print(aa.clamp(100, 110));
 
 
-
-  List<int> pppp = [1,2,5,7,4,3,8,4];
-  pppp.sort((a,b)=>b-a);
-  // pppp.sort((a,b)=>a-b);
-  print(pppp);
-
-
+  // Timer(Duration(days: 1), () {});
 }
-
-

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-class PlaylistDetailPage extends StatefulWidget {
-
+class PageViewPagingAni001 extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _PlaylistDetailPageState();
+  _PageViewPagingAni001State createState() => _PageViewPagingAni001State();
 }
 
-class _PlaylistDetailPageState extends State<PlaylistDetailPage>
+class _PageViewPagingAni001State extends State<PageViewPagingAni001>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
@@ -24,18 +23,15 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage>
     super.dispose();
   }
 
-  // TransformerPageController pageController;
   PageController pageController;
   AnimationController _animationController;
 
-  int _currentAlbum;
   int _initialPage = 0;
   double _width;
-  
+
   @override
   Widget build(BuildContext context) {
     if(_width == null){
-      _currentAlbum =_initialPage;
       _width = MediaQuery.of(context).size.width;
       _animationController = AnimationController(value: 0.0,vsync: this,lowerBound: 0.0,upperBound: 9*_width);
     }
@@ -43,10 +39,9 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage>
     return PageView.builder(
       itemCount: 9,
       controller: pageController,
-      onPageChanged: (page){
-        _currentAlbum = page;
-      },
       itemBuilder: (context, index) {
+      print("PageView.builder PageView.builder itemBuilder "+index.toString());
+
 
         return RepaintBoundary(
           child: AnimatedBuilder(
@@ -59,7 +54,7 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage>
               double currentValue = _animationController.value;
               if(
               currentValue - thisOne >= _width
-              ||
+                  ||
                   currentValue+_width <= thisOne
               ){
               }else{
@@ -84,22 +79,11 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage>
                 }
               }
 
-
-//            double distance = (_animationController.value - zhongZou);
-
-//            if(distance >= _width/2){
-//              scale = 0.8;
-//            }else if(distance ){
-//
-//            }
-
-
-
               return Opacity(
-              opacity: opacity,
+                opacity: opacity,
 //                opacity: 1,
                 child: Transform.scale(
-                scale: scale,
+                  scale: scale,
 //                  scale: 1,
                   child: child,
                 ),
@@ -129,6 +113,7 @@ class _SSDState extends State<SSD> {
 
   @override
   void dispose() {
+    print("SSDSSDSSDSSD  dispose "+widget.index.toString());
     super.dispose();
   }
 
