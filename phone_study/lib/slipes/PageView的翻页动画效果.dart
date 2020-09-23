@@ -26,14 +26,15 @@ class _PageViewPagingAni001State extends State<PageViewPagingAni001>
   PageController pageController;
   AnimationController _animationController;
 
-  int _initialPage = 0;
+  // int _initialPage = 0;
+  int _initialPage = 2;
   double _width;
 
   @override
   Widget build(BuildContext context) {
     if(_width == null){
       _width = MediaQuery.of(context).size.width;
-      _animationController = AnimationController(value: 0.0,vsync: this,lowerBound: 0.0,upperBound: 9*_width);
+      _animationController = AnimationController(value: _width*_initialPage,vsync: this,lowerBound: 0.0,upperBound: 9*_width);
     }
 
     return PageView.builder(
