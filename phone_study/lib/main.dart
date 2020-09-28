@@ -151,7 +151,7 @@ void main1() {
 
 ///启动入口 002
 void main2() {
-  runApp(SizedBox(child: ColoredBox(color: Colors.deepPurple)));
+  runApp(SizedBox(child: ColoredBox(color: Colors.deepOrangeAccent)));
 }
 
 ///启动入口 000

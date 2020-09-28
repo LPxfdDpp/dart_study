@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:characters/characters.dart';
+// import 'package:characters/characters.dart';
 
 /**
  * 学习用
@@ -34,19 +34,25 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Layer
 //    Positioned.fill(child: null)
 //    Isolate
- Image aa;
+  Image aa;
   LayoutBuilder asssa;
 
   Layer a ;
   SceneBuilder b ;
   Widget c ;
 
+  MaterialPointArcTween plpl = MaterialPointArcTween(begin: Offset(0, 0),end: Offset(100, 50));
+  AnimationController _animationController;
+
+  Animation<Offset> drive;
+
+  Row ssss;
+  SliverList df;
+
+
   @override
   void initState() {
     super.initState();
-
-    sadfasd();
-
   }
 
   @override
@@ -56,67 +62,25 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
   double hidttt = 100;
 
-  StreamController _streamController = StreamController();
+  StreamController _streamController;
   TextEditingController dddd = TextEditingController();
   @override
   Widget build(BuildContext context) {
     print("aaaaaaaaaaaaaaa    preprepreprepreprepreprepre");
 
-
-
-//当前控件 脏状态 mount
-
-
-
 // RenderObject
   return
-
             Scaffold(
-              body: Center(
-                child: TextField(
-                  controller: dddd,
-                  onChanged: (v){
-                    print("--1");
-                    print(v.length);
-                    print("--2");
-                    print(v.runes.length);
-                    print("--3");
-                    print(v.characters.length);
-                    print(v);
-
-
-                  },
-                ),
+              body: TextField(
+                controller: dddd,
+                onChanged: (v){
+                  print("--1");
+                  print(dddd.text.characters.length);
+                  print("--2");
+                  print(v.characters.length);
+                },
               ),
             );
-
-
-
-
-    return ListView(
-      children: [
-
-        SizedBox(width: 10,height: 10,)
-
-        // GestureDetector(
-        //   onTap: () {
-        //     setState(() {
-        //       hidttt += 150;
-        //     });
-        //   },
-        //   child: ColoredBox(
-        //     color: Colors.lightGreen,
-        //     child: SizedBox(
-        //       width: 200,
-        //       height: hidttt,
-        //     ),
-        //   ),
-        // )
-      ],
-    );
-
-
-
 
   }
 
@@ -245,12 +209,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
   }
 
 
-
-
-  sadfasd(){
-
-      _streamController.add("event in");
-
-  }
 }
+
+
 
