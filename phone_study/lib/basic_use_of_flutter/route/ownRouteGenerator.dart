@@ -13,7 +13,6 @@ import 'package:phone_study/basic_use_of_flutter/own_render_object/own_render_ob
 import 'package:phone_study/basic_use_of_flutter/own_tween/own_tween_01.dart';
 import 'package:phone_study/basic_use_of_flutter/route/page_route_builder.dart';
 import 'package:phone_study/own_popup/own_popup.dart';
-import 'package:phone_study/pre/aaa.dart';
 import 'package:phone_study/pre/explore.dart';
 import 'package:phone_study/pre/pre.dart';
 import 'package:phone_study/seek/context_owner_build_scope_01.dart';
@@ -47,8 +46,7 @@ class OwnRouteGenerator {
 //         show =  WhenToUseKeysPage();
 //         show =  Sample();
         ///测试用
-//         show =   PrePage();
-         show =   PlaylistDetailPage();
+        show =   PrePage();
 
 
         /// Explore

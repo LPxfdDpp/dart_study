@@ -150,12 +150,12 @@ void main1() {
 }
 
 ///启动入口 002
-void main() {
+void main2() {
   runApp(SizedBox(child: ColoredBox(color: Colors.deepPurple)));
 }
 
 ///启动入口 000
-void main0() {
+void main() {
   ///没啥效果
   // debugDisablePhysicalShapeLayers = true;
 

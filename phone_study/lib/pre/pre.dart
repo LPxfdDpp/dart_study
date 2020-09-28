@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-
+import 'package:characters/characters.dart';
 
 /**
  * 学习用
@@ -34,7 +34,8 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Layer
 //    Positioned.fill(child: null)
 //    Isolate
-//  Image
+ Image aa;
+  LayoutBuilder asssa;
 
   Layer a ;
   SceneBuilder b ;
@@ -56,7 +57,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
   double hidttt = 100;
 
   StreamController _streamController = StreamController();
-
+  TextEditingController dddd = TextEditingController();
   @override
   Widget build(BuildContext context) {
     print("aaaaaaaaaaaaaaa    preprepreprepreprepreprepre");
@@ -71,32 +72,22 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
   return
 
             Scaffold(
-              body: StreamBuilder(
-                  stream: _streamController.stream,
-                  builder:(context,da){
-                    print("ppppppppppppp");
-                    print(da.data);
-//                    build ?
+              body: Center(
+                child: TextField(
+                  controller: dddd,
+                  onChanged: (v){
+                    print("--1");
+                    print(v.length);
+                    print("--2");
+                    print(v.runes.length);
+                    print("--3");
+                    print(v.characters.length);
+                    print(v);
 
-                    if(da.data == null){
-                      return Container(
-                        width: 100,
-                        height: 100,
-                        child: Center(
-                          child: Text("no data"),
-                        ),
-                      );
-                    }
 
-                    return Container(
-                      width: 100,
-                      height: 100,
-                      child: Center(
-                        child: Text(da.data),
-                      ),
-                    );
-
-              }),
+                  },
+                ),
+              ),
             );
 
 
