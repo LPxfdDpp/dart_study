@@ -137,6 +137,7 @@ void handlePointerDataPacket(ui.PointerDataPacket packet) {
 
 ///启动入口 001
 void main1() {
+// void main() {
   color = const ui.Color(0xFF00FF00);
   // The engine calls onBeginFrame whenever it wants us to produce a frame.
   ui.window.onBeginFrame = beginFrame;
@@ -150,19 +151,39 @@ void main1() {
 }
 
 ///启动入口 002
-void main2() {
-  runApp(SizedBox(child: ColoredBox(color: Colors.deepOrangeAccent)));
+// void main2() {
+void main() {
+  runApp(Main2TestPage());
+}
+class Main2TestPage extends StatefulWidget {
+  @override
+  _Main2TestPageState createState() => _Main2TestPageState();
+}
+class _Main2TestPageState extends State<Main2TestPage> {
+  Color color = Colors.lightGreen;
+  @override
+  Widget build(BuildContext context) {
+    if(color == Colors.lightGreen){
+      color = Colors.deepOrangeAccent;
+    }else {
+      color = Colors.lightGreen;
+    }
+    return SizedBox(child: ColoredBox(color: color));
+  }
 }
 
+
+
 ///启动入口 000
-void main() {
+void main0() {
+// void main() {
   ///没啥效果
   // debugDisablePhysicalShapeLayers = true;
 
 //  debugPaintLayerBordersEnabled = true;
 //  debugRepaintRainbowEnabled = true;
 
-//  debugPaintPointersEnabled = true;
+ debugPaintPointersEnabled = true;
 
   runApp(Phone_study());
 }

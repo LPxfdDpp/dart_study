@@ -40,7 +40,7 @@ dependencies:
   #自带的string.length 和 string.runes.length 完全没用
   #😀 👨‍👩‍👧‍👦 (笑脸 一家4口) 这两个颜文字占的长度不一样可以拿去测试
   #flutter 自带了
-  characters: 1.0.0
+  characters: 1.1.0-nullsafety.3
 #  isolate: 2.0.3
   flutter_cache_manager: 1.4.1
 

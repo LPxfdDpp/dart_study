@@ -4,9 +4,6 @@ void main() {
 
 
 
-  null as int;
-
-
 
 
 
@@ -15,5 +12,3 @@ void main() {
 
   // Timer(Duration(days: 1), () {});
 }
-
-

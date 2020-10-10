@@ -64,6 +64,8 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
   StreamController _streamController;
   TextEditingController dddd = TextEditingController();
+  RenderObject ppp12 ;
+
   @override
   Widget build(BuildContext context) {
     print("aaaaaaaaaaaaaaa    preprepreprepreprepreprepre");
@@ -71,15 +73,24 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 // RenderObject
   return
             Scaffold(
-              body: TextField(
-                controller: dddd,
-                onChanged: (v){
-                  print("--1");
-                  print(dddd.text.characters.length);
-                  print("--2");
-                  print(v.characters.length);
-                },
-              ),
+              body: PageView.builder(itemBuilder: (ctx,index){
+                print("PPPPPPPPPPPPPPPPPPageView.builder(itemBuilder "+index.toString());
+
+
+                return Center(
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.deepOrangeAccent,
+                      border: Border.all(
+                        color: Colors.deepPurple
+                      )
+                    ),
+                  ),
+                );
+
+              },itemCount: 100,),
             );
 
   }
