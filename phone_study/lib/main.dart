@@ -89,25 +89,29 @@ ui.Scene composite(ui.Picture picture, ui.Rect paintBounds) {
 void beginFrame(Duration timeStamp) {
   final double devicePixelRatio = ui.window.devicePixelRatio;
 
-  ///创建一个画板
+  ///以下皆与 画的准备和画(动词) 有关 flag:开始
+  //创建一个画板
   final ui.PictureRecorder recorder = ui.PictureRecorder();
-
-  ///基于画板创建一个 Canvas
+  //基于画板创建一个 Canvas
   final ui.Canvas canvas = ui.Canvas(recorder);
   canvas.scale(devicePixelRatio, devicePixelRatio);
   var centerX = ui.window.physicalSize.width / 2.0;
   var centerY = ui.window.physicalSize.height / 2.0;
-
-  ///画一个 100 的剧中蓝色
+  //画一个 100 的剧中蓝色
   canvas.drawRect(Rect.fromCenter(center: Offset.zero, width: 100, height: 100),
       new Paint()..color = color);
-  final ui.SceneBuilder sceneBuilder = ui.SceneBuilder();
-  OffsetLayer rootLayer = new OffsetLayer();
-  OffsetLayer offsetLayer = new OffsetLayer(offset: Offset(centerX, centerY));
-  rootLayer.append(offsetLayer);
-  PictureLayer pictureLayer = new PictureLayer(Rect.zero);
+  PictureLayer pictureLayer = PictureLayer(Rect.zero);
   pictureLayer.picture = recorder.endRecording();
+  ///以下皆与 画的准备和画(动词) 有关 flag:结束
+
+  final ui.SceneBuilder sceneBuilder = ui.SceneBuilder();
+  OffsetLayer rootLayer = OffsetLayer();
+
+  OffsetLayer offsetLayer = OffsetLayer(offset: Offset(centerX, centerY));
+  rootLayer.append(offsetLayer);
+
   offsetLayer.append(pictureLayer);
+
   rootLayer.addToScene(sceneBuilder);
   ui.window.render(sceneBuilder.build());
 }
@@ -151,32 +155,77 @@ void main1() {
 }
 
 ///启动入口 002
-// void main2() {
-void main() {
-  runApp(Main2TestPage());
+void main2() {
+// void main() {
+  runApp(Directionality(
+    textDirection:TextDirection.ltr,
+    child: ListView(
+      children: [
+        ColoredBox(
+          color: Colors.lightGreen,
+          child: SizedBox(
+            width: double.infinity,
+            height: 300,
+          ),
+        ),
+        ColoredBox(
+          color: Colors.deepPurple,
+          child: SizedBox(
+            width: double.infinity,
+            height: 300,
+          ),
+        ),
+        ColoredBox(
+          color: Colors.deepOrange,
+          child: SizedBox(
+            width: double.infinity,
+            height: 300,
+          ),
+        ),
+        ColoredBox(
+          color: Colors.blueGrey,
+          child: SizedBox(
+            width: double.infinity,
+            height: 300,
+          ),
+        ),
+      ],
+    ),
+  ));
 }
 class Main2TestPage extends StatefulWidget {
   @override
   _Main2TestPageState createState() => _Main2TestPageState();
 }
 class _Main2TestPageState extends State<Main2TestPage> {
-  Color color = Colors.lightGreen;
   @override
   Widget build(BuildContext context) {
-    if(color == Colors.lightGreen){
-      color = Colors.deepOrangeAccent;
-    }else {
-      color = Colors.lightGreen;
-    }
-    return SizedBox(child: ColoredBox(color: color));
+    return ListView(
+      children: [
+        ColoredBox(
+          color: Colors.lightGreen,
+          child: SizedBox(
+            width: double.infinity,
+            height: 150,
+          ),
+        ),
+        ColoredBox(
+          color: Colors.deepPurple,
+          child: SizedBox(
+            width: double.infinity,
+            height: 150,
+          ),
+        ),
+      ],
+    );
   }
 }
 
 
 
 ///启动入口 000
-void main0() {
-// void main() {
+// void main0() {
+void main() {
   ///没啥效果
   // debugDisablePhysicalShapeLayers = true;
 

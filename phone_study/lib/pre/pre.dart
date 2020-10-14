@@ -65,7 +65,9 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
   StreamController _streamController;
   TextEditingController dddd = TextEditingController();
   RenderObject ppp12 ;
-
+  GlobalKey _a = GlobalKey();
+  GlobalKey _b = GlobalKey();
+  GlobalKey _c = GlobalKey();
   @override
   Widget build(BuildContext context) {
     print("aaaaaaaaaaaaaaa    preprepreprepreprepreprepre");
@@ -73,26 +75,20 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 // RenderObject
   return
             Scaffold(
-              body: PageView.builder(itemBuilder: (ctx,index){
-                print("PPPPPPPPPPPPPPPPPPageView.builder(itemBuilder "+index.toString());
+              appBar:AppBar(
+                title: Text("hello"),
+              ),
+              body: Opacity(
 
-
-                return Center(
-                  child: Container(
-                    width: 200,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: Colors.deepOrangeAccent,
-                      border: Border.all(
-                        color: Colors.deepPurple
-                      )
-                    ),
+                child: ColoredBox(
+                  color: Colors.deepPurple,
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 150,
                   ),
-                );
-
-              },itemCount: 100,),
+                ),
+              ),
             );
-
   }
 
   @override
