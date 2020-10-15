@@ -154,43 +154,60 @@ void main1() {
   ui.window.scheduleFrame();
 }
 
+
 ///启动入口 002
 void main2() {
 // void main() {
   runApp(Directionality(
     textDirection:TextDirection.ltr,
-    child: ListView(
-      children: [
-        ColoredBox(
+    child: Center(
+      child: GestureDetector(
+        onTap: (){
+          debugDumpLayerTree();
+          print("------------------------------------------------------------");
+          debugDumpRenderTree();
+        },
+        child: ColoredBox(
           color: Colors.lightGreen,
           child: SizedBox(
             width: double.infinity,
             height: 300,
+            child: ColoredBox(
+              color: Colors.blue,
+            ),
           ),
         ),
-        ColoredBox(
-          color: Colors.deepPurple,
-          child: SizedBox(
-            width: double.infinity,
-            height: 300,
-          ),
-        ),
-        ColoredBox(
-          color: Colors.deepOrange,
-          child: SizedBox(
-            width: double.infinity,
-            height: 300,
-          ),
-        ),
-        ColoredBox(
-          color: Colors.blueGrey,
-          child: SizedBox(
-            width: double.infinity,
-            height: 300,
-          ),
-        ),
-      ],
+      ),
     ),
+
+    // ListView(
+      // children: [
+        // ColoredBox(
+        //   color: Colors.deepPurple,
+        //   child: SizedBox(
+        //     width: double.infinity,
+        //     height: 300,
+        //   ),
+        // ),
+        // ColoredBox(
+        //   color: Colors.deepOrange,
+        //   child: SizedBox(
+        //     width: double.infinity,
+        //     height: 300,
+        //   ),
+        // ),
+        // ColoredBox(
+        //   color: Colors.blueGrey,
+        //   child: SizedBox(
+        //     width: double.infinity,
+        //     height: 300,
+        //   ),
+        // ),
+      // ],
+    // ),
+
+
+
   ));
 }
 class Main2TestPage extends StatefulWidget {
@@ -232,7 +249,7 @@ void main() {
 //  debugPaintLayerBordersEnabled = true;
 //  debugRepaintRainbowEnabled = true;
 
- debugPaintPointersEnabled = true;
+ // debugPaintPointersEnabled = true;
 
   runApp(Phone_study());
 }

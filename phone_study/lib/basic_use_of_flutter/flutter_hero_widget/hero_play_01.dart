@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:phone_study/basic_use_of_flutter/flutter_hero_widget/hero_play_01_next_page.dart';
+
 
 class HeroPlay01 extends StatefulWidget {
   @override
@@ -9,7 +11,7 @@ class _HeroPlay01State extends State<HeroPlay01> {
   @override
   Widget build(BuildContext context) {
 
-//    Hero
+   // Hero
 
 
     return Scaffold(
@@ -27,11 +29,18 @@ class _HeroPlay01State extends State<HeroPlay01> {
                       width: 2
                     )),
                 ),
-                child: index == 1 ?Row(
-                  children: <Widget>[
-                    Image.asset("assets/images/guineaPig.jpeg"),
-                    Text("这个是hero测试用的")
-                  ],
+                child: index == 1 ?GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HeroPlay01NextPage()));
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      Hero(
+                          tag: "guineaPig",
+                          child: Image.asset("assets/images/guineaPig.jpeg")),
+                      Text("这个是hero测试用的")
+                    ],
+                  ),
                 ):Image.asset("assets/images/guineaPig.jpeg"),
 
               );

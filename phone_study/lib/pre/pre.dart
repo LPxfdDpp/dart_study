@@ -68,6 +68,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
   GlobalKey _a = GlobalKey();
   GlobalKey _b = GlobalKey();
   GlobalKey _c = GlobalKey();
+  Layer fd;
   @override
   Widget build(BuildContext context) {
     print("aaaaaaaaaaaaaaa    preprepreprepreprepreprepre");
@@ -78,8 +79,10 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
               appBar:AppBar(
                 title: Text("hello"),
               ),
-              body: Opacity(
-
+              body: GestureDetector(
+                onTap: (){
+                  debugDumpLayerTree();
+                },
                 child: ColoredBox(
                   color: Colors.deepPurple,
                   child: SizedBox(
