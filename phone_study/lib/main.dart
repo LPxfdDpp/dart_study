@@ -156,57 +156,40 @@ void main1() {
 
 
 ///启动入口 002
-void main2() {
-// void main() {
+//void main2() {
+ void main() {
   runApp(Directionality(
     textDirection:TextDirection.ltr,
-    child: Center(
-      child: GestureDetector(
-        onTap: (){
-          debugDumpLayerTree();
-          print("------------------------------------------------------------");
-          debugDumpRenderTree();
-        },
-        child: ColoredBox(
-          color: Colors.lightGreen,
-          child: SizedBox(
-            width: double.infinity,
-            height: 300,
-            child: ColoredBox(
-              color: Colors.blue,
+    child: GestureDetector(
+      onTap: (){
+        debugDumpLayerTree();
+      },
+      child: Center(
+        child: Stack(
+          children: <Widget>[
+            Image.asset("assets/images/guineaPig.jpeg"),
+            ClipRRect(
+              child:  BackdropFilter(
+                filter: ui.ImageFilter.blur(
+                  sigmaX: 5.0,
+                  sigmaY: 5.0,
+                ),
+                child: Container(
+                  width: 150,
+                  height: 150,
+                  color: Colors.black.withOpacity(0),
+                ),
+              ),
             ),
-          ),
+
+//            Image.asset("assets/images/guineaPig.jpeg"),
+
+          Text("data"),
+
+          ],
         ),
       ),
     ),
-
-    // ListView(
-      // children: [
-        // ColoredBox(
-        //   color: Colors.deepPurple,
-        //   child: SizedBox(
-        //     width: double.infinity,
-        //     height: 300,
-        //   ),
-        // ),
-        // ColoredBox(
-        //   color: Colors.deepOrange,
-        //   child: SizedBox(
-        //     width: double.infinity,
-        //     height: 300,
-        //   ),
-        // ),
-        // ColoredBox(
-        //   color: Colors.blueGrey,
-        //   child: SizedBox(
-        //     width: double.infinity,
-        //     height: 300,
-        //   ),
-        // ),
-      // ],
-    // ),
-
-
 
   ));
 }
@@ -241,8 +224,8 @@ class _Main2TestPageState extends State<Main2TestPage> {
 
 
 ///启动入口 000
-// void main0() {
-void main() {
+ void main0() {
+//void main() {
   ///没啥效果
   // debugDisablePhysicalShapeLayers = true;
 
