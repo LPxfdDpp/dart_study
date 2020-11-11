@@ -129,7 +129,7 @@ class _AniLayerState extends State<AniLayer> {
       ],
     );
   }
-  List<String> messs = ["看似简单", "阿里山的空间", "士大夫事故发生的", "岁的法国", "啊可是觉得很烦"];
+  List<String> messs = ["看似简单", "阿里山asdfasdfasdfa的空间", "士大夫事故asdfsda发生的", "岁的asddadsfadfdwew3法国", "啊可是觉得很烦"];
   @override
   void initState() {
     super.initState();
@@ -144,24 +144,25 @@ class _AniLayerState extends State<AniLayer> {
                 offset: Offset(
                     (canAni == "aa")?widget.animationController.value:0,0
                 ),
-                child: SizedBox.expand(
-                    child: ColoredBox(
-                      color: Colors.orangeAccent,
-                      child: Center(
-                        child: ValueListenableBuilder(
-                          valueListenable: widget.moveChange,
-                          builder: (_,vv,child){
-                            if(!vv){
-                              var v = indexShow.value;
-                              return Text(messs[(canAni == "aa")?v:v-1]);
-                            }
-                            return child;
-                          },
-                          child: Text(messs[(canAni == "aa")?v:v+1]),
-                        ),
-                      ),
-                    )));
+                child: child);
           },
+          child: SizedBox.expand(
+              child: ColoredBox(
+                color: Colors.orangeAccent,
+                child: Center(
+                  child: ValueListenableBuilder(
+                    valueListenable: widget.moveChange,
+                    builder: (_,vv,child){
+                      if(!vv){
+                        var v = indexShow.value;
+                        return Text(messs[(canAni == "aa")?v:v-1]);
+                      }
+                      return child;
+                    },
+                    child: Text(messs[(canAni == "aa")?v:v+1]),
+                  ),
+                ),
+              )),
         );
       },
     );
@@ -175,24 +176,25 @@ class _AniLayerState extends State<AniLayer> {
             return Transform.translate(
                 offset: Offset(
                     (canAni == "bb")?widget.animationController.value:0,0),
-                child: SizedBox.expand(
-                    child: ColoredBox(
-                      color: Colors.indigo,
-                      child: Center(
-                        child: ValueListenableBuilder(
-                          valueListenable: widget.moveChange,
-                          builder: (_,vv,child){
-                            if(!vv){
-                              var v = indexShow.value;
-                              return Text(messs[(canAni == "bb")?v:v-1]);
-                            }
-                            return child;
-                          },
-                          child: Text(messs[(canAni == "bb")?v:v+1]),
-                        ),
-                      ),
-                    )));
+                child: child);
           },
+          child: SizedBox.expand(
+              child: ColoredBox(
+                color: Colors.indigo,
+                child: Center(
+                  child: ValueListenableBuilder(
+                    valueListenable: widget.moveChange,
+                    builder: (_,vv,child){
+                      if(!vv){
+                        var v = indexShow.value;
+                        return Text(messs[(canAni == "bb")?v:v-1]);
+                      }
+                      return child;
+                    },
+                    child: Text(messs[(canAni == "bb")?v:v+1]),
+                  ),
+                ),
+              )),
         );
       },
     );
