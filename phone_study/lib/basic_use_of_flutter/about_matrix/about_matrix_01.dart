@@ -49,20 +49,20 @@ class _AboutMatrix01State extends State<AboutMatrix01> {
 ///
 ///旋转
 /// 绕x轴旋转
-/// 1，  0，     0，     0
-/// 0，cos(x), sin(x),  0
-/// 0,-sin(x), cos(x),  0
+/// 1，  0,     0,     0,
+/// 0,cos(x), sin(x),  0,
+/// 0,-sin(x), cos(x),  0,
 /// 0,  0,      0,      1
 ///
 /// 绕y轴旋转
-/// cos(x)， 0， -sin(x)，  0
-/// 0，      1,    0,      0
-/// sin(x),  0, cos(x),    0
+/// cos(x), 0, -sin(x),  0,
+/// 0,      1,    0,      0,
+/// sin(x),  0, cos(x),    0,
 /// 0,       0,   0,       1
 ///
 /// 绕z轴旋转
-/// cos(x),  sin(x),  0, 0
-/// -sin(x), cos(x),  0, 0
-/// 0,         0,     1, 0
+/// cos(x),  sin(x),  0, 0,
+/// -sin(x), cos(x),  0, 0,
+/// 0,         0,     1, 0,
 /// 0,         0,     0, 1
 ///

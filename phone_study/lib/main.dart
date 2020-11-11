@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:phone_study/pre/pre.dart';
@@ -7,6 +8,7 @@ import 'basic_use_of_flutter/route/ownNavigatorObserver.dart';
 import 'basic_use_of_flutter/route/ownRouteGenerator.dart';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:flutter/scheduler.dart' show timeDilation;
 
 // 全局的路由监听者，可在需要的widget中添加，应该放到一个全局定义的文件中
 //需要监听的Widget中 需要 extends State<xxx> with RouteAware {

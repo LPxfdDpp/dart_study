@@ -158,17 +158,96 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
 
 
-  ///RenderObjectElement CustomSingleChildLayout
-  ///BoxScrollView SliverMultiBoxAdaptorWidget RenderSliverMultiBoxAdaptor SliverMultiBoxAdaptorParentData继续
-  ///
-  ///
-  /// Widget 看到第30集
-  /// Boring Flutter 看到第2集
-  ///
-  ///
-  ///
-  ///
-  whatsThis() {
+
+
+
+
+// GestureDetector(
+// onTap: (){
+// print("====================");
+// setState(() {
+// x = 0;
+// });
+// },
+// child: Scaffold(
+// body: Center(
+// child: GestureDetector(
+// onTap: (){
+// if(_controller.isCompleted){
+// _controller.reset();
+// }
+// _controller.forward();
+// },
+// child: Transform(
+// alignment:Alignment.center,
+// transform: Matrix4(
+// 1,0,0,0,
+// 0,1,0,0,
+// 0,0,1,0.003,
+// 0,0,0,1
+// )..rotateY(x/360*(2*pi))..translate(-x),
+// child: Container(
+// width: 200,
+// height: 200,
+// decoration: BoxDecoration(
+// gradient: LinearGradient(
+// colors:[
+// Colors.deepOrange,
+// Colors.blueGrey,
+// Colors.lightGreen,
+// ]
+// )
+// ),
+// ),
+// ),
+// ),
+// ),
+//
+// ),
+// );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///-----------------------------------------------------------------------------
+///RenderObjectElement CustomSingleChildLayout
+///BoxScrollView SliverMultiBoxAdaptorWidget RenderSliverMultiBoxAdaptor SliverMultiBoxAdaptorParentData继续
+///
+///
+/// Widget 看到第30集
+/// Boring Flutter 看到第2集
+///
+///
+///
+///
+whatsThis() {
 //    ///document注释 会有提示
 //    Future.wait(futures) Future.wait(futures).asStream()
 //    build_value
@@ -201,8 +280,8 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    Builder
 //    IndexedStack
 //    CheckboxListTile Switch
-    /// ImageStreamCompleter Viewport AnimatedList FractionalOffset ListWheelScrollView 待
-    /// FocusScope 待 鸡肋
+  /// ImageStreamCompleter Viewport AnimatedList FractionalOffset ListWheelScrollView 待
+  /// FocusScope 待 鸡肋
 //    KeyedSubtree
 //    Placeholder
 //    Row IntrinsicHeight
@@ -257,7 +336,7 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    AspectRatio Expanded Align
 //    Flexible
 
-    //Schedule a callback for the end of this frame. 可在build之前设置个回调
+  //Schedule a callback for the end of this frame. 可在build之前设置个回调
 //    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
 //
 //    });
@@ -269,11 +348,12 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //     ValueListenableBuilder
 //     DraggableScrollableSheet
 
-    //小玩意
+  //小玩意
 //    AnimatedSwitcher
 //    ColorFiltered
 //    InkWell
 //    for (int i=0;i<3;i++) ...[ 已经可以用了
 //    RendererBinding.instance.deferFirstFrame() RendererBinding.instance.allowFirstFrame()
-  }
 }
+
+
