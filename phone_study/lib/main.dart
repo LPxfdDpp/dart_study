@@ -158,18 +158,20 @@ void main1() {
 
 
 ///启动入口 002
-// void main2() {
-void main() {
+void main2() {
+// void main() {
   runApp(Directionality(
     textDirection:TextDirection.ltr,
     child: GestureDetector(
       onTap: (){
         debugDumpLayerTree();
+        // debugDumpRenderTree();\
       },
       child: Center(
         child: Stack(
           children: <Widget>[
-            Image.asset("assets/images/guineaPig.jpeg"),
+            // Image.asset("assets/images/guineaPig.jpeg"),
+            Text("data",style: TextStyle(fontSize: 30),),//todo  PaintingContext 是什么？？？？？？
             ClipRRect(
               child:  BackdropFilter(
                 filter: ui.ImageFilter.blur(
@@ -177,16 +179,16 @@ void main() {
                   sigmaY: 5.0,
                 ),
                 child: Container(
-                  width: 150,
-                  height: 150,
+                  // width: 150,
+                  // height: 150,
                   color: Colors.black.withOpacity(0),
                 ),
               ),
             ),
 
-//            Image.asset("assets/images/guineaPig.jpeg"),
+           // Image.asset("assets/images/guineaPig.jpeg"),
 
-          Text("data"),
+          // Text("data",style: TextStyle(fontSize: 30),),
 
           ],
         ),
@@ -226,8 +228,8 @@ class _Main2TestPageState extends State<Main2TestPage> {
 
 
 ///启动入口 000
-void main0() {
-// void main() {
+// void main0() {
+void main() {
   ///没啥效果
   // debugDisablePhysicalShapeLayers = true;
 

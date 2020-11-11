@@ -3,71 +3,18 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 
 import 'dart:async';
-//
-// Iterable naturalsDownFrom(n) sync* {
-//   if (n > 0) {
-//     yield n;
-//     for (int i in naturalsDownFrom(n-1)) { yield i; }
-//   }
-// }
 
-
-int level = 0;
-
-Iterable naturalsDownFrom(n) sync* {
-  level++;
-
-  if (n > 0) {
-    print("level: $level n:$n");
-    yield n;
-
-    for (int i in naturalsDownFrom(n-1)) {
-      print("level: $level i:$i");
-      yield i;
-    }
-  }
-}
-
-
-//  jjjjj() sync* {
-//   yield 1;
-//   yield 2;
-// }
-
-
-// main() {
-//   // print(naturalsDownFrom(3));
-//   // print(jjjjj());
-//   var xcas = naturalsDownFrom(3).iterator;
-//
-//   while(xcas.moveNext()){
-//     print(xcas.current);
-//   }
-//
-// }
-typedef MediaBeanUpdateInterested  = void Function(int newer);
 main(){
 
- var bb = BB();
- var aa = AA();
+  bool setStating = true;
 
-bb.callBacks.add(aa.runn);
+  print((setStating)?0: (){
+    print(1);
+    setStating = false;
+  }.call());
 
-bb.go(100111);
+  print(setStating);
 
 }
 
 
-class BB {
-  List<MediaBeanUpdateInterested> callBacks = [];
-
-  go(int aaa){
-    callBacks.forEach((call)=>call(aaa));
-  }
-}
-
-class AA {
-  runn(int a){
-    print(a);
-  }
-}
