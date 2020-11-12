@@ -47,8 +47,8 @@ class OwnRouteGenerator {
 //         show =  WhenToUseKeysPage();
 //         show =  Sample();
         ///测试用
-        // show =   PrePage();
-        show = AboutMatrix01();
+         show =   PrePage();
+//        show = AboutMatrix01();
 
         /// Explore
         //   show =   Explore();

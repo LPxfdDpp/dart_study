@@ -22,45 +22,32 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
       _width = MediaQuery.of(context).size.width;
     }
 
-    return PageView.builder(
-      itemCount: 3,
+    return Padding(padding: EdgeInsets.fromLTRB(0, 50, 0, 50),
+    child: PageView.builder(
+      itemCount: 10,
       controller: pageController,
       itemBuilder: (context, index) {
         return RepaintBoundary(
           child: AnimatedBuilder(
             animation: _animationController,
             builder: (context, child) {
-              var offset = _animationController.value;
-              bool moveRight;
-              if (offset > _startPoint) {
-                moveRight = false;
-              } else if (offset < _startPoint) {
-                moveRight = true;
-              } else {
-                moveRight = null;
-              }
-              int currentPosition = (_startPoint+1) ~/ _width;
-              double translateOffset = 0;
-              Alignment translateAngleAlignment = Alignment.center;
-              double translateAngle = 0;
-              if(moveRight != null){
-                if (moveRight && (index == currentPosition - 1)) {
-                  // translateOffset = index*_width+_width-(_startPoint-offset);
-                  translateOffset = _width-(_startPoint-offset);
-                  translateAngleAlignment = Alignment.centerLeft;
-                  translateAngle = computeAngle(_startPoint-offset, Alignment.centerLeft,false);
-                } else if (moveRight && index == currentPosition) {
-                  translateOffset = -(_startPoint-offset);
-                  translateAngleAlignment = Alignment.centerRight;
-                  translateAngle = computeAngle(_startPoint-offset, Alignment.centerRight,null);
-                } else if (!moveRight && (index == currentPosition + 1)) {
-                  translateOffset = -_width + (offset-_startPoint);
-                  translateAngleAlignment = Alignment.centerRight;
-                  translateAngle = computeAngle(offset-_startPoint, Alignment.centerRight,true);
-                } else if (!moveRight && index == currentPosition) {
-                  translateOffset = (offset-_startPoint);
-                  translateAngleAlignment = Alignment.centerLeft;
-                  translateAngle = computeAngle(offset-_startPoint, Alignment.centerLeft,null);
+              double thisOne = _width*index;
+              double translateOffset = 0.0;
+              double translateAngle = 0.0;
+              double currentValue = _animationController.value;
+              double move = currentValue-thisOne;
+              if(
+              currentValue - thisOne >= _width
+                  ||
+                  currentValue+_width <= thisOne
+              ){
+              }else{
+                if(move>0){
+                  translateAngle = move/_width*(90*pi/180);
+                  translateOffset = move/2;
+                }else{
+                  translateAngle = move/_width*(90*pi/180);
+                  translateOffset = move/2;
                 }
               }
 
@@ -71,11 +58,16 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
                   transform: Matrix4(
                       1, 0, 0, 0,
                       0, 1, 0, 0,
-                      0, 0, 1, 0,
+//                      0, 0, 1, 0.0003,
+                      0, 0, 1, 0.0003,
                       // 0, 0, 1, 0,
                       0, 0, 0, 1)
-                      // 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
-                    ..rotateY(translateAngle),
+                  // 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+                    ..rotateY(translateAngle)
+
+//                    ..translate(0.0,0.0,200.0)
+
+                  ,
                   child: child,
                 ),
               );
@@ -84,34 +76,36 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
-                color: Colors.orange,
-                border: Border.all(
-                  color: Colors.lightGreen,
-                  width: 10
-                )
+                  color: (index%2==0)?Colors.orange:Colors.blue,
+                  border: Border.all(
+                      color: Colors.lightGreen,
+                      width: 10
+                  )
               ),
-              child: Center(child: Text(index.toString()+index.toString()+index.toString()+index.toString()+index.toString())),
+              child: Stack(
+                children: <Widget>[
+                  Center(child:
+                  (index%2==0)?
+                  Image.asset("assets/images/guineaPig.jpeg",
+                      fit: BoxFit.cover,
+                      repeat : ImageRepeat.repeat
+                  )
+                      :
+                  Image.asset("assets/images/xxx.png",
+                      fit: BoxFit.cover,
+                      repeat : ImageRepeat.repeat
+                  )
+                  ),
+                  Center(
+                    child: Text(index.toString()),
+                  )
+                ],
+              ),
             ),
           ),
         );
       },
-    );
-  }
-
-  double computeAngle(double moveDistance, Alignment alignment,bool forRight) {
-    var angle = pi/2 * moveDistance / _width;
-    if (forRight == null) {
-      if(alignment == Alignment.centerLeft){
-        return angle;
-      }else if(alignment == Alignment.centerRight){
-        return -angle;
-      }
-    }else if(forRight){
-      // return -pi/2 + angle;
-      return -pi/2 + angle+0.01;
-    }else if(!forRight){
-      return pi/2 - angle;
-    }
+    ),);
   }
 
   PageController pageController;
@@ -134,15 +128,6 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
         // }
       });
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      pageController.position.isScrollingNotifier.addListener(() {
-        if (pageController.position.isScrollingNotifier.value) {
-          _startPoint = pageController.position.pixels;
-        } else {
-          _startPoint = pageController.position.pixels;
-        }
-      });
-    });
   }
 
   @override
