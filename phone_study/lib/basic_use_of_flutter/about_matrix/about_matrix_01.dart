@@ -1,3 +1,6 @@
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class AboutMatrix01 extends StatefulWidget {
@@ -6,27 +9,80 @@ class AboutMatrix01 extends StatefulWidget {
 }
 
 class _AboutMatrix01State extends State<AboutMatrix01> {
+
+
+
+  double angle = 30;
+  Size _deviceSize;
   @override
   Widget build(BuildContext context) {
 
-
     return Center(
 
-      child: Transform(
-          transform: Matrix4(
-          1,0,0,0,
-          0,1,0,0,
-          0,0,1,0,
-          0,0,0,1
-      ),
-        child: Container(
-          width: 200,
-          height: 200,
-          color: Colors.blue,
+      child: GestureDetector(
+        onTap: (){
+          setState(() {
+            angle += pi/2/9;
+          });
+        },
+        child: Stack(
+          children: [
+            Transform(
+              // alignment: Alignment.centerLeft,
+              alignment: Alignment.center,
+                transform: Matrix4(
+                1,0,0,0,
+                0,1,0,0,
+                0,0,1,0,
+                0,0,0,1
+            )..rotateY(angle*2*pi/360)..translate(
+                    // -_deviceSize.width/2
+
+                  -(cos(angle*2*pi/360)*_deviceSize.width/2+_deviceSize.width/2)
+
+                    // -(cos(45*2*pi/360)*_deviceSize.width-_deviceSize.width/2)
+                    //     +
+                    //     ((_deviceSize.width/2-cos(45*2*pi/360)*_deviceSize.width/2))
+                ),
+              child: Container(
+                width: _deviceSize.width,
+                height: _deviceSize.height,
+                color: Colors.blue,
+                child: Center(child: Text("阿萨的")),
+              ),
+            ),
+            Transform(
+              // alignment: Alignment.centerLeft,
+              alignment: Alignment.center,
+              transform: Matrix4(
+                  1,0,0,0,
+                  0,1,0,0,
+                  0,0,1,0,
+                  0,0,0,1
+              )..rotateY(-(180-120-angle)*2*pi/360)..translate(
+                  // _deviceSize.width/2
+
+                      ((cos(angle*2*pi/360)*_deviceSize.width+cos((90-angle)*2*pi/360)*_deviceSize.width - _deviceSize.width)/2)
+
+              ),
+              child: Container(
+                width: _deviceSize.width,
+                height: _deviceSize.height,
+                color: Colors.deepOrange,
+                child: Center(child: Text("士大夫")),
+              ),
+            ),
+          ],
         ),
       ),
 
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _deviceSize = window.physicalSize / window.devicePixelRatio;
   }
 }
 

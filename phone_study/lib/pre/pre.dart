@@ -16,98 +16,139 @@ class PrePage extends StatefulWidget {
 }
 
 class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
-
-  AnimationController _animationController;
-  ValueNotifier<int> change;
-  ValueNotifier<bool> moveChange;
-  double _hStart;
-  double _hUpdate;
-
-  double _deviceWidth;
   @override
   Widget build(BuildContext context) {
-    if(_deviceWidth == null){
-      _deviceWidth = MediaQuery.of(context).size.width;
-      _animationController = AnimationController(
-          value: 0,
-          lowerBound: -_deviceWidth,
-          upperBound: _deviceWidth,
-          vsync: this);
+    if (_width == null) {
+      _width = MediaQuery.of(context).size.width;
     }
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("hello"),
-        ),
-        body: GestureDetector(
-          onHorizontalDragStart: (d){
-            _hStart = d.localPosition.dx;
-          },
-          onHorizontalDragUpdate: (d){
-            _hUpdate = d.localPosition.dx;
-            if(_hUpdate > _hStart && moveChange.value){
-              moveChange.value = false;
-            }else if(_hUpdate < _hStart && !moveChange.value){
-              moveChange.value = true;
-            }
-            _animationController.value = _hUpdate-_hStart;
-          },
-          onHorizontalDragEnd: (d){
-            double cha = _hUpdate - _hStart;
-            bool moveLeft;
-            if(cha >= 0){
-              moveLeft = false;
-            }else{
-              moveLeft = true;
-            }
 
-            if(!moveLeft){
-              if(cha >= (_deviceWidth-_hStart)/3){
-                _animationController.animateTo(_deviceWidth,duration:Duration(milliseconds: 200))
-                .whenComplete((){
-                  change.value -= 1;
-                  moveChange.value = true;
-                });
-              }else{
-                _animationController.animateTo(0,duration:Duration(milliseconds: 200));
+    return PageView.builder(
+      itemCount: 3,
+      controller: pageController,
+      itemBuilder: (context, index) {
+        return RepaintBoundary(
+          child: AnimatedBuilder(
+            animation: _animationController,
+            builder: (context, child) {
+              var offset = _animationController.value;
+              bool moveRight;
+              if (offset > _startPoint) {
+                moveRight = false;
+              } else if (offset < _startPoint) {
+                moveRight = true;
+              } else {
+                moveRight = null;
               }
-            }else{
-              if(-cha >= _hStart/3){
-                _animationController.animateTo(-_deviceWidth,duration:Duration(milliseconds: 200))
-                .whenComplete((){
-                  change.value += 1;
-                  moveChange.value = true;
-                });
-              }else{
-                _animationController.animateTo(0,duration:Duration(milliseconds: 200));
+              int currentPosition = (_startPoint+1) ~/ _width;
+              double translateOffset = 0;
+              Alignment translateAngleAlignment = Alignment.center;
+              double translateAngle = 0;
+              if(moveRight != null){
+                if (moveRight && (index == currentPosition - 1)) {
+                  // translateOffset = index*_width+_width-(_startPoint-offset);
+                  translateOffset = _width-(_startPoint-offset);
+                  translateAngleAlignment = Alignment.centerLeft;
+                  translateAngle = computeAngle(_startPoint-offset, Alignment.centerLeft,false);
+                } else if (moveRight && index == currentPosition) {
+                  translateOffset = -(_startPoint-offset);
+                  translateAngleAlignment = Alignment.centerRight;
+                  translateAngle = computeAngle(_startPoint-offset, Alignment.centerRight,null);
+                } else if (!moveRight && (index == currentPosition + 1)) {
+                  translateOffset = -_width + (offset-_startPoint);
+                  translateAngleAlignment = Alignment.centerRight;
+                  translateAngle = computeAngle(offset-_startPoint, Alignment.centerRight,true);
+                } else if (!moveRight && index == currentPosition) {
+                  translateOffset = (offset-_startPoint);
+                  translateAngleAlignment = Alignment.centerLeft;
+                  translateAngle = computeAngle(offset-_startPoint, Alignment.centerLeft,null);
+                }
               }
-            }
 
-          },
-          child: AniLayer(
-              animationController: _animationController,
-              change:change,
-            moveChange:moveChange,
+              return Transform.translate(
+                offset: Offset(translateOffset, 0),
+                child: Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4(
+                      1, 0, 0, 0,
+                      0, 1, 0, 0,
+                      0, 0, 1, 0,
+                      // 0, 0, 1, 0,
+                      0, 0, 0, 1)
+                      // 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+                    ..rotateY(translateAngle),
+                  child: child,
+                ),
+              );
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                color: Colors.orange,
+                border: Border.all(
+                  color: Colors.lightGreen,
+                  width: 10
+                )
+              ),
+              child: Center(child: Text(index.toString()+index.toString()+index.toString()+index.toString()+index.toString())),
+            ),
           ),
-        ));
+        );
+      },
+    );
   }
 
-
-  reCreateAni(){
+  double computeAngle(double moveDistance, Alignment alignment,bool forRight) {
+    var angle = pi/2 * moveDistance / _width;
+    if (forRight == null) {
+      if(alignment == Alignment.centerLeft){
+        return angle;
+      }else if(alignment == Alignment.centerRight){
+        return -angle;
+      }
+    }else if(forRight){
+      // return -pi/2 + angle;
+      return -pi/2 + angle+0.01;
+    }else if(!forRight){
+      return pi/2 - angle;
+    }
   }
 
+  PageController pageController;
+  AnimationController _animationController;
 
+  // int _initialPage = 0;
+  int _initialPage = 2;
+  double _width;
+  double _startPoint = 0;
   @override
   void initState() {
     super.initState();
-    change = ValueNotifier<int>(0);
-    moveChange = ValueNotifier<bool>(true);
+    _animationController = AnimationController.unbounded(value: 0, vsync: this);
+    pageController = PageController()
+      ..addListener(() {
+        // if (!stopped) {
+          var offset = pageController.position.pixels;
+          _animationController.value = offset;
+          double eftPixelWithDirection = _width - offset;
+        // }
+      });
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      pageController.position.isScrollingNotifier.addListener(() {
+        if (pageController.position.isScrollingNotifier.value) {
+          _startPoint = pageController.position.pixels;
+        } else {
+          _startPoint = pageController.position.pixels;
+        }
+      });
+    });
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _animationController.dispose();
-    change.dispose();
-    moveChange.dispose();
+    pageController.dispose();
     super.dispose();
   }
 
@@ -230,156 +271,4 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    for (int i=0;i<3;i++) ...[ 已经可以用了
 //    RendererBinding.instance.deferFirstFrame() RendererBinding.instance.allowFirstFrame()
   }
-}
-
-class AniLayer extends StatefulWidget {
-  final ValueNotifier<int> change;
-  final ValueNotifier<bool> moveChange;
-  final AnimationController animationController;
-
-  AniLayer({Key key,this.change,this.moveChange,this.animationController}) : super(key: key);
-
-  @override
-  _AniLayerState createState() => _AniLayerState();
-}
-
-class _AniLayerState extends State<AniLayer> {
-  ValueNotifier<int> indexShow = ValueNotifier<int>(0);
-  ValueListenableBuilder aa;
-  ValueListenableBuilder bb;
-  String canAni = "bb";
-  int old;
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        aa,
-        bb,
-      ],
-    );
-  }
-  List<String> messs = ["看似简单", "阿里山asdfasdfasdfa的空间", "士大夫事故asdfsda发生的", "岁的asddadsfadfdwew3法国", "啊可是觉得很烦"];
-  @override
-  void initState() {
-    super.initState();
-    aa = ValueListenableBuilder(
-      key: Key("aa"),
-      valueListenable: indexShow,
-      builder: (_,v,child){
-        return AnimatedBuilder(
-          animation: widget.animationController,
-          builder:(_,child){
-            return Transform.translate(
-                offset: Offset(
-                    (canAni == "aa")?widget.animationController.value:0,0
-                ),
-                child: child);
-          },
-          child: SizedBox.expand(
-              child: ColoredBox(
-                color: Colors.orangeAccent,
-                child: Center(
-                  child: ValueListenableBuilder(
-                    valueListenable: widget.moveChange,
-                    builder: (_,vv,child){
-                      if(!vv){
-                        var v = indexShow.value;
-                        return Text(messs[(canAni == "aa")?v:v-1]);
-                      }
-                      return child;
-                    },
-                    child: Text(messs[(canAni == "aa")?v:v+1]),
-                  ),
-                ),
-              )),
-        );
-      },
-    );
-    bb = ValueListenableBuilder(
-      key: Key("bb"),
-      valueListenable: indexShow,
-      builder: (_,v,child){
-        return AnimatedBuilder(
-          animation: widget.animationController,
-          builder:(_,child){
-            return Transform.translate(
-                offset: Offset(
-                    (canAni == "bb")?widget.animationController.value:0,0),
-                child: child);
-          },
-          child: SizedBox.expand(
-              child: ColoredBox(
-                color: Colors.indigo,
-                child: Center(
-                  child: ValueListenableBuilder(
-                    valueListenable: widget.moveChange,
-                    builder: (_,vv,child){
-                      if(!vv){
-                        var v = indexShow.value;
-                        return Text(messs[(canAni == "bb")?v:v-1]);
-                      }
-                      return child;
-                    },
-                    child: Text(messs[(canAni == "bb")?v:v+1]),
-                  ),
-                ),
-              )),
-        );
-      },
-    );
-
-    widget.change.addListener(() {
-      widget.animationController.value = 0;
-      var v = widget.change.value;
-      int action;
-      if(old == null){
-        old = v;
-        if(v  == -1){
-          action = 2;
-
-        }else if(v == 1){
-          action = 1;
-
-        }
-      }else if(old == v){
-        action = 0;
-      }else if(old < v){
-        old = v;
-        action = 1;
-
-      }else{
-        old = v;
-        action = 2;
-
-      }
-
-      print(action);
-      if(action == 1 || action == 2){
-        setState(() {
-          var temp = aa;
-          aa = bb;
-          bb = temp;
-          if(canAni == "bb"){
-            canAni = "aa";
-          }else{
-            canAni = "bb";
-          }
-          if(action == 1){
-            indexShow.value += 1;
-          }else{
-            indexShow.value -= 1;
-          }
-        });
-      }
-
-
-    });
-  }
-
-  @override
-  void dispose() {
-    indexShow.dispose();
-    super.dispose();
-  }
-
 }

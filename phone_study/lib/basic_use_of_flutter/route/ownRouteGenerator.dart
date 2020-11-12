@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_study/about_dio/about_dio_page.dart';
 import 'package:phone_study/basic_use_of_flutter/about_inherited_widget/inherited_widget_check_01.dart';
+import 'package:phone_study/basic_use_of_flutter/about_matrix/about_matrix_01.dart';
 import 'package:phone_study/basic_use_of_flutter/about_provider/about_provider_01.dart';
 import 'package:phone_study/basic_use_of_flutter/about_provider/provider_logic_01.dart';
 import 'package:phone_study/basic_use_of_flutter/about_theme/theme_01.dart';
@@ -46,8 +47,8 @@ class OwnRouteGenerator {
 //         show =  WhenToUseKeysPage();
 //         show =  Sample();
         ///测试用
-        show =   PrePage();
-
+        // show =   PrePage();
+        show = AboutMatrix01();
 
         /// Explore
         //   show =   Explore();
