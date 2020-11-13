@@ -5,6 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
+
+///pageController 获取当前滑动的是哪个index
+///        double currentScrollPosition = _pageController.position.pixels;
+///         int part = (currentScrollPosition + _width) ~/ _width;
+///         double subPart = (currentScrollPosition + _width) % _width;
+///         int canPlayIndex;
+///         if (subPart >= _width / 2) {
+///           canPlayIndex = part;
+///         } else {
+///           canPlayIndex = part - 1;
+///         }
+
 class PageView001 extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => PageView001State();
