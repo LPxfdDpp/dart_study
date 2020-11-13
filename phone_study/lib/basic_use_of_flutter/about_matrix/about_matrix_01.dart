@@ -12,8 +12,12 @@ class _AboutMatrix01State extends State<AboutMatrix01> {
 
 
 
-  double angle = 30;
+
+  double angle = 90;
+
   Size _deviceSize;
+
+   double dd = 50;
   @override
   Widget build(BuildContext context) {
 
@@ -27,49 +31,44 @@ class _AboutMatrix01State extends State<AboutMatrix01> {
         },
         child: Stack(
           children: [
+            // Transform.rotate(
+            //   // alignment: Alignment.centerLeft,
+            //   // origin: Offset(_deviceSize.width/2,0),
+            //   // origin: Offset(_deviceSize.width/2,0),
+            //   origin: Offset(100,0),
+            //   alignment: Alignment.center,
+            //   // alignment: Alignment.centerRight,
+            //   // alignment: Alignment.centerLeft,
+            // angle: angle*2*pi/360,
+            //   child: Container(
+            //     width: _deviceSize.width,
+            //     height: _deviceSize.height,
+            //     color: Colors.blue,
+            //     child: Center(child: Text("阿萨的")),
+            //   ),
+            // ),
             Transform(
               // alignment: Alignment.centerLeft,
+              // origin: Offset(_deviceSize.width/2,0),
+              origin: Offset(50,0),
+              // origin: Offset(0,0),
               alignment: Alignment.center,
+              // alignment: Alignment.centerRight,
+              // alignment: Alignment.centerLeft,
                 transform: Matrix4(
                 1,0,0,0,
                 0,1,0,0,
+                // 0,0,1,0.001,
                 0,0,1,0,
-                0,0,0,1
-            )..rotateY(angle*2*pi/360)..translate(
-                    // -_deviceSize.width/2
-
-                  -(cos(angle*2*pi/360)*_deviceSize.width/2+_deviceSize.width/2)
-
-                    // -(cos(45*2*pi/360)*_deviceSize.width-_deviceSize.width/2)
-                    //     +
-                    //     ((_deviceSize.width/2-cos(45*2*pi/360)*_deviceSize.width/2))
-                ),
+                // 0,-_deviceSize.width/2,0,1
+                // 50,-50,0,1
+                    0,0,0,1
+            )..rotateZ(angle*2*pi/360),
               child: Container(
                 width: _deviceSize.width,
                 height: _deviceSize.height,
                 color: Colors.blue,
                 child: Center(child: Text("阿萨的")),
-              ),
-            ),
-            Transform(
-              // alignment: Alignment.centerLeft,
-              alignment: Alignment.center,
-              transform: Matrix4(
-                  1,0,0,0,
-                  0,1,0,0,
-                  0,0,1,0,
-                  0,0,0,1
-              )..rotateY(-(180-120-angle)*2*pi/360)..translate(
-                  // _deviceSize.width/2
-
-                      ((cos(angle*2*pi/360)*_deviceSize.width+cos((90-angle)*2*pi/360)*_deviceSize.width - _deviceSize.width)/2)
-
-              ),
-              child: Container(
-                width: _deviceSize.width,
-                height: _deviceSize.height,
-                color: Colors.deepOrange,
-                child: Center(child: Text("士大夫")),
               ),
             ),
           ],
@@ -83,6 +82,7 @@ class _AboutMatrix01State extends State<AboutMatrix01> {
   void initState() {
     super.initState();
     _deviceSize = window.physicalSize / window.devicePixelRatio;
+    print(_deviceSize);
   }
 }
 

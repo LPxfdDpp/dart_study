@@ -20,122 +20,122 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     if (_width == null) {
       _width = MediaQuery.of(context).size.width;
+      _height = MediaQuery.of(context).size.height;
     }
 
-    return Padding(padding: EdgeInsets.fromLTRB(0, 50, 0, 50),
-    child: PageView.builder(
+    return PageView.builder(
       itemCount: 10,
       controller: pageController,
       itemBuilder: (context, index) {
-        return RepaintBoundary(
-          child: AnimatedBuilder(
-            animation: _animationController,
-            builder: (context, child) {
-              double thisOne = _width*index;
-              double translateOffset = 0.0;
-              double translateAngle = 0.0;
-              double currentValue = _animationController.value;
-              double move = currentValue-thisOne;
-              if(
-              currentValue - thisOne >= _width
-                  ||
-                  currentValue+_width <= thisOne
-              ){
-              }else{
-                if(move>0){
-                  translateAngle = move/_width*(90*pi/180);
-                  translateOffset = move/2;
-                }else{
-                  translateAngle = move/_width*(90*pi/180);
-                  translateOffset = move/2;
-                }
-              }
-
-              return Transform.translate(
-                offset: Offset(translateOffset, 0),
-                child: Transform(
-                  alignment: Alignment.center,
-                  transform: Matrix4(
-                      1, 0, 0, 0,
-                      0, 1, 0, 0,
-//                      0, 0, 1, 0.0003,
-                      0, 0, 1, 0.0003,
-                      // 0, 0, 1, 0,
-                      0, 0, 0, 1)
-                  // 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
-                    ..rotateY(translateAngle)
-
-//                    ..translate(0.0,0.0,200.0)
-
-                  ,
-                  child: child,
-                ),
-              );
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                  color: (index%2==0)?Colors.orange:Colors.blue,
-                  border: Border.all(
-                      color: Colors.lightGreen,
-                      width: 10
-                  )
-              ),
-              child: Stack(
-                children: <Widget>[
-                  Center(child:
-                  (index%2==0)?
-                  Image.asset("assets/images/guineaPig.jpeg",
-                      fit: BoxFit.cover,
-                      repeat : ImageRepeat.repeat
-                  )
-                      :
-                  Image.asset("assets/images/xxx.png",
-                      fit: BoxFit.cover,
-                      repeat : ImageRepeat.repeat
-                  )
-                  ),
-                  Center(
-                    child: Text(index.toString()),
-                  )
-                ],
-              ),
-            ),
-          ),
-        );
+        return _buildPageItem(index);
       },
-    ),);
+    );
   }
 
   PageController pageController;
-  AnimationController _animationController;
 
-  // int _initialPage = 0;
-  int _initialPage = 2;
   double _width;
-  double _startPoint = 0;
+  double _height;
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController.unbounded(value: 0, vsync: this);
     pageController = PageController()
       ..addListener(() {
-        // if (!stopped) {
-          var offset = pageController.position.pixels;
-          _animationController.value = offset;
-          double eftPixelWithDirection = _width - offset;
-        // }
+          setState(() {
+            _currPageValue = pageController.page;
+            _currPageOffset = pageController.offset;
+          });
       });
-
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
     pageController.dispose();
     super.dispose();
   }
+
+  double _currPageValue = 0;
+  double _currPageOffset = 0;
+  _buildPageItem(int index) {
+    Matrix4 matrix4 = Matrix4.identity();
+    if (index == _currPageValue.floor()) {
+      //当前的item
+
+      double _animationvalue = lerpDouble(0.0, pi / 2, _currPageValue - index);
+      matrix4 = Matrix4.identity()
+        ..setEntry(3, 2, 0.0015)
+        ..rotateY(_animationvalue);
+
+      return Transform(
+        transform: matrix4,
+        origin: Offset(_width / 2, 0),
+        alignment: Alignment.center,
+        child: _homeCell(context, index),
+      );
+    } else if (index == _currPageValue.floor() + 1) {
+      //右边的item
+      double _animationvalue = lerpDouble(0.0, pi / 2, _currPageValue - index);
+
+      matrix4 = Matrix4.identity()
+        ..setEntry(3, 2, 0.0012)
+        ..rotateY(_animationvalue);
+
+      return Transform(
+        transform: matrix4,
+        origin: Offset(-_width / 2, 0),
+        alignment: Alignment.center,
+        child: _homeCell(context, index),
+      );
+    } else if (index == _currPageValue.floor() - 1) {
+      //左边
+
+      double _animationvalue =
+      lerpDouble(0.0, pi / 2, _currPageValue - index + 1);
+
+      matrix4 = Matrix4.identity()
+        ..setEntry(3, 2, 0.0015)
+        ..rotateY(_animationvalue);
+    } else {
+      //其他，不在屏幕显示的item
+      matrix4 = Matrix4.identity();
+    }
+
+    return Transform(
+      transform: matrix4,
+      origin: Offset(_width / 2, 0),
+      alignment: Alignment.center,
+      child: _homeCell(context, index),
+    );
+  }
+
+  _homeCell(BuildContext context,int index){
+
+    return Container(
+      width: _width,
+      height: _height,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.deepPurple,
+          width: 2
+        )
+      ),
+      child: Text(index.toString()),
+    );
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   ///-----------------------------------------------------------------------------
   ///RenderObjectElement CustomSingleChildLayout
