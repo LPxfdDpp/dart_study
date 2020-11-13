@@ -43,7 +43,7 @@ dependencies:
 #  characters: 1.1.0-nullsafety.3
 #  isolate: 2.0.3
   flutter_cache_manager: 1.4.1
-
+  video_player: 1.0.0
 # 作为学习参考 开始
 #  waterfall_flow: 2.0.2
 #  auto_route: any
@@ -86,6 +86,8 @@ flutter:
   assets:
     - assets/images/guineaPig.jpeg
     - assets/images/xxx.png
+    - assets/videos/001.mp4
+    - assets/videos/002.mp4
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
