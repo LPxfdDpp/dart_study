@@ -16,10 +16,48 @@ class PrePage extends StatefulWidget {
 }
 
 class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
+
+  Widget aa = AAWidget(key:Key("aa"),color: Colors.lightGreen,);
+  // Widget aa = AAWidget(color: Colors.lightGreen,);
+  Widget bb = AAWidget(key:Key("bb"),color: Colors.redAccent,);
+  // Widget bb = AAWidget(color: Colors.redAccent,);
+
+
+  List<String> videoUrls = [
+  "http://static-test.wm1440.com/16055035238389120191.mp4",
+  "http://static-test.wm1440.com/16054972514594575208.mp4",
+  "http://static-test.wm1440.com/16054972376864544005.mp4",
+  "http://static-test.wm1440.com/16054967439052302497.mp4",
+  "http://static-test.wm1440.com/16054967321120614146.mp4",
+  "http://static-test.wm1440.com/16054949313093485276.mp4",
+  "http://static-test.wm1440.com/16046439907112479114.mp4",
+  "http://static-test.wm1440.com/16052607309081492808.mp4",
+  "http://static-test.wm1440.com/16052596279859586755.mp4",
+  "http://static-test.wm1440.com/16052596288717202193.mp4",
+  "http://static-test.wm1440.com/16052597055866319472.mp4",
+  "http://static-test.wm1440.com/16052551173304373256.mp4",
+  "http://static-test.wm1440.com/16052617319418090195.mp4",
+  "http://static-test.wm1440.com/16052612733338068483.mp4",
+  "http://static-test.wm1440.com/16052609141595089905.mp4",
+  ];
+
   @override
   Widget build(BuildContext context) {
-
-    return Container();
+    return GestureDetector(
+      onTap: (){
+        setState(() {
+          var temp = aa;
+          aa = bb;
+          bb = temp;
+        });
+      },
+      child: Stack(
+        children: [
+          aa,
+          bb
+        ],
+      ),
+    );
   }
 
 
@@ -171,3 +209,42 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    RendererBinding.instance.deferFirstFrame() RendererBinding.instance.allowFirstFrame()
   }
 }
+
+class AAWidget extends StatefulWidget {
+  final Color color;
+  const AAWidget({Key key, this.color}) : super(key: key);
+  @override
+  _AAWidgetState createState() => _AAWidgetState();
+}
+
+class _AAWidgetState extends State<AAWidget> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    print("-------------------------------- : "+widget.color.toString());
+
+  }
+
+  @override
+  void didUpdateWidget(covariant AAWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    print("==="+widget.color.toString());
+    print("==="+oldWidget.color.toString());
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        width: 200,
+        height: 200,
+        color: widget.color
+      ),
+    );
+  }
+}
+

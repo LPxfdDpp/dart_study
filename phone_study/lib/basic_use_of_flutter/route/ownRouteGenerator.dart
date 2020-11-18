@@ -7,6 +7,7 @@ import 'package:phone_study/basic_use_of_flutter/about_provider/about_provider_0
 import 'package:phone_study/basic_use_of_flutter/about_provider/provider_logic_01.dart';
 import 'package:phone_study/basic_use_of_flutter/about_theme/theme_01.dart';
 import 'package:phone_study/basic_use_of_flutter/ani_sample/rubiks_cube_001.dart';
+import 'package:phone_study/basic_use_of_flutter/ani_sample/stack_001.dart';
 import 'package:phone_study/basic_use_of_flutter/basic_use_of_flutter_page_2.dart';
 import 'package:phone_study/basic_use_of_flutter/basic_use_of_flutter_page_1.dart';
 import 'package:phone_study/basic_use_of_flutter/flutter_hero_widget/hero_play_01.dart';
@@ -48,8 +49,8 @@ class OwnRouteGenerator {
 //         show =  WhenToUseKeysPage();
 //         show =  Sample();
         ///测试用
-         show =   PrePage();
-       // show = rubiks_cube_001();
+        //  show =   PrePage();
+         show =   Stack001();
 
         /// Explore
         //   show =   Explore();

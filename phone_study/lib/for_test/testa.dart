@@ -6,14 +6,10 @@ import 'dart:async';
 
 main(){
 
-  bool setStating = true;
+  List needLoad = List(3);
 
-  print((setStating)?0: (){
-    print(1);
-    setStating = false;
-  }.call());
+print(needLoad[2] == null);
 
-  print(setStating);
 
 }
 
