@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:phone_study/pre/pre.dart';
 import 'basic_use_of_flutter/route/ownNavigatorObserver.dart';
 import 'basic_use_of_flutter/route/ownRouteGenerator.dart';
@@ -160,41 +161,18 @@ void main1() {
 ///启动入口 002
 void main2() {
 // void main() {
-  runApp(Directionality(
-    textDirection:TextDirection.ltr,
-    child: GestureDetector(
-      onTap: (){
-        debugDumpLayerTree();
-        // debugDumpRenderTree();\
-      },
-      child: Center(
-        child: Stack(
-          children: <Widget>[
-            // Image.asset("assets/images/guineaPig.jpeg"),
-            Text("data",style: TextStyle(fontSize: 30),),//todo  PaintingContext 是什么？？？？？？
-            ClipRRect(
-              child:  BackdropFilter(
-                filter: ui.ImageFilter.blur(
-                  sigmaX: 5.0,
-                  sigmaY: 5.0,
-                ),
-                child: Container(
-                  // width: 150,
-                  // height: 150,
-                  color: Colors.black.withOpacity(0),
-                ),
-              ),
-            ),
+  runApp(GestureDetector(
+    onTap: (){
+      print("=====================================================");
+      // HapticFeedback.vibrate();
+      // HapticFeedback.lightImpact();
+      // HapticFeedback.selectionClick();
 
-           // Image.asset("assets/images/guineaPig.jpeg"),
 
-          // Text("data",style: TextStyle(fontSize: 30),),
-
-          ],
-        ),
-      ),
+    },
+    child: ColoredBox(
+      color: Colors.brown,
     ),
-
   ));
 }
 class Main2TestPage extends StatefulWidget {

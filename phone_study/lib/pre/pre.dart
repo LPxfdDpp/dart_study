@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 // import 'package:characters/characters.dart';
 
@@ -17,50 +18,196 @@ class PrePage extends StatefulWidget {
 
 class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
-  Widget aa = AAWidget(key:Key("aa"),color: Colors.lightGreen,);
-  // Widget aa = AAWidget(color: Colors.lightGreen,);
-  Widget bb = AAWidget(key:Key("bb"),color: Colors.redAccent,);
-  // Widget bb = AAWidget(color: Colors.redAccent,);
 
-
-  List<String> videoUrls = [
-  "http://static-test.wm1440.com/16055035238389120191.mp4",
-  "http://static-test.wm1440.com/16054972514594575208.mp4",
-  "http://static-test.wm1440.com/16054972376864544005.mp4",
-  "http://static-test.wm1440.com/16054967439052302497.mp4",
-  "http://static-test.wm1440.com/16054967321120614146.mp4",
-  "http://static-test.wm1440.com/16054949313093485276.mp4",
-  "http://static-test.wm1440.com/16046439907112479114.mp4",
-  "http://static-test.wm1440.com/16052607309081492808.mp4",
-  "http://static-test.wm1440.com/16052596279859586755.mp4",
-  "http://static-test.wm1440.com/16052596288717202193.mp4",
-  "http://static-test.wm1440.com/16052597055866319472.mp4",
-  "http://static-test.wm1440.com/16052551173304373256.mp4",
-  "http://static-test.wm1440.com/16052617319418090195.mp4",
-  "http://static-test.wm1440.com/16052612733338068483.mp4",
-  "http://static-test.wm1440.com/16052609141595089905.mp4",
-  ];
-
+  double _popWidth;
+  double _popHeight;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        setState(() {
-          var temp = aa;
-          aa = bb;
-          bb = temp;
-        });
+
       },
-      child: Stack(
-        children: [
-          aa,
-          bb
-        ],
+      child: Center(
+        child: GestureDetector(
+          onTap: (){
+            // _showOverlayPop(context,Offset(_width/2-_popWidth/2, _height/2-_popHeight/2));
+          },
+          child: ColoredBox(
+            color: Colors.transparent,
+            child: ConstrainedBox(
+              constraints:BoxConstraints.tight(
+                  Size(_width,_height )
+              ),
+              child: Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  child: ColoredBox(
+                    color: Color(0xFF1F1F1F),
+                    child: ConstrainedBox(
+                      constraints:BoxConstraints(
+                          maxHeight: _popHeight,
+                          maxWidth: _popWidth,
+                          minWidth: _popWidth
+                      ),
+                      child: Stack(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(bottom: 50),
+                            child: Listener(
+                              onPointerDown: (d){
+                                // Feedback.forTap(context);
+                                // Clipboard.setData(ClipboardData(text: ""));
+                                HapticFeedback.vibrate();
+                                // HapticFeedback.heavyImpact();
+
+                                print("================111==============================");
+                                print(_controller.position.maxScrollExtent);
+                                if(_controller.position.maxScrollExtent == 0){
+                                  setState(() {
+                                    _visible = false;
+                                  });
+                                }
+                              },
+                              child: ListView(
+                                controller:_controller,
+                                shrinkWrap: true,
+                                children: [
+                                  SizedBox(
+                                    width: _popWidth/2,
+                                    height: _popWidth/2,
+                                    child: Image.asset("assets/images/guineaPig.jpeg"),
+                                  ),
+                                  SizedBox(
+                                    height: 12,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment : MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.close,
+                                        color: Colors.white,
+                                        size: 18,
+                                      ),
+                                      SizedBox(
+                                        width: 4,
+                                      ),
+                                      Transform.translate(
+                                        offset: Offset(0,-1),
+                                        child: Text("点赞成功",style: TextStyle(
+                                            fontSize: 16,
+                                            decoration: TextDecoration.none,
+                                            color: Color(0xffF0F0F0)
+                                        ),),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  SizedBox(
+                                    width: _popWidth,
+                                    child: Center(
+                                      child: Text("-10 Manna",style: TextStyle(
+                                          fontSize: 14,
+                                          decoration: TextDecoration.none,
+                                          color: Color(0xffF0F0F0)
+                                      ),),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20,right: 20),
+                                    child: SizedBox(
+                                      width: _popWidth,
+                                      child: Center(
+                                        child: Text(
+                                          // "Manna是1440世界流通的时间币，一切消耗需花时间，一切收获可赚时间，如果成为时间管理大师，就看你的了",
+                                          "，一切消耗需花时间，，，就看你的了",
+                                          // "Manna是1440世界流Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币通的时间币，一切消耗需花时间，一切收获可赚时间，如果成为时间管理大师，就看你的了",
+
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              decoration: TextDecoration.none,
+                                              color: Color(0xffBFBFBF)
+                                          ),),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 5,
+                            child: AnimatedBuilder(
+                              animation: _animationController,
+                              builder: (_,child){
+                                return Transform.translate(
+                                  offset: Offset(0,_animationController.value*((_popHeight-50)/3)),
+                                  child: Visibility(
+                                    visible: _visible,
+                                    child: child,
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                height: (_popHeight-50)*2/3,
+                                width: 4,
+                                decoration: BoxDecoration(
+                                  color: Color(0xff3A3A3C),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          Positioned(
+                              right: 19,
+                              top: 15,
+                              child: GestureDetector(
+                                onTap: (){
+                                },
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.white
+                                  ,
+                                ),
+                              )),
+                          Positioned(
+                              bottom: 0,
+                              child: SizedBox(
+                                height: 50,
+                                width: _popWidth,
+                                child: Center(
+                                  child: GestureDetector(
+                                    onTap: (){
+
+                                    },
+                                    child: Text("我知道了",style: TextStyle(
+                                        fontSize: 16,
+                                        decoration: TextDecoration.none,
+                                        color: Color(0xffF0F0F0)
+                                    ),),
+                                  ),
+                                ),
+                              )),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
 
-
+  AnimationController _animationController;
+  ScrollController _controller;
+  bool _visible = true;
 
   double _width;
   double _height;
@@ -70,10 +217,24 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
     var size = window.physicalSize / window.devicePixelRatio;
     _width = size.width;
     _height = size.height;
+
+    _popWidth = _width*2/3;
+    _popHeight = _popWidth/2*2.5;
+
+    _controller = ScrollController()..addListener(() {
+      print("==============================================");
+      print(_controller.position.maxScrollExtent);
+      print(_controller.position.pixels);
+      _animationController.value = _controller.position.pixels/_controller.position.maxScrollExtent;
+    });
+
+    _animationController = AnimationController(vsync: this);
   }
 
   @override
   void dispose() {
+    _controller.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -210,41 +371,5 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
   }
 }
 
-class AAWidget extends StatefulWidget {
-  final Color color;
-  const AAWidget({Key key, this.color}) : super(key: key);
-  @override
-  _AAWidgetState createState() => _AAWidgetState();
-}
 
-class _AAWidgetState extends State<AAWidget> {
-
-  @override
-  void initState() {
-    super.initState();
-
-    print("-------------------------------- : "+widget.color.toString());
-
-  }
-
-  @override
-  void didUpdateWidget(covariant AAWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    print("==="+widget.color.toString());
-    print("==="+oldWidget.color.toString());
-  }
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: 200,
-        height: 200,
-        color: widget.color
-      ),
-    );
-  }
-}
 

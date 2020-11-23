@@ -49,8 +49,7 @@ class OwnRouteGenerator {
 //         show =  WhenToUseKeysPage();
 //         show =  Sample();
         ///测试用
-        //  show =   PrePage();
-         show =   Stack001();
+         show =   PrePage();
 
         /// Explore
         //   show =   Explore();

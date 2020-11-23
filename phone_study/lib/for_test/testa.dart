@@ -6,10 +6,10 @@ import 'dart:async';
 
 main(){
 
-  List needLoad = List(3);
+List<int> daf = [5,6,2,4,8,54,32,86,3];
+daf.sort((a,b)=>a-b);
 
-print(needLoad[2] == null);
-
+print(daf);
 
 }
 
