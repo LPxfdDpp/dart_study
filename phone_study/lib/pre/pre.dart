@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 // import 'package:characters/characters.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 /**
  * 学习用
@@ -20,67 +21,18 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animationController,
-      builder: (ctx,child){
+    return GestureDetector(
+      onTap: () async{
+        var result = await PhotoManager.requestPermission();
+        if (result) {
 
-        // return Transform(
-        //     alignment:Alignment.topCenter,
-        //   transform:
-        //       Matrix4(
-        //           1,0,0,0,
-        //           0,1,0,0,
-        //           0,0,1,0.0003,
-        //           // 0,0,1,0,
-        //           // 0,-_deviceSize.width/2,0,1
-        //           // 50,-50,0,1
-        //           0,0,0,1
-        //       )..rotateX(_animationController.value*pi/2),
-        //   child: child,
-        //       );
-
-        return Transform.translate(
-            offset: Offset(0,-_animationController.value*_height),
-            child: child);
+        } else {
+          // fail
+          /// if result is fail, you can call `PhotoManager.openSetting();`  to open android/ios applicaton's setting to get permission
+        }
       },
-      child: Center(
-        child: GestureDetector(
-          onTap: (){
-            Navigator.of(context).push(PageRouteBuilder(
-              pageBuilder: (ctx,ani1,ani2){
-                return NewWidget();
-              },
-              transitionsBuilder: (ctx,ani1,ani2,child){
-                print('=====================================');
-              print(ani1.value);
-                print(ani2.value);
-                ani1.addListener(() {
-                  _animationController.value = ani1.value;
-                });
-                return SlideTransition(
-                    position: Tween<Offset>(
-                      begin: Offset(0.0,1.0), end: Offset(0.0, 0.0),).animate(ani1),
-                    child:  child
-                );
-              }
-            ));
-          },
-          child: SizedBox(
-            width: 500,
-            height: 500,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: SweepGradient(
-                  colors: [
-                    Colors.brown,
-                    Colors.deepPurple,
-                    Colors.lightGreenAccent,
-                  ]
-                )
-              ),
-            ),
-          ),
-        ),
+      child: ColoredBox(
+        color: Colors.lightGreen,
       ),
     );
   }
@@ -88,7 +40,6 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
   double _width;
   double _height;
-  AnimationController _animationController;
   @override
   void initState() {
     super.initState();
@@ -99,7 +50,6 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
     ///////////////////////////////////////////////////
 
-    _animationController = AnimationController(vsync: this);
   }
 
   @override
@@ -237,30 +187,6 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    InkWell
 //    for (int i=0;i<3;i++) ...[ 已经可以用了
 //    RendererBinding.instance.deferFirstFrame() RendererBinding.instance.allowFirstFrame()
-  }
-}
-
-class NewWidget extends StatefulWidget {
-  const NewWidget({Key key}) : super(key: key);
-
-  @override
-  _NewWidgetState createState() => _NewWidgetState();
-}
-
-class _NewWidgetState extends State<NewWidget> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: (){
-          Navigator.of(context).pop();
-        },
-        child: Image.asset("assets/images/guineaPig.jpeg",fit: BoxFit.cover,));
   }
 }
 
