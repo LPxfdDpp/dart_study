@@ -18,185 +18,65 @@ class PrePage extends StatefulWidget {
 
 class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
-
-  double _popWidth;
-  double _popHeight;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (ctx,child){
 
+        // return Transform(
+        //     alignment:Alignment.topCenter,
+        //   transform:
+        //       Matrix4(
+        //           1,0,0,0,
+        //           0,1,0,0,
+        //           0,0,1,0.0003,
+        //           // 0,0,1,0,
+        //           // 0,-_deviceSize.width/2,0,1
+        //           // 50,-50,0,1
+        //           0,0,0,1
+        //       )..rotateX(_animationController.value*pi/2),
+        //   child: child,
+        //       );
+
+        return Transform.translate(
+            offset: Offset(0,-_animationController.value*_height),
+            child: child);
       },
       child: Center(
         child: GestureDetector(
           onTap: (){
-            // _showOverlayPop(context,Offset(_width/2-_popWidth/2, _height/2-_popHeight/2));
+            Navigator.of(context).push(PageRouteBuilder(
+              pageBuilder: (ctx,ani1,ani2){
+                return NewWidget();
+              },
+              transitionsBuilder: (ctx,ani1,ani2,child){
+                print('=====================================');
+              print(ani1.value);
+                print(ani2.value);
+                ani1.addListener(() {
+                  _animationController.value = ani1.value;
+                });
+                return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: Offset(0.0,1.0), end: Offset(0.0, 0.0),).animate(ani1),
+                    child:  child
+                );
+              }
+            ));
           },
-          child: ColoredBox(
-            color: Colors.transparent,
-            child: ConstrainedBox(
-              constraints:BoxConstraints.tight(
-                  Size(_width,_height )
-              ),
-              child: Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  child: ColoredBox(
-                    color: Color(0xFF1F1F1F),
-                    child: ConstrainedBox(
-                      constraints:BoxConstraints(
-                          maxHeight: _popHeight,
-                          maxWidth: _popWidth,
-                          minWidth: _popWidth
-                      ),
-                      child: Stack(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(bottom: 50),
-                            child: Listener(
-                              onPointerDown: (d){
-                                // Feedback.forTap(context);
-                                // Clipboard.setData(ClipboardData(text: ""));
-                                HapticFeedback.vibrate();
-                                // HapticFeedback.heavyImpact();
-
-                                print("================111==============================");
-                                print(_controller.position.maxScrollExtent);
-                                if(_controller.position.maxScrollExtent == 0){
-                                  setState(() {
-                                    _visible = false;
-                                  });
-                                }
-                              },
-                              child: ListView(
-                                controller:_controller,
-                                shrinkWrap: true,
-                                children: [
-                                  SizedBox(
-                                    width: _popWidth/2,
-                                    height: _popWidth/2,
-                                    child: Image.asset("assets/images/guineaPig.jpeg"),
-                                  ),
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment : MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.close,
-                                        color: Colors.white,
-                                        size: 18,
-                                      ),
-                                      SizedBox(
-                                        width: 4,
-                                      ),
-                                      Transform.translate(
-                                        offset: Offset(0,-1),
-                                        child: Text("点赞成功",style: TextStyle(
-                                            fontSize: 16,
-                                            decoration: TextDecoration.none,
-                                            color: Color(0xffF0F0F0)
-                                        ),),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  SizedBox(
-                                    width: _popWidth,
-                                    child: Center(
-                                      child: Text("-10 Manna",style: TextStyle(
-                                          fontSize: 14,
-                                          decoration: TextDecoration.none,
-                                          color: Color(0xffF0F0F0)
-                                      ),),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20,right: 20),
-                                    child: SizedBox(
-                                      width: _popWidth,
-                                      child: Center(
-                                        child: Text(
-                                          // "Manna是1440世界流通的时间币，一切消耗需花时间，一切收获可赚时间，如果成为时间管理大师，就看你的了",
-                                          "，一切消耗需花时间，，，就看你的了",
-                                          // "Manna是1440世界流Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币Manna是1440世界流通的时间币通的时间币，一切消耗需花时间，一切收获可赚时间，如果成为时间管理大师，就看你的了",
-
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              decoration: TextDecoration.none,
-                                              color: Color(0xffBFBFBF)
-                                          ),),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            right: 5,
-                            child: AnimatedBuilder(
-                              animation: _animationController,
-                              builder: (_,child){
-                                return Transform.translate(
-                                  offset: Offset(0,_animationController.value*((_popHeight-50)/3)),
-                                  child: Visibility(
-                                    visible: _visible,
-                                    child: child,
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                height: (_popHeight-50)*2/3,
-                                width: 4,
-                                decoration: BoxDecoration(
-                                  color: Color(0xff3A3A3C),
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          Positioned(
-                              right: 19,
-                              top: 15,
-                              child: GestureDetector(
-                                onTap: (){
-                                },
-                                child: Icon(
-                                  Icons.close,
-                                  color: Colors.white
-                                  ,
-                                ),
-                              )),
-                          Positioned(
-                              bottom: 0,
-                              child: SizedBox(
-                                height: 50,
-                                width: _popWidth,
-                                child: Center(
-                                  child: GestureDetector(
-                                    onTap: (){
-
-                                    },
-                                    child: Text("我知道了",style: TextStyle(
-                                        fontSize: 16,
-                                        decoration: TextDecoration.none,
-                                        color: Color(0xffF0F0F0)
-                                    ),),
-                                  ),
-                                ),
-                              )),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+          child: SizedBox(
+            width: 500,
+            height: 500,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: SweepGradient(
+                  colors: [
+                    Colors.brown,
+                    Colors.deepPurple,
+                    Colors.lightGreenAccent,
+                  ]
+                )
               ),
             ),
           ),
@@ -205,36 +85,25 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
     );
   }
 
-  AnimationController _animationController;
-  ScrollController _controller;
-  bool _visible = true;
 
   double _width;
   double _height;
+  AnimationController _animationController;
   @override
   void initState() {
     super.initState();
+
     var size = window.physicalSize / window.devicePixelRatio;
     _width = size.width;
     _height = size.height;
 
-    _popWidth = _width*2/3;
-    _popHeight = _popWidth/2*2.5;
-
-    _controller = ScrollController()..addListener(() {
-      print("==============================================");
-      print(_controller.position.maxScrollExtent);
-      print(_controller.position.pixels);
-      _animationController.value = _controller.position.pixels/_controller.position.maxScrollExtent;
-    });
+    ///////////////////////////////////////////////////
 
     _animationController = AnimationController(vsync: this);
   }
 
   @override
   void dispose() {
-    _controller.dispose();
-    _animationController.dispose();
     super.dispose();
   }
 
@@ -368,6 +237,30 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 //    InkWell
 //    for (int i=0;i<3;i++) ...[ 已经可以用了
 //    RendererBinding.instance.deferFirstFrame() RendererBinding.instance.allowFirstFrame()
+  }
+}
+
+class NewWidget extends StatefulWidget {
+  const NewWidget({Key key}) : super(key: key);
+
+  @override
+  _NewWidgetState createState() => _NewWidgetState();
+}
+
+class _NewWidgetState extends State<NewWidget> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: (){
+          Navigator.of(context).pop();
+        },
+        child: Image.asset("assets/images/guineaPig.jpeg",fit: BoxFit.cover,));
   }
 }
 

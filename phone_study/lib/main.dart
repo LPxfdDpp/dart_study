@@ -164,14 +164,25 @@ void main2() {
   runApp(GestureDetector(
     onTap: (){
       print("=====================================================");
-      // HapticFeedback.vibrate();
-      // HapticFeedback.lightImpact();
-      // HapticFeedback.selectionClick();
-
-
     },
+    // onLongPress: (){
+    // },
     child: ColoredBox(
-      color: Colors.brown,
+      color: Colors.blueGrey,
+      // child: Center(
+      //   child: SizedBox(
+      //     width: 500,
+      //     height: 500,
+      //     child: GestureDetector(
+      //       onTap: (){
+      //         print("----------------------------------------------------");
+      //       },
+      //       child: ColoredBox(
+      //         color: Colors.brown,
+      //       ),
+      //     ),
+      //   ),
+      // ),
     ),
   ));
 }

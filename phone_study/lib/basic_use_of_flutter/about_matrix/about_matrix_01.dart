@@ -2,22 +2,17 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:phone_study/basic_use_of_flutter/about_matrix/change_pack/mid_animation_controller.dart';
+import 'package:vector_math/vector_math_64.dart' hide Colors;
 
 class AboutMatrix01 extends StatefulWidget {
   @override
   _AboutMatrix01State createState() => _AboutMatrix01State();
 }
 
-class _AboutMatrix01State extends State<AboutMatrix01> {
+class _AboutMatrix01State extends State<AboutMatrix01> with SingleTickerProviderStateMixin{
 
 
-
-
-  double angle = 90;
-
-  Size _deviceSize;
-
-   double dd = 50;
   @override
   Widget build(BuildContext context) {
 
@@ -25,45 +20,62 @@ class _AboutMatrix01State extends State<AboutMatrix01> {
 
       child: GestureDetector(
         onTap: (){
-          setState(() {
-            angle += pi/2/9;
-          });
+          _animationController.value = 0;
         },
-        child: Stack(
+        onHorizontalDragStart: (d){
+          _horizontalDragStartXPoint = _horizontalDragUpdateXPoint = d.globalPosition.dx;
+        },
+        onHorizontalDragUpdate: (d){
+          if(d.globalPosition.dx > _horizontalDragUpdateXPoint){
+            _animationController.value += smallPart*2*pi/360;
+          }else if(d.globalPosition.dx < _horizontalDragUpdateXPoint){
+            _animationController.value -= smallPart*2*pi/360;
+          }
+          _horizontalDragUpdateXPoint = d.globalPosition.dx;
+        },
+        onHorizontalDragEnd: (d){
+
+        },
+        child:Stack(
           children: [
-            // Transform.rotate(
-            //   // alignment: Alignment.centerLeft,
-            //   // origin: Offset(_deviceSize.width/2,0),
-            //   // origin: Offset(_deviceSize.width/2,0),
-            //   origin: Offset(100,0),
-            //   alignment: Alignment.center,
-            //   // alignment: Alignment.centerRight,
-            //   // alignment: Alignment.centerLeft,
-            // angle: angle*2*pi/360,
-            //   child: Container(
-            //     width: _deviceSize.width,
-            //     height: _deviceSize.height,
-            //     color: Colors.blue,
-            //     child: Center(child: Text("阿萨的")),
-            //   ),
-            // ),
-            Transform(
-              // alignment: Alignment.centerLeft,
-              // origin: Offset(_deviceSize.width/2,0),
-              origin: Offset(50,0),
-              // origin: Offset(0,0),
-              alignment: Alignment.center,
-              // alignment: Alignment.centerRight,
-              // alignment: Alignment.centerLeft,
-                transform: Matrix4(
-                1,0,0,0,
-                0,1,0,0,
-                // 0,0,1,0.001,
-                0,0,1,0,
-                // 0,-_deviceSize.width/2,0,1
-                // 50,-50,0,1
-                    0,0,0,1
-            )..rotateZ(angle*2*pi/360),
+            AnimatedBuilder(
+              animation: _animationController,
+              builder: (_,child){
+                return Transform(
+                  // alignment: Alignment.centerLeft,
+                  // origin: Offset(_deviceSize.width/2,0),
+                  // origin: Offset(left,0),
+                  origin: Offset(0,0),
+                  alignment: Alignment.center,
+                  // alignment: Alignment.centerRight,
+                  // alignment: Alignment.centerLeft,
+                  transform:
+                  ///001
+                  // Matrix4.diagonal3Values(1, 1, 1)
+                  // ..rotateX(pi/6)
+                  // // ..rotateY(pi/6)
+                  // // ..rotateZ(pi/6)
+                  // ,
+
+                  ///002
+                //   Matrix4(
+                //       1,0,0,0,
+                //       0,1,0,0,
+                //       0,0,1,0.005,
+                //       // 0,0,1,0,
+                //       // 0,-_deviceSize.width/2,0,1
+                //       // 50,-50,0,1
+                //       0,0,0,1
+                //   )
+                //     ..rotateX(pi/6)
+                // // ..rotateY(pi/6)
+                // // ..rotateZ(pi/6)
+                  ///003
+                  Matrix4.compose(Vector3(40,0,0), Quaternion(0,0,0,0), Vector3(1,1,1))
+                  ,
+                  child: child,
+                );
+              },
               child: Container(
                 width: _deviceSize.width,
                 height: _deviceSize.height,
@@ -71,6 +83,12 @@ class _AboutMatrix01State extends State<AboutMatrix01> {
                 child: Center(child: Text("阿萨的")),
               ),
             ),
+            Container(
+              margin: EdgeInsets.only(left: left),
+              width: 50,
+              height: 50,
+              color: Colors.orange,
+            )
           ],
         ),
       ),
@@ -78,11 +96,19 @@ class _AboutMatrix01State extends State<AboutMatrix01> {
     );
   }
 
+  double _horizontalDragStartXPoint;
+  double _horizontalDragUpdateXPoint;
+  double smallPart = 9;
+  double left = 50;
+  MidAnimationController _animationController;
+  Size _deviceSize;
   @override
   void initState() {
     super.initState();
     _deviceSize = window.physicalSize / window.devicePixelRatio;
     print(_deviceSize);
+
+    _animationController = MidAnimationController(value:0,lowerBound:-pi,upperBound:pi,vsync: this);
   }
 }
 
