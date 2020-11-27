@@ -10,3 +10,15 @@
 //
 // painter.layout(maxWidth:_width);
 // size = painter.size;//这里就可以获取到段落的宽高了
+
+
+// getInputSize(String input,double maxWidth){
+//   TextPainter painter = TextPainter(
+//     text: TextSpan(text:input),
+//     textDirection:TextDirection.ltr,
+//     maxLines:3,
+//     textWidthBasis :TextWidthBasis.parent,
+//   );
+//   painter.layout(maxWidth:maxWidth);
+//   return painter.size;
+// }
