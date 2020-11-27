@@ -19,20 +19,50 @@ class PrePage extends StatefulWidget {
 
 class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
+  Size size = Size(0, 0);
+  String ss="";
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async{
-        var result = await PhotoManager.requestPermission();
-        if (result) {
+        // var result = await PhotoManager.requestPermission();
+        // if (result) {
+        //   List<AssetPathEntity> list = await PhotoManager.getAssetPathList(type : RequestType.image,);
+        //
+        //   print("===");
+        //
+        // } else {
+        //   // fail
+        //   /// if result is fail, you can call `PhotoManager.openSetting();`  to open android/ios applicaton's setting to get permission
+        // }
 
-        } else {
-          // fail
-          /// if result is fail, you can call `PhotoManager.openSetting();`  to open android/ios applicaton's setting to get permission
-        }
+        // ss = "data手动阀手动阀data手动阀手动阀data手动阀手动阀datadata手动阀手动阀data手动阀手动阀data手动阀手动阀data手动阀手动阀data手动阀手动阀手动阀手动阀data手动阀手动阀";
+        ss = "手";
+
+        TextPainter painter = TextPainter(
+          text: TextSpan(text:ss),
+            textDirection:TextDirection.ltr,
+            maxLines:3,
+          textWidthBasis :TextWidthBasis.parent,
+        );
+
+        painter.layout(maxWidth:_width);
+        size = painter.size;
+        print(size);
+        setState(() {
+
+        });
       },
       child: ColoredBox(
         color: Colors.lightGreen,
+        child: Center(
+          child: SizedBox.fromSize(
+            size: size,
+            child: RichText(
+                text:TextSpan(text:ss)
+            ),
+          ),
+        ),
       ),
     );
   }
