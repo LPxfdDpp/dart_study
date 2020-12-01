@@ -15,6 +15,8 @@ class _AboutMatrix01State extends State<AboutMatrix01> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
+    print('============================================');
+    print(_deviceSize);
 
     return Center(
 
@@ -38,49 +40,60 @@ class _AboutMatrix01State extends State<AboutMatrix01> with SingleTickerProvider
         },
         child:Stack(
           children: [
-            AnimatedBuilder(
-              animation: _animationController,
-              builder: (_,child){
-                return Transform(
-                  // alignment: Alignment.centerLeft,
-                  // origin: Offset(_deviceSize.width/2,0),
-                  // origin: Offset(left,0),
-                  origin: Offset(0,0),
-                  alignment: Alignment.center,
-                  // alignment: Alignment.centerRight,
-                  // alignment: Alignment.centerLeft,
-                  transform:
-                  ///001
-                  // Matrix4.diagonal3Values(1, 1, 1)
-                  // ..rotateX(pi/6)
-                  // // ..rotateY(pi/6)
-                  // // ..rotateZ(pi/6)
-                  // ,
+            GestureDetector(
+              onHorizontalDragStart: (d){
 
-                  ///002
-                //   Matrix4(
-                //       1,0,0,0,
-                //       0,1,0,0,
-                //       0,0,1,0.005,
-                //       // 0,0,1,0,
-                //       // 0,-_deviceSize.width/2,0,1
-                //       // 50,-50,0,1
-                //       0,0,0,1
-                //   )
-                //     ..rotateX(pi/6)
-                // // ..rotateY(pi/6)
-                // // ..rotateZ(pi/6)
-                  ///003
-                  Matrix4.compose(Vector3(40,0,0), Quaternion(0,0,0,0), Vector3(1,1,1))
-                  ,
-                  child: child,
-                );
               },
-              child: Container(
-                width: _deviceSize.width,
-                height: _deviceSize.height,
-                color: Colors.blue,
-                child: Center(child: Text("阿萨的")),
+              onHorizontalDragUpdate: (d){
+
+                var dx = d.globalPosition.dx;
+                var xFraction = dx/_deviceSize.width;
+                print("----------------------------------");
+                print(xFraction);
+                _animationController.value = xFraction;
+              },
+              onHorizontalDragEnd: (d){
+
+              },
+              child: AnimatedBuilder(
+                animation: _animationController,
+                builder: (_,child){
+                  return Transform(
+                    alignment: Alignment.centerRight,
+                    transform:
+                    ///001
+                    // Matrix4.diagonal3Values(1, 1, 1)
+                    // ..rotateX(pi/6)
+                    // // ..rotateY(pi/6)
+                    // // ..rotateZ(pi/6)
+                    // ,
+
+                    ///002
+                    Matrix4(
+                        1,0,0,0,
+                        0,1,0,0,
+                        // 0,0,1,0.005,
+                        0,0,1,0.005,
+                        // 0,-_deviceSize.width/2,0,1
+                        // 50,-50,0,1
+                        0,0,0,1
+                    )
+                      // ..rotateX(pi/6)
+                  ..rotateY(pi/6)
+                  // // ..rotateZ(pi/6)
+                  //   ..translate(0.0,0,0)
+                    ///003
+                    // Matrix4.compose(Vector3(40,0,0), Quaternion(0,0,0,0), Vector3(1,1,1))
+                    ,
+                    child: child,
+                  );
+                },
+                child: Container(
+                  width: _deviceSize.width,
+                  height: _deviceSize.height,
+                  color: Colors.blue,
+                  child: Center(child: Text("阿萨的")),
+                ),
               ),
             ),
             Container(
@@ -100,15 +113,14 @@ class _AboutMatrix01State extends State<AboutMatrix01> with SingleTickerProvider
   double _horizontalDragUpdateXPoint;
   double smallPart = 9;
   double left = 50;
-  MidAnimationController _animationController;
+  AnimationController _animationController;
   Size _deviceSize;
   @override
   void initState() {
     super.initState();
     _deviceSize = window.physicalSize / window.devicePixelRatio;
-    print(_deviceSize);
 
-    _animationController = MidAnimationController(value:0,lowerBound:-pi,upperBound:pi,vsync: this);
+    _animationController = AnimationController(value:0,vsync: this);
   }
 }
 

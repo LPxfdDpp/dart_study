@@ -214,8 +214,6 @@ class _Main2TestPageState extends State<Main2TestPage> {
   }
 }
 
-
-
 ///启动入口 000
 // void main0() {
 void main() {

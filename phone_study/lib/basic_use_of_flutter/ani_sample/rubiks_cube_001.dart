@@ -51,7 +51,7 @@ class _rubiks_cube_001State extends State<rubiks_cube_001> {
   double _currPageValue = 0;
   double _currPageOffset = 0;
   _buildPageItem(int index) {
-    Matrix4 matrix4 = Matrix4.identity();
+    Matrix4 matrix4;
     if (index == _currPageValue.floor()) {
       //当前的item
 
@@ -62,8 +62,7 @@ class _rubiks_cube_001State extends State<rubiks_cube_001> {
 
       return Transform(
         transform: matrix4,
-        origin: Offset(_width / 2, 0),
-        alignment: Alignment.center,
+        alignment: Alignment.centerRight,
         child: _homeCell(context, index),
       );
     } else if (index == _currPageValue.floor() + 1) {
@@ -71,13 +70,12 @@ class _rubiks_cube_001State extends State<rubiks_cube_001> {
       double _animationvalue = lerpDouble(0.0, pi / 2, _currPageValue - index);
 
       matrix4 = Matrix4.identity()
-        ..setEntry(3, 2, 0.0012)
+        ..setEntry(3, 2, 0.0015)
         ..rotateY(_animationvalue);
 
       return Transform(
         transform: matrix4,
-        origin: Offset(-_width / 2, 0),
-        alignment: Alignment.center,
+        alignment: Alignment.centerLeft,
         child: _homeCell(context, index),
       );
     } else if (index == _currPageValue.floor() - 1) {
@@ -96,8 +94,6 @@ class _rubiks_cube_001State extends State<rubiks_cube_001> {
 
     return Transform(
       transform: matrix4,
-      origin: Offset(_width / 2, 0),
-      alignment: Alignment.center,
       child: _homeCell(context, index),
     );
   }

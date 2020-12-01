@@ -49,7 +49,8 @@ class OwnRouteGenerator {
 //         show =  WhenToUseKeysPage();
 //         show =  Sample();
         ///测试用
-         show =   PrePage();
+        //  show =   PrePage();
+         show =   rubiks_cube_001();
 
         ///Matrix
         //  show =   AboutMatrix01();

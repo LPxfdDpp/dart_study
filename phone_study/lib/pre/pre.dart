@@ -19,67 +19,60 @@ class PrePage extends StatefulWidget {
 
 class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
 
-  Size size = Size(0, 0);
-  String ss="";
+
+
+  Size size;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () async{
-        // var result = await PhotoManager.requestPermission();
-        // if (result) {
-        //   List<AssetPathEntity> list = await PhotoManager.getAssetPathList(type : RequestType.image,);
-        //
-        //   print("===");
-        //
-        // } else {
-        //   // fail
-        //   /// if result is fail, you can call `PhotoManager.openSetting();`  to open android/ios applicaton's setting to get permission
-        // }
+    return PageView(
+      controller:controller,
+      children: [
+        ...[1,2,3,4,5,6,7,8,9].map((e){
+          return AnimatedBuilder(
+            animation: animationController,
+              builder:(_,child){
+                var value = animationController.value;
 
-        // ss = "data手动阀手动阀data手动阀手动阀data手动阀手动阀datadata手动阀手动阀data手动阀手动阀data手动阀手动阀data手动阀手动阀data手动阀手动阀手动阀手动阀data手动阀手动阀";
-        ss = "手";
 
-        TextPainter painter = TextPainter(
-          text: TextSpan(text:ss),
-            textDirection:TextDirection.ltr,
-            maxLines:3,
-          textWidthBasis :TextWidthBasis.parent,
-        );
-
-        painter.layout(maxWidth:_width);
-        size = painter.size;
-        print(size);
-        setState(() {
-
-        });
-      },
-      child: ColoredBox(
-        color: Colors.lightGreen,
-        child: Center(
-          child: SizedBox.fromSize(
-            size: size,
-            child: RichText(
-                text:TextSpan(text:ss)
+                return Transform(
+                     transform: Matrix4.identity(),
+                    child: child);
+              },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.brown,
+                border: Border.all(
+                  color: Colors.blueGrey,
+                  width: 2
+                )
+              ),
+              child: Center(
+                child: Text(e.toString()),
+              ),
             ),
-          ),
-        ),
-      ),
+          );
+
+        })
+
+      ],
+
     );
   }
 
 
-  double _width;
-  double _height;
+  PageController controller;
+  AnimationController animationController;
   @override
   void initState() {
     super.initState();
-
-    var size = window.physicalSize / window.devicePixelRatio;
-    _width = size.width;
-    _height = size.height;
+    size = window.physicalSize / window.devicePixelRatio;
 
     ///////////////////////////////////////////////////
-
+    controller = PageController();
+    animationController = AnimationController(upperBound: 8*size.width,vsync: this);
+    controller.addListener(() {
+      animationController.value = controller.position.pixels;
+    });
   }
 
   @override
