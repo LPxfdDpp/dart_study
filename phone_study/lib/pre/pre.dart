@@ -24,39 +24,51 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
   Size size;
   @override
   Widget build(BuildContext context) {
-    return PageView(
-      controller:controller,
-      children: [
-        ...[1,2,3,4,5,6,7,8,9].map((e){
-          return AnimatedBuilder(
-            animation: animationController,
-              builder:(_,child){
-                var value = animationController.value;
 
+    return
 
-                return Transform(
-                     transform: Matrix4.identity(),
-                    child: child);
-              },
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.brown,
-                border: Border.all(
-                  color: Colors.blueGrey,
-                  width: 2
-                )
-              ),
-              child: Center(
-                child: Text(e.toString()),
+      GestureDetector(
+        onTap: (){
+          debugDumpRenderTree();
+        },
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              top: 50,
+              child: Container(
+                width: 90,
+                height: 90,
+                color: Colors.green,
               ),
             ),
-          );
+          ],
+        ),
+      )
 
-        })
 
-      ],
-
-    );
+      // Stack(
+      //   children: <Widget>[
+      //     Container(
+      //       width: 100,
+      //       height: 100,
+      //       color: Colors.red,
+      //     ),
+      //     Positioned(
+      //       top: 50,
+      //       child: Container(
+      //         width: 90,
+      //         height: 90,
+      //         color: Colors.green,
+      //       ),
+      //     ),
+      //     Container(
+      //       width: 80,
+      //       height: 80,
+      //       color: Colors.blue,
+      //     ),
+      //   ],
+      // )
+      ;
   }
 
 

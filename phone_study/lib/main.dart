@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/gestures.dart';
@@ -159,30 +160,31 @@ void main1() {
 
 
 ///启动入口 002
-void main2() {
-// void main() {
-  runApp(GestureDetector(
-    onTap: (){
-      print("=====================================================");
-    },
-    // onLongPress: (){
-    // },
-    child: ColoredBox(
-      color: Colors.blueGrey,
-      // child: Center(
-      //   child: SizedBox(
-      //     width: 500,
-      //     height: 500,
-      //     child: GestureDetector(
-      //       onTap: (){
-      //         print("----------------------------------------------------");
-      //       },
-      //       child: ColoredBox(
-      //         color: Colors.brown,
-      //       ),
-      //     ),
-      //   ),
-      // ),
+// void main2() {
+void main() {
+
+  // todo 微任务了解
+  // if (_videoPlayerController.value.position.inMilliseconds >=
+  //     _videoPlayerController.value.duration.inMilliseconds) {
+
+  runApp(Directionality(
+      textDirection:TextDirection.ltr,
+    child: GestureDetector(
+      onTap: (){
+        debugDumpRenderTree();
+      },
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+            top: 50,
+            child: Container(
+              width: 90,
+              height: 90,
+              color: Colors.green,
+            ),
+          ),
+        ],
+      ),
     ),
   ));
 }
@@ -215,8 +217,8 @@ class _Main2TestPageState extends State<Main2TestPage> {
 }
 
 ///启动入口 000
-// void main0() {
-void main() {
+void main0() {
+// void main() {
   ///没啥效果
   // debugDisablePhysicalShapeLayers = true;
 
