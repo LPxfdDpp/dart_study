@@ -25,23 +25,26 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
 
+
+
     return
 
-      GestureDetector(
-        onTap: (){
-          debugDumpRenderTree();
-        },
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-              top: 50,
-              child: Container(
-                width: 90,
-                height: 90,
-                color: Colors.green,
-              ),
-            ),
-          ],
+      Material(
+        child: GestureDetector(
+          onTap: (){
+            debugDumpRenderTree();
+          },
+          child: Stack(
+            children: <Widget>[
+              Center(
+                child: TextField(
+                  focusNode: _textFocusNode,
+                  controller: _controller,
+                  showCursor: true,
+                ),
+              )
+            ],
+          ),
         ),
       )
 
@@ -71,6 +74,9 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
       ;
   }
 
+  TextEditingController _controller;
+  FocusNode _textFocusNode;
+
 
   PageController controller;
   AnimationController animationController;
@@ -85,6 +91,25 @@ class PrePageState extends State<PrePage> with SingleTickerProviderStateMixin {
     controller.addListener(() {
       animationController.value = controller.position.pixels;
     });
+
+
+    _textFocusNode = FocusNode();
+    _controller = new TextEditingController.fromValue(
+        TextEditingValue(
+            text: "k卡啥的积分inputText",
+            selection:
+            TextSelection.fromPosition(
+                TextPosition(
+                affinity: TextAffinity.downstream,
+                offset: 5)),
+            composing: TextRange(start:0,end:3)
+
+        ));
+
+    Timer(Duration(seconds: 1), (){
+      _textFocusNode.requestFocus();
+    });
+
   }
 
   @override

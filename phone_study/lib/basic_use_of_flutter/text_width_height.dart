@@ -22,3 +22,21 @@
 //   painter.layout(maxWidth:maxWidth);
 //   return painter.size;
 // }
+
+//光标自动聚焦到某个位置
+// _textFocusNode = FocusNode();
+// _controller = new TextEditingController.fromValue(
+// TextEditingValue(
+// text: "k卡啥的积分inputText",
+// selection:
+// TextSelection.fromPosition(
+// TextPosition(
+// affinity: TextAffinity.downstream,
+// offset: 5)),
+// composing: TextRange(start:0,end:3)
+//
+// ));
+//
+// Timer(Duration(seconds: 1), (){
+// _textFocusNode.requestFocus();
+// });

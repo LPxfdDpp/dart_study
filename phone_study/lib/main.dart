@@ -160,8 +160,8 @@ void main1() {
 
 
 ///启动入口 002
-// void main2() {
-void main() {
+void main2() {
+// void main() {
 
   // todo 微任务了解
   // if (_videoPlayerController.value.position.inMilliseconds >=
@@ -217,8 +217,8 @@ class _Main2TestPageState extends State<Main2TestPage> {
 }
 
 ///启动入口 000
-void main0() {
-// void main() {
+// void main0() {
+void main() {
   ///没啥效果
   // debugDisablePhysicalShapeLayers = true;
 
