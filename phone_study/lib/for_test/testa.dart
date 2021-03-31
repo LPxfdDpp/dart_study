@@ -1,33 +1,30 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-
 import 'dart:async';
 
-typedef DDointerRoute1 = void Function({int a});
-typedef DDointerRoute2 = void Function({int b});
-typedef DDointerRoute3 = void Function(int a);
+
+import 'neee.dart'  deferred as ppppp;
+
 
 main(){
 
 
-  Map<Type,String> ppp = {};
+  ppppp.loadLibrary().then((_){
+    // if(value){
+      ppppp.jjjjjjjjkkkk();
+      print(ppppp.aa);
+    // }
+  });
 
-  ppp[A] = "";
-  ppp[B] = "";
+  // ppppp.jjjjjjjjkkkk();
+  // print(ppppp.aa);
 
-  print(ppp.containsKey(A));
-  print(ppp.containsKey(B));
-
-}
-
-class A {
-
-}
-
-class B {
+  Timer(Duration(seconds: 45), (){});
 
 }
+
+
 
 
 
