@@ -7,6 +7,10 @@ import 'package:phone_study/built_value/serializers.dart';
 
 part 'guinea.g.dart';
 
+
+///flutter packages pub run build_runner build
+///flutter packages pub run build_runner watch
+
 abstract class Guinea implements Built<Guinea, GuineaBuilder> {
   static Serializer<Guinea> get serializer => _$guineaSerializer;
 
