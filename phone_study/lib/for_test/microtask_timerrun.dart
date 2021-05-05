@@ -16,8 +16,16 @@ final int a = (){
 main(){
 
 
-
   int a = 0;
+
+  Future.delayed(Duration(seconds: 0),(){
+    print("=======");
+    print(a);
+    Future.microtask(() {
+      print("======= microtask");
+    });
+  });
+
   for(int i=0;i<10000000;i++){
     // Timer.run(() {
     //   a++;
@@ -30,6 +38,9 @@ main(){
     }
     if(i == 2000000){
       Timer.run(() {
+        Future.microtask(() {
+          print("2000000 microtask");
+        });
         print("here2");
       });
     }
