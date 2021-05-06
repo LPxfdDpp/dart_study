@@ -18,7 +18,8 @@ main(){
 
   int a = 0;
 
-  Future.delayed(Duration(seconds: 0),(){
+  // Future.delayed(Duration(milliseconds: 0),(){
+  Future.delayed(Duration(milliseconds: 100),(){//这个延迟使 task 可能在 here1 - here4 间执行了
     print("=======");
     print(a);
     Future.microtask(() {
